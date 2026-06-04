@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scraped Instagram data (keep fallback for CI)
+src/scraped/instagram-posts.json
+!src/scraped/instagram-posts.fallback.json
