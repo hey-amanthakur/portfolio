@@ -4,17 +4,16 @@ import React from 'react';
 import type { ReactNode } from 'react';
 
 // Mock IntersectionObserver
-global.IntersectionObserver = vi.fn(
-  (): IntersectionObserver => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-    root: null,
-    rootMargin: '',
-    thresholds: [],
-    takeRecords: () => [],
-  })
-);
+class MockIntersectionObserver implements IntersectionObserver {
+  readonly root = null;
+  readonly rootMargin = '';
+  readonly thresholds: ReadonlyArray<number> = [];
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = (): IntersectionObserverEntry[] => [];
+}
+global.IntersectionObserver = MockIntersectionObserver;
 
 // Mock framer-motion with strict ES module compatibility
 vi.mock('framer-motion', () => {

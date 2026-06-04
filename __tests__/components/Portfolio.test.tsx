@@ -5,7 +5,6 @@ import { Portfolio } from '@components/sections/Portfolio';
 
 describe('Portfolio Component', (): void => {
   it('renders search input and category filter buttons', (): void => {
-    console.log('Portfolio component import:', Portfolio);
     render(<Portfolio />);
     
     expect(screen.getByPlaceholderText(/Search code recipes/i)).toBeInTheDocument();

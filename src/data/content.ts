@@ -42,7 +42,7 @@ export const services: ReadonlyArray<IService> = [
     title: 'Recipe for Organic Reach',
     tagline: 'Content strategy and creative partnership',
     description: 'Merging technical depth with storytelling. Offering influencer partnerships, creative content reviews, high-retention video editing strategies, and audience-growth blueprints.',
-    icon: 'Instagram',
+    icon: 'ChefHat',
   }
 ] as const;
 

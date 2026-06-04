@@ -8,7 +8,7 @@ describe('Hero Component', (): void => {
     render(<Hero />);
     
     // Check main title is visible
-    expect(screen.getByText(/Aman/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cook Scalable Code/i)).toBeInTheDocument();
     
     // Check default mode is Code Mode
     expect(screen.getByText(/Mode: Elite Developer/i)).toBeInTheDocument();
@@ -28,6 +28,6 @@ describe('Hero Component', (): void => {
 
     // Assert that the theme subheaders change
     expect(screen.getByText(/Mode: Swaad Explorer/i)).toBeInTheDocument();
-    expect(screen.getByText(/Yeh Safar Swaad Ka/i)).toBeInTheDocument();
+    expect(screen.getByText(/Yeh Safar Swaad Ka 🗺️/i)).toBeInTheDocument();
   });
 });

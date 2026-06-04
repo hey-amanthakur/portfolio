@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Cpu, Instagram, ShoppingBag } from 'lucide-react';
+import { Terminal, Cpu, ChefHat, ShoppingBag } from 'lucide-react';
 import { services } from '@/data/content';
 import { Card } from '@components/ui/Card';
 import { Badge } from '@components/ui/Badge';
@@ -9,7 +9,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 const iconMap = {
   Terminal: Terminal,
   Cpu: Cpu,
-  Instagram: Instagram,
+  ChefHat: ChefHat,
 } as const;
 
 export const Services: FC = () => {

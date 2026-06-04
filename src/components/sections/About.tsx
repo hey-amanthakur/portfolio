@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Star, Instagram, Code } from 'lucide-react';
+import { Award, Star, ChefHat, Code } from 'lucide-react';
 import { milestones } from '@/data/content';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
@@ -10,7 +10,7 @@ export const About: FC = () => {
   const getIcon = (category: 'code' | 'food', title: string) => {
     if (title.includes('Winner')) return <Award className="w-5 h-5 text-white" />;
     if (title.includes('Star')) return <Star className="w-5 h-5 text-white" />;
-    if (category === 'food') return <Instagram className="w-5 h-5 text-white" />;
+    if (category === 'food') return <ChefHat className="w-5 h-5 text-white" />;
     return <Code className="w-5 h-5 text-white" />;
   };
 
