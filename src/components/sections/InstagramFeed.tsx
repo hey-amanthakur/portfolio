@@ -2,8 +2,16 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MessageCircle, ExternalLink, Sparkles } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data/content';
+import scrapedPosts from '@/scraped/instagram-posts.json';
 import { Card } from '@components/ui/Card';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import type { IInstagramPost } from '@/types';
+
+// Use scraped data if it exists and has real posts; fall back to hardcoded content.
+const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
+const displayPosts: ReadonlyArray<IInstagramPost> = hasScrapedData
+  ? (scrapedPosts as unknown as ReadonlyArray<IInstagramPost>)
+  : instagramPosts;
 
 export const InstagramFeed: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
@@ -38,7 +46,7 @@ export const InstagramFeed: FC = () => {
 
         {/* Dynamic Reels Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {instagramPosts.map((post, index) => (
+          {displayPosts.map((post, index) => (
             <motion.div
               key={post.id}
               initial={{ opacity: 0, y: 40 }}
@@ -77,7 +85,7 @@ export const InstagramFeed: FC = () => {
                     </p>
 
                     <span className="mt-4 inline-flex items-center gap-1.5 bg-[#E1306C] text-white px-3 py-1 rounded-full text-[10px] font-display font-black uppercase">
-                      View Reel <ExternalLink className="w-3.5 h-3.5" />
+                      View Post <ExternalLink className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
