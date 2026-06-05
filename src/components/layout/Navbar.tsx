@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Menu, X, Terminal, Utensils } from 'lucide-react';
@@ -25,10 +25,11 @@ export const Navbar: FC = () => {
     return 'light';
   });
 
-  const activeId = useScrollSpy(
-    navLinks.map((link) => link.href.replace('#', '')),
-    120
+  const sectionIds = useMemo(
+    (): readonly string[] => navLinks.map((link) => link.href.replace('#', '')),
+    []
   );
+  const activeId = useScrollSpy(sectionIds, 120);
 
   useEffect((): void => {
     const root = window.document.documentElement;

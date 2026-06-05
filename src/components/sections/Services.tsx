@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ComponentType, SVGProps } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal, Cpu, ChefHat, ShoppingBag } from 'lucide-react';
 import { services } from '@/data/content';
@@ -6,11 +6,13 @@ import { Card } from '@components/ui/Card';
 import { Badge } from '@components/ui/Badge';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
-const iconMap = {
-  Terminal: Terminal,
-  Cpu: Cpu,
-  ChefHat: ChefHat,
-} as const;
+type IconKey = 'Terminal' | 'Cpu' | 'ChefHat';
+
+const iconMap: Readonly<Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>>> = {
+  Terminal,
+  Cpu,
+  ChefHat,
+};
 
 export const Services: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
@@ -50,7 +52,7 @@ export const Services: FC = () => {
         {/* Menu Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((item, index) => {
-            const IconComponent = iconMap[item.icon as keyof typeof iconMap];
+            const IconComponent = iconMap[item.icon as IconKey];
             const ingredients = getIngredients(item.id);
             const isChefSpecial = item.id === 'fullstack';
             

@@ -18,6 +18,7 @@ export const navLinks: readonly INavLink[] = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Testimonials', href: '#testimonials' },
   { label: 'Swaad Feed', href: '#swaad-feed' },
   { label: 'Order Project', href: '#contact' },
 ] as const;

@@ -22,7 +22,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export const Contact: FC = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const { ref, isVisible: _isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const {
     register,
@@ -55,6 +55,11 @@ export const Contact: FC = () => {
       aria-label="Aman Thakur Freelance Contact Form"
       className="py-24 bg-light-surface dark:bg-dark-surface border-t-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      >
       <div className="max-w-4xl mx-auto px-6">
         
         {/* Section Header styled like a bakery or bistro sign */}
@@ -298,6 +303,7 @@ export const Contact: FC = () => {
         </div>
 
       </div>
+      </motion.div>
     </section>
   );
 };

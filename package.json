@@ -1,7 +1,7 @@
 {
-  "name": "temp_vite_project",
+  "name": "aman-thakur-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "scrape:instagram": "npx tsx scripts/scrape-instagram.ts",
@@ -11,6 +11,8 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -42,6 +44,7 @@
     "globals": "^17.6.0",
     "jsdom": "^29.1.1",
     "postcss": "^8.5.15",
+    "prettier": "^3.3.0",
     "puppeteer": "^25.1.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
