@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'vite.config.ts', 'tailwind.config.ts', 'eslint.config.js', 'postcss.config.js'] },
+  { ignores: ['dist', 'coverage', 'vite.config.ts', 'tailwind.config.ts', 'eslint.config.js', 'postcss.config.js', 'scripts'] },
   {
     extends: [
       js.configs.recommended,
@@ -20,7 +20,7 @@ export default tseslint.config(
         ...globals.node,
       },
       parserOptions: {
-        project: ['./tsconfig.app.json'],
+        project: ['./tsconfig.app.json', './tsconfig.node.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },

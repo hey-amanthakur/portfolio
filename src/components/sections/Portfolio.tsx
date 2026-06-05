@@ -14,7 +14,7 @@ export const Portfolio: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });
 
-  const filterCategories: ReadonlyArray<FilterTag> = ['All', 'React', 'Java', 'Spring Boot', 'AI'] as const;
+  const filterCategories: readonly FilterTag[] = ['All', 'React', 'Java', 'Spring Boot', 'AI'] as const;
 
   const filteredProjects = projects.filter((project) => {
     // Category Filter
@@ -146,7 +146,7 @@ export const Portfolio: FC = () => {
             {filterCategories.map((cat) => (
               <button
                 key={cat}
-                onClick={(): void => setActiveFilter(cat)}
+                onClick={(): void => { setActiveFilter(cat); }}
                 className={`px-4 py-1.5 font-display font-bold text-xs rounded-full border-2 border-light-text dark:border-dark-text transition-all duration-200 ${
                   activeFilter === cat
                     ? 'bg-primary-400 text-white shadow-flat-primary dark:shadow-flat-primary scale-105'
@@ -167,7 +167,7 @@ export const Portfolio: FC = () => {
               type="text"
               placeholder="Search code recipes..."
               value={searchQuery}
-              onChange={(e): void => setSearchQuery(e.target.value)}
+              onChange={(e): void => { setSearchQuery(e.target.value); }}
               className="w-full pl-10 pr-4 py-2 rounded-xl border-2 border-light-text dark:border-dark-text bg-white dark:bg-dark-surface text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm"
             />
           </div>

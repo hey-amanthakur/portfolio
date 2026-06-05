@@ -21,7 +21,7 @@ export const useIntersectionObserver = (
 
   useEffect((): (() => void) => {
     const element = ref.current;
-    if (element === null) return (): void => {};
+    if (element === null) return (): void => { /* no cleanup needed */ };
 
     const observer = new IntersectionObserver(
       ([entry]: IntersectionObserverEntry[]): void => {

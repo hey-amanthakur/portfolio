@@ -3,14 +3,13 @@ import { motion } from 'framer-motion';
 import { Heart, MessageCircle, ExternalLink, Sparkles } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data/content';
 import scrapedPosts from '@/scraped/instagram-posts.json';
-import { Card } from '@components/ui/Card';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
 
 // Use scraped data if it exists and has real posts; fall back to hardcoded content.
 const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
-const displayPosts: ReadonlyArray<IInstagramPost> = hasScrapedData
-  ? (scrapedPosts as unknown as ReadonlyArray<IInstagramPost>)
+const displayPosts: readonly IInstagramPost[] = hasScrapedData
+  ? scrapedPosts
   : instagramPosts;
 
 export const InstagramFeed: FC = () => {

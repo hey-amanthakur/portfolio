@@ -10,7 +10,7 @@ export interface IProject {
   readonly id: string;
   readonly title: string;
   readonly description: string;
-  readonly tags: ReadonlyArray<string>;
+  readonly tags: readonly string[];
   readonly imageUrl: string;
   readonly liveUrl?: string;
   readonly repoUrl?: string;

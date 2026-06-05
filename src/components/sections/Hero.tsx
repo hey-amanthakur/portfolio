@@ -52,7 +52,7 @@ export const Hero: FC = () => {
           {/* Mode Switcher Buttons */}
           <div className="flex flex-wrap gap-4 mt-8 w-full">
             <button
-              onClick={(): void => setMode('code')}
+              onClick={(): void => { setMode('code'); }}
               className={`flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text transition-all duration-200 ${
                 mode === 'code'
                   ? 'bg-primary-400 text-white shadow-flat-primary dark:shadow-flat-primary scale-105'
@@ -64,7 +64,7 @@ export const Hero: FC = () => {
             </button>
             
             <button
-              onClick={(): void => setMode('food')}
+              onClick={(): void => { setMode('food'); }}
               className={`flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text transition-all duration-200 ${
                 mode === 'food'
                   ? 'bg-secondary-400 text-light-text shadow-flat-secondary dark:shadow-flat-secondary scale-105'
