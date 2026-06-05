@@ -9,19 +9,17 @@ export const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<'light' | 'dark'>((): 'light' | 'dark' => {
     try {
-      if (typeof window !== 'undefined' && window.localStorage !== undefined && window.localStorage !== null) {
-        const savedTheme = window.localStorage.getItem('theme');
-        if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
-      }
-    } catch (_e) {
+      const savedTheme = window.localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+    } catch {
       // Safe fallback
     }
 
     try {
-      if (typeof window !== 'undefined' && window.matchMedia !== undefined) {
+      if (typeof window !== 'undefined') {
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-    } catch (_e) {
+    } catch {
       // Safe fallback
     }
     return 'light';
@@ -40,10 +38,8 @@ export const Navbar: FC = () => {
       root.classList.remove('dark');
     }
     try {
-      if (typeof window !== 'undefined' && window.localStorage !== undefined && window.localStorage !== null) {
-        window.localStorage.setItem('theme', theme);
-      }
-    } catch (_e) {
+      window.localStorage.setItem('theme', theme);
+    } catch {
       // Safe fallback
     }
   }, [theme]);
@@ -127,7 +123,7 @@ export const Navbar: FC = () => {
 
           {/* Mobile Hamburger */}
           <button
-            onClick={(): void => setIsOpen(!isOpen)}
+            onClick={(): void => { setIsOpen(!isOpen); }}
             aria-label="Open mobile navigation drawer"
             className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark text-light-text dark:text-dark-text"
           >

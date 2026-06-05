@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { Award, Star, ChefHat, Code } from 'lucide-react';
 import { milestones } from '@/data/content';
@@ -7,7 +7,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 export const About: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
-  const getIcon = (category: 'code' | 'food', title: string) => {
+  const getIcon = (category: 'code' | 'food', title: string): ReactElement => {
     if (title.includes('Winner')) return <Award className="w-5 h-5 text-white" />;
     if (title.includes('Star')) return <Star className="w-5 h-5 text-white" />;
     if (category === 'food') return <ChefHat className="w-5 h-5 text-white" />;

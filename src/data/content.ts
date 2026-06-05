@@ -13,7 +13,7 @@ export const siteConfig: ISiteConfig = {
   instaHandle: 'yeh.safar.swaad.ka',
 } as const;
 
-export const navLinks: ReadonlyArray<INavLink> = [
+export const navLinks: readonly INavLink[] = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
@@ -22,7 +22,7 @@ export const navLinks: ReadonlyArray<INavLink> = [
   { label: 'Order Project', href: '#contact' },
 ] as const;
 
-export const services: ReadonlyArray<IService> = [
+export const services: readonly IService[] = [
   {
     id: 'fullstack',
     title: 'Cooked-to-Order Fullstack Dev',
@@ -46,7 +46,7 @@ export const services: ReadonlyArray<IService> = [
   }
 ] as const;
 
-export const projects: ReadonlyArray<IProject> = [
+export const projects: readonly IProject[] = [
   {
     id: 'saathi-ai',
     title: 'Saathi an Assistive Platform',
@@ -71,7 +71,7 @@ export const projects: ReadonlyArray<IProject> = [
   }
 ] as const;
 
-export const instagramPosts: ReadonlyArray<IInstagramPost> = [
+export const instagramPosts: readonly IInstagramPost[] = [
   {
     id: 'insta-1',
     imageUrl: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=60', // Rich North Indian Curry
@@ -106,7 +106,7 @@ export const instagramPosts: ReadonlyArray<IInstagramPost> = [
   }
 ] as const;
 
-export const testimonials: ReadonlyArray<ITestimonial> = [
+export const testimonials: readonly ITestimonial[] = [
   {
     id: 'test-1',
     name: 'Rohan Mehta',
@@ -126,7 +126,7 @@ export const testimonials: ReadonlyArray<ITestimonial> = [
 ] as const;
 
 // GitHub Pinned Repos (scraped via Puppeteer)
-export const pinnedRepos: ReadonlyArray<IGitHubRepo> = [
+export const pinnedRepos: readonly IGitHubRepo[] = [
   {
     id: 'gh-portfolio',
     name: 'Portfolio',
@@ -165,12 +165,12 @@ export const pinnedRepos: ReadonlyArray<IGitHubRepo> = [
   },
 ] as const;
 
-export const milestones: ReadonlyArray<{
+export const milestones: readonly {
   readonly year: string;
   readonly title: string;
   readonly description: string;
   readonly category: 'code' | 'food';
-}> = [
+}[] = [
   {
     year: '2022',
     title: 'Smart India Hackathon Winner 🏆',

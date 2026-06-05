@@ -21,16 +21,16 @@ describe('Portfolio Component', (): void => {
     render(<Portfolio />);
 
     // Assert that featured projects show up initially
-    expect(screen.getByText('Drishti AI Assistive Platform')).toBeInTheDocument();
-    expect(screen.getByText('The Swaad Recommendation Engine')).toBeInTheDocument();
+    expect(screen.getByText('Saathi an Assistive Platform')).toBeInTheDocument();
+    expect(screen.getByText('Multiplayer Game Engine')).toBeInTheDocument();
 
     const searchInput = screen.getByPlaceholderText(/Search code recipes/i);
-    
+
     // Type in a query that matches only one project
-    await user.type(searchInput, 'Drishti');
+    await user.type(searchInput, 'Saathi');
 
     // Assert search matches correctly
-    expect(screen.getByText('Drishti AI Assistive Platform')).toBeInTheDocument();
-    expect(screen.queryByText('The Swaad Recommendation Engine')).not.toBeInTheDocument();
+    expect(screen.getByText('Saathi an Assistive Platform')).toBeInTheDocument();
+    expect(screen.queryByText('Multiplayer Game Engine')).not.toBeInTheDocument();
   });
 });

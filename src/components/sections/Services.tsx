@@ -15,7 +15,7 @@ const iconMap = {
 export const Services: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
-  const getIngredients = (serviceId: string): ReadonlyArray<string> => {
+  const getIngredients = (serviceId: string): readonly string[] => {
     if (serviceId === 'fullstack') {
       return ['React 18', 'Spring Boot 3', 'Java 21', 'TypeScript', 'Jest/Vitest', 'APIs'] as const;
     }
@@ -50,7 +50,7 @@ export const Services: FC = () => {
         {/* Menu Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((item, index) => {
-            const IconComponent = iconMap[item.icon as keyof typeof iconMap] || Terminal;
+            const IconComponent = iconMap[item.icon as keyof typeof iconMap];
             const ingredients = getIngredients(item.id);
             const isChefSpecial = item.id === 'fullstack';
             

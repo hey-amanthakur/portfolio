@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle, Sparkles, UtensilsCrossed } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, UtensilsCrossed } from 'lucide-react';
 import { siteConfig } from '@/data/content';
 import { Card } from '@components/ui/Card';
 import { Button } from '@components/ui/Button';
@@ -12,7 +12,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: 'Customer name must be at least 2 characters long' }),
-  email: z.string().email({ message: 'A valid delivery email address is required' }),
+  email: z.email({ message: 'A valid delivery email address is required' }),
   serviceType: z.string().min(1, { message: 'Please select a service' }),
   subject: z.string().min(3, { message: 'Subject must be at least 3 characters long' }),
   message: z.string().min(10, { message: 'Instructions must be at least 10 characters long' }),
@@ -22,7 +22,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export const Contact: FC = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref, isVisible: _isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const {
     register,
@@ -126,7 +126,9 @@ export const Contact: FC = () => {
                   /* THE FORM */
                   <motion.form
                     key="contact-form"
-                    onSubmit={handleSubmit(onSubmit)}
+                    onSubmit={(e): void => {
+                      void handleSubmit(onSubmit)(e);
+                    }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -282,7 +284,7 @@ export const Contact: FC = () => {
                     </p>
 
                     <Button
-                      onClick={(): void => setIsSubmitted(false)}
+                      onClick={(): void => { setIsSubmitted(false); }}
                       variant="outline"
                       className="mt-8 font-display font-black text-xs"
                     >

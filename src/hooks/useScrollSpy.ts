@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useScrollSpy = (
-  ids: ReadonlyArray<string>,
+  ids: readonly string[],
   offset = 120
 ): string => {
   const [activeId, setActiveId] = useState<string>('');
