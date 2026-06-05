@@ -66,6 +66,10 @@ export const Testimonials: FC = () => {
                     <img
                       src={testimonial.avatarUrl}
                       alt={`${testimonial.name} profile photo`}
+                      width="48"
+                      height="48"
+                      loading="lazy"
+                      decoding="async"
                       className="w-12 h-12 rounded-xl-playful border-2 border-light-border dark:border-dark-border object-cover"
                     />
                   ) : (

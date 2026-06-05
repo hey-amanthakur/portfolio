@@ -58,7 +58,11 @@ export const InstagramFeed: FC = () => {
                 <div className="aspect-square bg-gray-100 overflow-hidden relative">
                   <img
                     src={post.imageUrl}
-                    alt={post.caption}
+                    alt={post.caption.substring(0, 50)}
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   

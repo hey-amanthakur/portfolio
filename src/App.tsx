@@ -1,13 +1,29 @@
-import type { FC } from 'react';
+import { Suspense, lazy } from 'react';
+import type { FC, ComponentType } from 'react';
 import { Navbar } from '@components/layout/Navbar';
 import { Hero } from '@components/sections/Hero';
 import { About } from '@components/sections/About';
 import { Services } from '@components/sections/Services';
-import { Portfolio } from '@components/sections/Portfolio';
-import { Testimonials } from '@components/sections/Testimonials';
-import { InstagramFeed } from '@components/sections/InstagramFeed';
-import { Contact } from '@components/sections/Contact';
+import { LoadingFallback } from '@components/ui/LoadingFallback';
 import { Footer } from '@components/layout/Footer';
+
+// Lazy-load below-fold sections — each becomes a separate JS chunk
+const LazyPortfolio = lazy(
+  async (): Promise<{ default: ComponentType }> =>
+    import('@components/sections/Portfolio')
+);
+const LazyTestimonials = lazy(
+  async (): Promise<{ default: ComponentType }> =>
+    import('@components/sections/Testimonials')
+);
+const LazyInstagramFeed = lazy(
+  async (): Promise<{ default: ComponentType }> =>
+    import('@components/sections/InstagramFeed')
+);
+const LazyContact = lazy(
+  async (): Promise<{ default: ComponentType }> =>
+    import('@components/sections/Contact')
+);
 
 export const App: FC = () => {
   return (
@@ -17,10 +33,12 @@ export const App: FC = () => {
         <Hero />
         <About />
         <Services />
-        <Portfolio />
-        <Testimonials />
-        <InstagramFeed />
-        <Contact />
+        <Suspense fallback={<LoadingFallback />}>
+          <LazyPortfolio />
+          <LazyTestimonials />
+          <LazyInstagramFeed />
+          <LazyContact />
+        </Suspense>
       </main>
       <Footer />
     </div>

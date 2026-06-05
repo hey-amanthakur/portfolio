@@ -189,6 +189,10 @@ export const Hero: FC = () => {
                   <img
                     src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=60"
                     alt="Aman tasting delicious Indian curry"
+                    width="533"
+                    height="400"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-3 left-3 bg-secondary-400 text-light-text px-3 py-1 rounded-full border-2 border-light-text font-display font-extrabold text-xs flex items-center gap-1">
