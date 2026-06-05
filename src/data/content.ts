@@ -1,4 +1,4 @@
-import type { INavLink, IProject, IService, ITestimonial, IInstagramPost, ISiteConfig } from '@/types';
+import type { INavLink, IProject, IService, ITestimonial, IInstagramPost, ISiteConfig, IGitHubRepo } from '@/types';
 
 export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
@@ -145,6 +145,46 @@ export const testimonials: ReadonlyArray<ITestimonial> = [
     quote: 'Aman cooked up a flawless dashboard interface in record time. His React & Tailwind skill is exceptional, and his understanding of AI tools saved us weeks of engineering. 100% recommended!',
     avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=60',
   }
+] as const;
+
+// GitHub Pinned Repos (scraped via Puppeteer)
+export const pinnedRepos: ReadonlyArray<IGitHubRepo> = [
+  {
+    id: 'gh-portfolio',
+    name: 'Portfolio',
+    description: 'My personal portfolio website built with React, TypeScript, Vite, and TailwindCSS. Features dark/light theme, scroll-driven animations, and a build-time Instagram scraper.',
+    url: 'https://github.com/jhonsnow456/Portfolio',
+    language: 'TypeScript',
+    stars: 1,
+    forks: 0,
+  },
+  {
+    id: 'gh-path-finding-algorithm',
+    name: 'Path Finding Algorithm',
+    description: 'Implementation of A* pathfinding algorithm. To visualize the algorithm Pygame is used for the GUI interface.',
+    url: 'https://github.com/jhonsnow456/PathfindingAlgorithm',
+    language: 'python3',
+    stars: 1,
+    forks: 0,
+  },
+  {
+    id: 'gh-cryptography-algoritm',
+    name: 'Cryptography Algorithm',
+    description: 'A cascaded cryptography system based on the idea of using Armstrong numbers and matrices for encryption/decryption was published in an IEEE Conference paper.',
+    url: 'https://github.com/jhonsnow456/CrytographyAlgorithm',
+    language: 'python3',
+    stars: 0,
+    forks: 0,
+  },
+  {
+    id: 'gh-multiplayer-game-engine',
+    name: 'Multiplayer Game',
+    description: 'The project is made to simulate a multiplayer game in java using the concept of multi threading and computer network',
+    url: 'https://github.com/jhonsnow456/Mutiplayer-Game',
+    language: 'Java',
+    stars: 1,
+    forks: 0,
+  },
 ] as const;
 
 export const milestones: ReadonlyArray<{

@@ -66,6 +66,17 @@ export interface ISiteConfig {
   readonly instaHandle: string;
 }
 
+// GitHub Pinned Repo
+export interface IGitHubRepo {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly url: string;
+  readonly language: string;
+  readonly stars: number;
+  readonly forks: number;
+}
+
 // Component Props patterns
 export type PropsWithClassName<T = unknown> = T & {
   className?: string;
