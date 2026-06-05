@@ -7,7 +7,7 @@ export const siteConfig: ISiteConfig = {
   email: '099amanthakur1@gmail.com', // Professional placeholder
   socials: {
     github: 'https://github.com/jhonsnow456',
-    instagram: 'https://www.instagram.com/yeh.safar.swaad.ka/',
+    instagram: 'https://www.instagram.com/hey.amanthakur/',
     linkedin: 'https://www.linkedin.com/in/aman--thakur/', // Typical path
   },
   instaHandle: 'yeh.safar.swaad.ka',
