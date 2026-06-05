@@ -11,7 +11,7 @@ export const siteConfig: ISiteConfig = {
     linkedin: 'https://www.linkedin.com/in/aman--thakur/', // Typical path
   },
   instaHandle: 'yeh.safar.swaad.ka',
-  sponsorUrl: 'https://www.buymeacoffee.com/amanthakur', // TODO: replace with actual Buy Me a Coffee link
+  sponsorUrl: 'https://www.buymeacoffee.com/hey.amanthakur', // TODO: replace with actual Buy Me a Coffee link
 } as const;
 
 export const navLinks: readonly INavLink[] = [
