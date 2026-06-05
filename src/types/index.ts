@@ -64,6 +64,7 @@ export interface ISiteConfig {
   readonly email: string;
   readonly socials: Readonly<Record<string, string>>;
   readonly instaHandle: string;
+  readonly sponsorUrl?: string;
 }
 
 // GitHub Pinned Repo

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle, UtensilsCrossed } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, UtensilsCrossed, Coffee } from 'lucide-react';
 import { siteConfig } from '@/data/content';
 import { Card } from '@components/ui/Card';
 import { Button } from '@components/ui/Button';
@@ -121,6 +121,28 @@ export const Contact: FC = () => {
                 </p>
               </div>
             </Card>
+
+            {/* Sponsor CTA Card */}
+            {siteConfig.sponsorUrl !== undefined && (
+              <a
+                href={siteConfig.sponsorUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block p-5 rounded-2xl border-2 border-[#FFDD00] bg-[#FFDD00]/10 hover:bg-[#FFDD00]/20 transition-all duration-200 hover:-translate-y-0.5"
+              >
+                <div className="flex items-center gap-3">
+                  <Coffee className="w-6 h-6 text-[#B38F00] group-hover:rotate-12 transition-transform duration-200" />
+                  <div className="text-left">
+                    <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                      Enjoy my work?
+                    </p>
+                    <p className="text-xs text-[#B38F00] font-body">
+                      Buy me a coffee ☕ →
+                    </p>
+                  </div>
+                </div>
+              </a>
+            )}
           </div>
 
           {/* Right Column: Interactive Menu Order Form (col-span-8) */}
