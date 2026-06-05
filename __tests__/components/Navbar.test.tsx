@@ -23,13 +23,13 @@ describe('Navbar Component', (): void => {
   it('contains accessible theme toggle button and toggle interactions', async (): Promise<void> => {
     const user = userEvent.setup();
     render(<Navbar />);
-    
-    const themeBtn = screen.getByRole('button', { name: /Toggle active theme/i });
-    expect(themeBtn).toBeInTheDocument();
 
-    // Toggle button click
-    await user.click(themeBtn);
-    // Dark class toggle verified by state mock / environment class toggler checks
-    expect(themeBtn).toBeInTheDocument();
+    const [desktopThemeBtn, mobileThemeBtn] = screen.getAllByRole('button', { name: /Toggle active theme/i });
+    expect(desktopThemeBtn).toBeInTheDocument();
+    expect(mobileThemeBtn).toBeInTheDocument();
+
+    // Toggle desktop button
+    await user.click(desktopThemeBtn);
+    expect(desktopThemeBtn).toBeInTheDocument();
   });
 });
