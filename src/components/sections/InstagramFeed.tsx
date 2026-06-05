@@ -5,6 +5,7 @@ import { instagramPosts, siteConfig } from '@/data/content';
 import scrapedPosts from '@/scraped/instagram-posts.json';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
+import { InstagramIcon } from '@components/icons';
 
 // Use scraped data if it exists and has real posts; fall back to hardcoded content.
 const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
@@ -27,12 +28,7 @@ export const InstagramFeed: FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-light-text dark:border-dark-text bg-[#E1306C]/10 text-[#E1306C] font-display font-extrabold text-xs">
-            {/* Instagram */}
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
+            <InstagramIcon className="w-4 h-4" />
             <span>@{siteConfig.instaHandle}</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">
@@ -121,12 +117,7 @@ export const InstagramFeed: FC = () => {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 font-display font-black text-sm rounded-xl border-2 border-light-text dark:border-dark-text bg-[#E1306C] text-white hover:bg-[#c02456] shadow-flat-light dark:shadow-flat-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all duration-200"
           >
-            {/* Instagram */}
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
+            <InstagramIcon className="w-5 h-5" />
             Follow @{siteConfig.instaHandle}
           </a>
         </motion.div>

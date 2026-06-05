@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, ChefHat, ArrowRight, Sparkles, Code2, Flame } from 'lucide-react';
 import { siteConfig } from '@/data/content';
+import { GitHubIcon, InstagramIcon } from '@components/icons';
 import { Button } from '@components/ui/Button';
 
 export const Hero: FC = () => {
@@ -95,9 +96,7 @@ export const Hero: FC = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-5 py-2.5 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5"
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
+                  <GitHubIcon className="w-5 h-5" />
                   GitHub Repos
                 </a>
               </>
@@ -110,11 +109,7 @@ export const Hero: FC = () => {
                   className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-primary-400 text-white shadow-flat-primary dark:shadow-flat-primary hover:translate-x-0.5 hover:translate-y-0.5"
                 >
                   Follow @{siteConfig.instaHandle}{' '}
-                  <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                  </svg>
+                  <InstagramIcon className="w-5 h-5 ml-2" />
                 </a>
                 <Button 
                   onClick={(): void => {
