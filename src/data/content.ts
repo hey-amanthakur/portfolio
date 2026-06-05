@@ -4,11 +4,11 @@ export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
   title: 'Aman Thakur | Developer & Content Creator',
   tagline: 'Serving hot, freshly-baked code 💻 and exploring delicious street-food journeys 🍳',
-  email: 'aman.thakur.dev@gmail.com', // Professional placeholder
+  email: '099amanthakur1@gmail.com', // Professional placeholder
   socials: {
     github: 'https://github.com/jhonsnow456',
     instagram: 'https://www.instagram.com/yeh.safar.swaad.ka/',
-    linkedin: 'https://www.linkedin.com/in/aman-thakur-dev/', // Typical path
+    linkedin: 'https://www.linkedin.com/in/aman--thakur/', // Typical path
   },
   instaHandle: 'yeh.safar.swaad.ka',
 } as const;
@@ -48,47 +48,25 @@ export const services: ReadonlyArray<IService> = [
 
 export const projects: ReadonlyArray<IProject> = [
   {
-    id: 'drishti-ai',
-    title: 'Drishti AI Assistive Platform',
-    description: 'Award-winning AI computer-vision dashboard designed for visually impaired users. Features instant spatial audio navigation and real-time obstacle description (SIH 2022 winning concept).',
+    id: 'saathi-ai',
+    title: 'Saathi an Assistive Platform',
+    description: "The project was part of SIH'22. It help in providing a detailed report of the children having special learning which could early detect the symptoms",
     tags: ['React', 'Python', 'OpenCV', 'TensorFlow', 'WebSockets'],
-    imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=60',
-    liveUrl: 'https://github.com/jhonsnow456',
-    repoUrl: 'https://github.com/jhonsnow456',
+    imageUrl: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&auto=format&fit=crop&q=60', // AI vision / assistive tech
+    liveUrl: 'https://github.com/jhonsnow456/Saathi',
+    repoUrl: 'https://github.com/jhonsnow456/Saathi',
     featured: true,
     type: 'code',
   },
   {
-    id: 'swaad-engine',
-    title: 'The Swaad Recommendation Engine',
-    description: 'A culinary discovery platform leveraging Vector Search and Spring Boot. Analyzes street food reviews to suggest highly tailored local gems based on flavor-profile semantics.',
-    tags: ['Java', 'Spring Boot', 'React', 'Elasticsearch', 'PostgreSQL'],
-    imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop&q=60',
-    liveUrl: 'https://github.com/jhonsnow456',
-    repoUrl: 'https://github.com/jhonsnow456',
+    id: 'multiplayer-game-engine',
+    title: 'Multiplayer Game Engine',
+    description: "The project is made to simulate a multiplayer game in java using the concept of multi threading and computer network",
+    tags: ['Java', 'NetBeans', 'WebSockets'],
+    imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60', // esports / gaming setup
+    liveUrl: 'https://github.com/jhonsnow456/Mutiplayer-Game',
+    repoUrl: 'https://github.com/jhonsnow456/Mutiplayer-Game',
     featured: true,
-    type: 'code',
-  },
-  {
-    id: 'spring-feed-api',
-    title: 'Spring Feed creator middleware',
-    description: 'High-throughput Redis cache buffer and routing API constructed in Java, built specifically to stream live video content feeds and scale to thousands of operations per second.',
-    tags: ['Java', 'Spring Boot', 'Redis', 'Docker', 'AWS'],
-    imageUrl: 'https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=800&auto=format&fit=crop&q=60',
-    liveUrl: 'https://github.com/jhonsnow456',
-    repoUrl: 'https://github.com/jhonsnow456',
-    featured: false,
-    type: 'code',
-  },
-  {
-    id: 'leftover-chef-ai',
-    title: 'Leftover Chef AI Generator',
-    description: 'Playful React app that takes a snapshot of your fridge leftovers and generates custom recipes using OpenAI APIs, suggesting cooking hacks and nutritional stats on the fly.',
-    tags: ['React', 'TypeScript', 'Node.js', 'OpenAI API', 'Tailwind'],
-    imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop&q=60',
-    liveUrl: 'https://github.com/jhonsnow456',
-    repoUrl: 'https://github.com/jhonsnow456',
-    featured: false,
     type: 'code',
   }
 ] as const;

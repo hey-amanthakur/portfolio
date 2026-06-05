@@ -13,7 +13,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 const contactSchema = z.object({
   name: z.string().min(2, { message: 'Customer name must be at least 2 characters long' }),
   email: z.string().email({ message: 'A valid delivery email address is required' }),
-  serviceType: z.string().min(1, { message: 'Please select a service course' }),
+  serviceType: z.string().min(1, { message: 'Please select a service' }),
   subject: z.string().min(3, { message: 'Subject must be at least 3 characters long' }),
   message: z.string().min(10, { message: 'Instructions must be at least 10 characters long' }),
 });
@@ -52,7 +52,7 @@ export const Contact: FC = () => {
     <section
       ref={ref}
       id="contact"
-      aria-label="Aman Thakur Project Order Form"
+      aria-label="Aman Thakur Freelance Contact Form"
       className="py-24 bg-light-surface dark:bg-dark-surface border-t-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
       <div className="max-w-4xl mx-auto px-6">
@@ -61,13 +61,13 @@ export const Contact: FC = () => {
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-secondary-100 text-secondary-955 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
             <UtensilsCrossed className="w-3.5 h-3.5" />
-            <span>Ordering Counter</span>
+            <span>Freelance Counter</span>
           </span>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">
-            Order A Project <span className="text-primary-400">📝</span>
+            Hire Me For A Project <span className="text-primary-400">📝</span>
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Let's cook up something outstanding. Submit your custom project order below and Chef Aman will respond instantly!
+            Need a developer who ships fast and writes clean code? Tell me about your project and I'll get back to you with a plan — no courses, no fluff, just real freelance work.
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export const Contact: FC = () => {
                 {!isSubmitted ? (
                   /* THE FORM */
                   <motion.form
-                    key="order-form"
+                    key="contact-form"
                     onSubmit={handleSubmit(onSubmit)}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -182,7 +182,7 @@ export const Contact: FC = () => {
                       {/* Service select drop-down */}
                       <div className="flex flex-col">
                         <label htmlFor="serviceType" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Select Course:
+                          Select Service:
                         </label>
                         <select
                           id="serviceType"
@@ -191,11 +191,11 @@ export const Contact: FC = () => {
                             errors.serviceType !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
                           }`}
                         >
-                          <option value="">-- Choose Menu item --</option>
-                          <option value="fullstack">Cooked-to-Order Fullstack Dev 💻</option>
-                          <option value="ai-consulting">AI-Enhanced Architecture 🧠</option>
-                          <option value="content-creation">Recipe for Organic Reach 📸</option>
-                          <option value="general">Surprise Chef Special! 🍲</option>
+                          <option value="">-- Choose Service --</option>
+                          <option value="fullstack">Fullstack Web Development 💻</option>
+                          <option value="ai-consulting">AI & Architecture Consulting 🧠</option>
+                          <option value="content-creation">Content & Creator Strategy 📸</option>
+                          <option value="freelance">Custom Freelance Project 🍲</option>
                         </select>
                         {errors.serviceType !== undefined && (
                           <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
@@ -208,12 +208,12 @@ export const Contact: FC = () => {
                       {/* Subject input */}
                       <div className="flex flex-col">
                         <label htmlFor="subject" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Course Title:
+                          Project Title:
                         </label>
                         <input
                           id="subject"
                           type="text"
-                          placeholder="Build a high-scale dashboard"
+                          placeholder="Freelance dashboard for a fintech startup"
                           {...register('subject')}
                           className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm ${
                             errors.subject !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
@@ -236,7 +236,7 @@ export const Contact: FC = () => {
                       <textarea
                         id="message"
                         rows={4}
-                        placeholder="I need a database that handles 10k requests daily with a gorgeous, bouncy light-theme toggle..."
+                        placeholder="I need a React dashboard with Spring Boot backend, handling 10k daily requests and a smooth dark-mode toggle..."
                         {...register('message')}
                         className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm resize-none ${
                           errors.message !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
@@ -257,7 +257,7 @@ export const Contact: FC = () => {
                         isLoading={isSubmitting}
                         className="w-full py-3 text-sm flex items-center justify-center gap-2"
                       >
-                        Send Project Order <Send className="w-4 h-4" />
+                        Submit Project Request <Send className="w-4 h-4" />
                       </Button>
                     </div>
                   </motion.form>
@@ -275,10 +275,10 @@ export const Contact: FC = () => {
                     </div>
                     
                     <h3 className="font-display font-black text-2xl text-light-text dark:text-dark-text tracking-tight">
-                      Order Placed Successfully! 🍳
+                      Project Request Received! 🚀
                     </h3>
                     <p className="mt-3 text-sm text-light-muted dark:text-dark-muted font-body leading-relaxed max-w-md">
-                      Chef Aman has received your ingredients and instructions. We will start preparing your project invoice and reach out to you within 24 hours. Check your inbox!
+                      Thanks for reaching out! I'll review your project details and get back to you within 24 hours with a plan and timeline. Check your inbox for a response!
                     </p>
 
                     <Button
@@ -286,7 +286,7 @@ export const Contact: FC = () => {
                       variant="outline"
                       className="mt-8 font-display font-black text-xs"
                     >
-                      Place Another Order
+                      Submit Another Request
                     </Button>
                   </motion.div>
                 )}
