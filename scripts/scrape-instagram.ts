@@ -1,12 +1,19 @@
 /**
  * Instagram post scraper — runs at build time.
  *
- * Uses Puppeteer + stealth plugin to load the public Instagram profile page,
+ * Uses Puppeteer + stealth plugin to load the Instagram profile page,
  * extracts post metadata, and writes a JSON file consumed by InstagramFeed.tsx.
  *
  * Usage:
- *   npx tsx scripts/scrape-instagram.ts            # write to src/scraped/
- *   npx tsx scripts/scrape-instagram.ts --limit=6  # fetch N posts (default: 8)
+ *   npx tsx scripts/scrape-instagram.ts                          # write to src/scraped/
+ *   npx tsx scripts/scrape-instagram.ts --limit=6                # fetch N posts (default: 8)
+ *   npx tsx scripts/scrape-instagram.ts --cookies=./insta-cookies.json  # inject session cookies
+ *
+ * To get your session cookies:
+ *   1. Open Instagram in Chrome, log in
+ *   2. Open DevTools → Application → Cookies → https://www.instagram.com
+ *   3. Export or copy sessionid, ds_user_id, csrftoken, mid, ig_did
+ *   4. Save as JSON: [{"name":"sessionid","value":"...","domain":".instagram.com","path":"/"},...]
  *
  * Output:  src/scraped/instagram-posts.json
  * Fallback: If scraping fails, the file is left untouched (previous data preserved).
@@ -15,9 +22,10 @@
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import type { Browser, Page } from 'puppeteer';
-import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'fs';
+import { writeFileSync, readFileSync, mkdirSync, existsSync, createWriteStream } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import https from 'https';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,11 +38,14 @@ const PROFILE_URL = `https://www.instagram.com/${INSTA_HANDLE}/`;
 const OUTPUT_DIR = join(__dirname, '..', 'src', 'scraped');
 const OUTPUT_FILE = join(OUTPUT_DIR, 'instagram-posts.json');
 const FALLBACK_FILE = join(OUTPUT_DIR, 'instagram-posts.fallback.json');
+const PUBLIC_IMG_DIR = join(__dirname, '..', 'public', 'instagram');
 const DEFAULT_LIMIT = 8;
 
-// ── CLI arg ─────────────────────────────────────────────────────
+// ── CLI args ────────────────────────────────────────────────────
 const limitArg = process.argv.find((a) => a.startsWith('--limit'));
+const cookiesArg = process.argv.find((a) => a.startsWith('--cookies'));
 const LIMIT = limitArg ? parseInt(limitArg.split('=')[1] ?? '8', 10) : DEFAULT_LIMIT;
+const COOKIES_FILE = cookiesArg ? cookiesArg.split('=')[1] : null;
 
 // ── Types ───────────────────────────────────────────────────────
 interface InstaPost {
@@ -61,16 +72,80 @@ function log(msg: string) {
   console.log(`[insta-scraper] ${msg}`);
 }
 
-function save(posts: InstaPost[], tag: string) {
-  mkdirSync(OUTPUT_DIR, { recursive: true });
-  const json = JSON.stringify(posts, null, 2);
-  writeFileSync(OUTPUT_FILE, json, 'utf-8');
-  log(`${tag}: saved ${posts.length} posts to ${OUTPUT_FILE}`);
+/**
+ * Download an image URL to a local file in public/instagram/.
+ * Returns the public path (e.g. /instagram/post-1.jpg) or null on failure.
+ */
+function downloadImage(url: string, destPath: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    if (!url || !url.startsWith('https')) return resolve(null);
+
+    mkdirSync(PUBLIC_IMG_DIR, { recursive: true });
+
+    const file = createWriteStream(destPath);
+    https.get(url, { timeout: 15_000 }, (response) => {
+      if (response.statusCode !== 200 || !response.headers['content-type']?.startsWith('image/')) {
+        resolve(null);
+        return;
+      }
+      response.pipe(file);
+      file.on('finish', () => {
+        file.close();
+        resolve(destPath);
+      });
+    }).on('error', () => {
+      resolve(null);
+    });
+  });
 }
 
-function saveFallback(posts: InstaPost[]) {
+/**
+ * Save scraped posts to JSON, downloading images to public/instagram/.
+ * The JSON stores local paths like /instagram/post-1.jpg instead of CDN URLs.
+ */
+async function save(posts: InstaPost[], tag: string) {
   mkdirSync(OUTPUT_DIR, { recursive: true });
-  writeFileSync(FALLBACK_FILE, JSON.stringify(posts, null, 2), 'utf-8');
+  mkdirSync(PUBLIC_IMG_DIR, { recursive: true });
+
+  // Download images and update imageUrl to local paths
+  const localPosts = await Promise.all(
+    posts.map(async (post, i) => {
+      const ext = '.jpg';
+      const localPath = join(PUBLIC_IMG_DIR, `post-${i + 1}${ext}`);
+      const publicPath = `/instagram/post-${i + 1}${ext}`;
+
+      if (post.imageUrl && post.imageUrl.startsWith('https')) {
+        const saved = await downloadImage(post.imageUrl, localPath);
+        if (saved !== null) {
+          log(`  ↓ downloaded ${post.imageUrl.slice(0, 60)}... → ${publicPath}`);
+          return { ...post, imageUrl: publicPath };
+        }
+      }
+      log(`  ⚠ failed to download ${post.imageUrl.slice(0, 60)}...`);
+      return post; // keep original URL as fallback
+    })
+  );
+
+  const json = JSON.stringify(localPosts, null, 2);
+  writeFileSync(OUTPUT_FILE, json, 'utf-8');
+  log(`${tag}: saved ${localPosts.length} posts to ${OUTPUT_FILE}`);
+}
+
+async function saveFallback(posts: InstaPost[]) {
+  mkdirSync(OUTPUT_DIR, { recursive: true });
+  const localPosts = await Promise.all(
+    posts.map(async (post, i) => {
+      if (post.imageUrl && post.imageUrl.startsWith('https')) {
+        const ext = '.jpg';
+        const localPath = join(PUBLIC_IMG_DIR, `post-${i + 1}${ext}`);
+        const publicPath = `/instagram/post-${i + 1}${ext}`;
+        const saved = await downloadImage(post.imageUrl, localPath);
+        if (saved !== null) return { ...post, imageUrl: publicPath };
+      }
+      return post;
+    })
+  );
+  writeFileSync(FALLBACK_FILE, JSON.stringify(localPosts, null, 2), 'utf-8');
   log(`Fallback data written to ${FALLBACK_FILE}`);
 }
 
@@ -442,12 +517,26 @@ async function main() {
     ],
   });
 
+  // ── Inject session cookies if provided ────────────────────────
+  if (COOKIES_FILE) {
+    log(`Loading session cookies from ${COOKIES_FILE}…`);
+    if (existsSync(COOKIES_FILE)) {
+      const cookies = JSON.parse(readFileSync(COOKIES_FILE, 'utf-8')) as Array<Record<string, string>>;
+      const page = await setupPage(browser);
+      await page.setCookie(...cookies);
+      await page.close();
+      log(`Injected ${cookies.length} cookies into browser session`);
+    } else {
+      log(`⚠ Cookie file not found: ${COOKIES_FILE}`);
+    }
+  }
+
   try {
     // ── Attempt 1: Embedded JSON from profile page ──────────────
     const profilePosts = await scrapeProfileJson(browser);
 
     if (profilePosts.length >= LIMIT && profilePosts.some((p) => p.displayUrl)) {
-      save(
+      await save(
         profilePosts.slice(0, LIMIT).map((p, i) => ({
           id: `insta-scraped-${i + 1}`,
           imageUrl: p.displayUrl,
@@ -473,7 +562,7 @@ async function main() {
       let good = enriched.filter((p) => !p.imageUrl.includes('s150x150'));
       // Enrich with meta tags for real captions
       good = await enrichWithMetaCaptions(browser, good);
-      save(good, 'SUCCESS (post pages)');
+      await save(good, 'SUCCESS (post pages)');
       await browser.close();
       return;
     }
@@ -486,7 +575,7 @@ async function main() {
     if (goodFresh.length > 0) {
       // Enrich with meta tags for real captions
       goodFresh = await enrichWithMetaCaptions(browser, goodFresh);
-      save(goodFresh, 'SUCCESS (fresh shortcodes + post pages)');
+      await save(goodFresh, 'SUCCESS (fresh shortcodes + post pages)');
       await browser.close();
       return;
     }
@@ -500,7 +589,7 @@ async function main() {
       log('No existing data. Copying fallback…');
       if (existsSync(FALLBACK_FILE)) {
         const fallback = JSON.parse(readFileSync(FALLBACK_FILE, 'utf-8')) as InstaPost[];
-        save(fallback, 'FALLBACK COPY');
+        await save(fallback, 'FALLBACK COPY');
       } else {
         const seed: InstaPost[] = [
           {
@@ -512,7 +601,7 @@ async function main() {
             postUrl: `https://www.instagram.com/${INSTA_HANDLE}/`,
           },
         ];
-        save(seed, 'SEED');
+        await save(seed, 'SEED');
       }
     }
   } catch (err: unknown) {

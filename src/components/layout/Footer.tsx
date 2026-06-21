@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Heart, Coffee } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { siteConfig } from '@/data/content';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
 
