@@ -19,7 +19,7 @@ export const Testimonials: FC = () => {
 
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-primary-100 text-primary-955 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
+          <span className="px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-primary-100 text-primary-900 dark:bg-primary-900 dark:text-primary-200 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
             Happy Clients
           </span>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">

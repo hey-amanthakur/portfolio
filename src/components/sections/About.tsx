@@ -58,9 +58,9 @@ export const About: FC = () => {
                 {/* Milestone Detail Card */}
                 <div className="bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border p-6 rounded-2xl-playful relative hover:border-light-text dark:hover:border-dark-text transition-colors duration-200">
                   {/* Floating Year Label */}
-                  <span 
+                  <span
                     className={`absolute -top-3.5 left-4 px-3 py-0.5 rounded-full border-2 border-light-text dark:border-dark-text font-display font-black text-xs shadow-flat-light dark:shadow-flat-dark ${
-                      isCode ? 'bg-primary-100 text-primary-955' : 'bg-secondary-100 text-secondary-955'
+                      isCode ? 'bg-primary-100 text-primary-900 dark:bg-primary-900 dark:text-primary-200' : 'bg-secondary-100 text-secondary-900 dark:bg-secondary-900 dark:text-secondary-200'
                     }`}
                   >
                     {item.year}
