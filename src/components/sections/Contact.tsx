@@ -1,326 +1,241 @@
-import { useState } from 'react';
 import type { FC } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, AlertCircle, UtensilsCrossed, Coffee } from 'lucide-react';
-import { siteConfig } from '@/data/content';
+import { motion } from 'framer-motion';
+import { MessageCircle, Mail, Clock, Coffee, Send, ArrowRight } from 'lucide-react';
+import { siteConfig, services } from '@/data/content';
 import { Card } from '@components/ui/Card';
-import { Button } from '@components/ui/Button';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
-const contactSchema = z.object({
-  name: z.string().min(2, { message: 'Customer name must be at least 2 characters long' }),
-  email: z.email({ message: 'A valid delivery email address is required' }),
-  serviceType: z.string().min(1, { message: 'Please select a service' }),
-  subject: z.string().min(3, { message: 'Subject must be at least 3 characters long' }),
-  message: z.string().min(10, { message: 'Instructions must be at least 10 characters long' }),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+function buildWhatsAppMessage(projectType = '', details = ''): string {
+  const service = services.find((s) => s.id === projectType);
+  const lines = [
+    `Hi Aman! 👋 I'd like to discuss a project.`,
+    service ? `Service: ${service.title}` : `Service: ${projectType || 'General inquiry'}`,
+    details ? `Details: ${details}` : '',
+    '',
+    "Let me know your availability for a quick call!",
+  ].filter(Boolean);
+  return lines.join('\n');
+}
 
 export const Contact: FC = () => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      serviceType: '',
-      subject: '',
-      message: '',
-    },
-  });
-
-  const onSubmit = async (data: ContactFormData): Promise<void> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log('Project Order Submitted:', data);
-    setIsSubmitted(true);
-    reset();
+  const whatsAppUrl = (projectType = '', details = ''): string => {
+    const msg = buildWhatsAppMessage(projectType, details);
+    return `https://wa.me/${siteConfig.phone}?text=${encodeURIComponent(msg)}`;
   };
 
   return (
     <section
       ref={ref}
       id="contact"
-      aria-label="Aman Thakur Freelance Contact Form"
+      aria-label="Contact Aman Thakur via WhatsApp"
       className="py-24 bg-light-surface dark:bg-dark-surface border-t-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#25D366]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-400/5 rounded-full blur-3xl pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isVisible ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       >
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* Section Header styled like a bakery or bistro sign */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-secondary-100 text-secondary-955 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
-            <UtensilsCrossed className="w-3.5 h-3.5" />
-            <span>Freelance Counter</span>
-          </span>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">
-            Hire Me For A Project <span className="text-primary-400">📝</span>
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={isVisible ? { scale: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.5, type: 'spring', stiffness: 300 }}
+            className="inline-flex items-center gap-2 mb-4"
+          >
+            <div className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center">
+              <MessageCircle className="w-5 h-5 text-[#25D366]" />
+            </div>
+          </motion.div>
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+            Let's Build Something <span className="text-[#25D366]">Together</span> 🚀
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Need a developer who ships fast and writes clean code? Tell me about your project and I'll get back to you with a plan — no courses, no fluff, just real freelance work.
+            Pick what you need below — it opens WhatsApp with a pre-filled message. No forms, no waiting.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-          {/* Left Column: Direct contact info (col-span-4) */}
-          <div className="md:col-span-4 flex flex-col justify-between gap-6 h-full text-left">
-            <Card variant="flat-secondary" className="p-6 h-full flex flex-col justify-between">
-              <div>
-                <h3 className="font-display font-black text-xl text-light-text dark:text-dark-text">
-                  Direct Kitchen 🍳
-                </h3>
-                <p className="mt-2 text-xs text-light-muted dark:text-dark-muted font-body leading-relaxed">
-                  Want to skip the ordering line and chat directly over a cup of chai? Reach out to me:
-                </p>
-                
-                <div className="mt-6 space-y-4">
+        {/* WhatsApp Chat Mockup */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* Left: Phone Mockup with Chat Bubbles */}
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={isVisible ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
+              {/* Phone Frame */}
+              <div className="bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border rounded-3xl overflow-hidden shadow-flat-light dark:shadow-flat-dark">
+                {/* WhatsApp Header */}
+                <div className="bg-[#075E54] px-4 py-3 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-xs">
+                    AT
+                  </div>
                   <div>
-                    <span className="text-[10px] font-display font-black text-primary-400 uppercase block">
-                      Email Address:
-                    </span>
-                    <a
-                      href={`mailto:${siteConfig.email}`}
-                      className="font-body font-bold text-sm text-light-text dark:text-dark-text hover:text-primary-400 transition-colors break-all"
+                    <p className="text-white font-bold text-sm">Aman Thakur</p>
+                    <p className="text-[#A5D6A7] text-[10px]">Full-Stack Developer</p>
+                  </div>
+                  <div className="ml-auto">
+                    <MessageCircle className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+
+                {/* Chat Area */}
+                <div className="p-4 bg-[#ECE5DD] dark:bg-[#0B141A] min-h-[320px] space-y-3">
+                  {/* Incoming message */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.4 }}
+                    className="bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-3 py-2 max-w-[85%] shadow-sm"
+                  >
+                    <p className="text-xs text-light-text dark:text-dark-text">
+                      Hey! 👋 Interested in working together? Pick a service below and I'll message you directly on WhatsApp!
+                    </p>
+                    <p className="text-[10px] text-light-muted dark:text-dark-muted mt-1 text-right">Just now ✓✓</p>
+                  </motion.div>
+
+                  {/* Service cards as chat bubbles */}
+                  {services.map((service, index) => (
+                    <motion.a
+                      key={service.id}
+                      href={whatsAppUrl(service.id)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                      transition={{ delay: 0.6 + index * 0.15 }}
+                      className="group block bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-3 py-3 max-w-[90%] shadow-sm hover:shadow-flat-primary dark:hover:shadow-flat-dark transition-all duration-200 hover:-translate-x-1"
                     >
-                      {siteConfig.email}
-                    </a>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] font-display font-black text-primary-400 uppercase block">
-                      Active Hours:
-                    </span>
-                    <p className="font-body font-bold text-sm text-light-text dark:text-dark-text">
-                      9:00 AM - 7:00 PM IST
-                    </p>
-                  </div>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-grow">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg">{service.id === 'fullstack' ? '💻' : service.id === 'ai-consulting' ? '🧠' : '📸'}</span>
+                            <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                              {service.title}
+                            </p>
+                          </div>
+                          <p className="text-[11px] text-light-muted dark:text-dark-muted mt-1 leading-relaxed">
+                            {service.tagline}
+                          </p>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-[#25D366] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
+                      </div>
+                      <div className="mt-2 flex items-center gap-1">
+                        <Send className="w-3 h-3 text-[#25D366]" />
+                        <span className="text-[10px] font-bold text-[#25D366] uppercase tracking-wide">
+                          Tap to WhatsApp
+                        </span>
+                      </div>
+                    </motion.a>
+                  ))}
                 </div>
               </div>
-
-              <div className="mt-8 pt-4 border-t-2 border-dashed border-light-text dark:border-dark-text/30">
-                <span className="text-[10px] font-display font-black text-light-muted dark:text-dark-muted uppercase block">
-                  Signature Dish:
-                </span>
-                <p className="font-body font-extrabold text-sm text-light-text dark:text-dark-text italic">
-                  React frontend layered over robust Spring Boot APIs 🍕
-                </p>
-              </div>
-            </Card>
-
-            {/* Sponsor CTA Card */}
-            {siteConfig.sponsorUrl !== undefined && (
-              <a
-                href={siteConfig.sponsorUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block p-5 rounded-2xl border-2 border-[#FFDD00] bg-[#FFDD00]/10 hover:bg-[#FFDD00]/20 transition-all duration-200 hover:-translate-y-0.5"
-              >
-                <div className="flex items-center gap-3">
-                  <Coffee className="w-6 h-6 text-[#B38F00] group-hover:rotate-12 transition-transform duration-200" />
-                  <div className="text-left">
-                    <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
-                      Enjoy my work?
-                    </p>
-                    <p className="text-xs text-[#B38F00] font-body">
-                      Buy me a coffee ☕ →
-                    </p>
-                  </div>
-                </div>
-              </a>
-            )}
+            </motion.div>
           </div>
 
-          {/* Right Column: Interactive Menu Order Form (col-span-8) */}
-          <div className="md:col-span-8 h-full text-left">
-            <Card variant="flat-primary" className="p-8 h-full">
-              <AnimatePresence mode="wait">
-                {!isSubmitted ? (
-                  /* THE FORM */
-                  <motion.form
-                    key="contact-form"
-                    onSubmit={(e): void => {
-                      void handleSubmit(onSubmit)(e);
-                    }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="space-y-5"
+          {/* Right: Contact Info + Sponsor */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Quick Contact Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={isVisible ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: 0.5 }}
+            >
+              <Card variant="flat-primary" className="p-6">
+                <h3 className="font-display font-black text-lg text-light-text dark:text-dark-text mb-4 flex items-center gap-2">
+                  <span>Quick Reach 🍳</span>
+                </h3>
+
+                <div className="space-y-4">
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-light-bg dark:bg-dark-bg hover:bg-primary-50 dark:hover:bg-dark-surface transition-colors group"
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      {/* Name input */}
-                      <div className="flex flex-col">
-                        <label htmlFor="name" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Customer Name:
-                        </label>
-                        <input
-                          id="name"
-                          type="text"
-                          placeholder="Aman Thakur"
-                          {...register('name')}
-                          className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm ${
-                            errors.name !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
-                          }`}
-                        />
-                        {errors.name !== undefined && (
-                          <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" />
-                            {errors.name.message}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Email input */}
-                      <div className="flex flex-col">
-                        <label htmlFor="email" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Inbox Address:
-                        </label>
-                        <input
-                          id="email"
-                          type="email"
-                          placeholder="client@bistro.com"
-                          {...register('email')}
-                          className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm ${
-                            errors.email !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
-                          }`}
-                        />
-                        {errors.email !== undefined && (
-                          <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" />
-                            {errors.email.message}
-                          </span>
-                        )}
-                      </div>
+                    <div className="w-8 h-8 rounded-lg bg-primary-400/10 flex items-center justify-center group-hover:bg-primary-400/20 transition-colors">
+                      <Mail className="w-4 h-4 text-primary-400" />
                     </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      {/* Service select drop-down */}
-                      <div className="flex flex-col">
-                        <label htmlFor="serviceType" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Select Service:
-                        </label>
-                        <select
-                          id="serviceType"
-                          {...register('serviceType')}
-                          className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm ${
-                            errors.serviceType !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
-                          }`}
-                        >
-                          <option value="">-- Choose Service --</option>
-                          <option value="fullstack">Fullstack Web Development 💻</option>
-                          <option value="ai-consulting">AI & Architecture Consulting 🧠</option>
-                          <option value="content-creation">Content & Creator Strategy 📸</option>
-                          <option value="freelance">Custom Freelance Project 🍲</option>
-                        </select>
-                        {errors.serviceType !== undefined && (
-                          <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" />
-                            {errors.serviceType.message}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Subject input */}
-                      <div className="flex flex-col">
-                        <label htmlFor="subject" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                          Project Title:
-                        </label>
-                        <input
-                          id="subject"
-                          type="text"
-                          placeholder="Freelance dashboard for a fintech startup"
-                          {...register('subject')}
-                          className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm ${
-                            errors.subject !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
-                          }`}
-                        />
-                        {errors.subject !== undefined && (
-                          <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" />
-                            {errors.subject.message}
-                          </span>
-                        )}
-                      </div>
+                    <div>
+                      <p className="text-[10px] font-display font-black text-primary-400 uppercase">Email</p>
+                      <p className="font-body font-bold text-sm text-light-text dark:text-dark-text break-all">
+                        {siteConfig.email}
+                      </p>
                     </div>
+                  </a>
 
-                    {/* Message textarea */}
-                    <div className="flex flex-col">
-                      <label htmlFor="message" className="text-xs font-display font-black text-light-text dark:text-dark-text mb-1 uppercase">
-                        Cooking Instructions:
-                      </label>
-                      <textarea
-                        id="message"
-                        rows={4}
-                        placeholder="I need a React dashboard with Spring Boot backend, handling 10k daily requests and a smooth dark-mode toggle..."
-                        {...register('message')}
-                        className={`px-4 py-2.5 rounded-xl border-2 bg-white dark:bg-dark-bg text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm resize-none ${
-                          errors.message !== undefined ? 'border-red-500 focus:border-red-500' : 'border-light-text dark:border-dark-text'
-                        }`}
-                      />
-                      {errors.message !== undefined && (
-                        <span className="text-red-500 text-[10px] font-bold mt-1 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
-                          {errors.message.message}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Submit button */}
-                    <div className="pt-2">
-                      <Button
-                        type="submit"
-                        isLoading={isSubmitting}
-                        className="w-full py-3 text-sm flex items-center justify-center gap-2"
-                      >
-                        Submit Project Request <Send className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </motion.form>
-                ) : (
-                  /* SUCCESS MESSAGE */
-                  <motion.div
-                    key="success-message"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-                    className="flex flex-col items-center justify-center py-12 text-center"
+                  <a
+                    href={whatsAppUrl('', '')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-[#25D366]/5 hover:bg-[#25D366]/10 transition-colors group"
                   >
-                    <div className="w-16 h-16 rounded-full bg-secondary-100 text-secondary-955 flex items-center justify-center border-2 border-light-text dark:border-dark-text shadow-flat-light dark:shadow-flat-dark mb-6">
-                      <CheckCircle2 className="w-8 h-8 text-secondary-500" />
+                    <div className="w-8 h-8 rounded-lg bg-[#25D366]/10 flex items-center justify-center group-hover:bg-[#25D366]/20 transition-colors">
+                      <MessageCircle className="w-4 h-4 text-[#25D366]" />
                     </div>
-                    
-                    <h3 className="font-display font-black text-2xl text-light-text dark:text-dark-text tracking-tight">
-                      Project Request Received! 🚀
-                    </h3>
-                    <p className="mt-3 text-sm text-light-muted dark:text-dark-muted font-body leading-relaxed max-w-md">
-                      Thanks for reaching out! I'll review your project details and get back to you within 24 hours with a plan and timeline. Check your inbox for a response!
-                    </p>
+                    <div>
+                      <p className="text-[10px] font-display font-black text-[#25D366] uppercase">WhatsApp</p>
+                      <p className="font-body font-bold text-sm text-light-text dark:text-dark-text">
+                        +{siteConfig.phone.slice(0, 2)} {siteConfig.phone.slice(2, 7)} {siteConfig.phone.slice(7)}
+                      </p>
+                    </div>
+                  </a>
 
-                    <Button
-                      onClick={(): void => { setIsSubmitted(false); }}
-                      variant="outline"
-                      className="mt-8 font-display font-black text-xs"
-                    >
-                      Submit Another Request
-                    </Button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Card>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-light-bg dark:bg-dark-bg">
+                    <div className="w-8 h-8 rounded-lg bg-primary-400/10 flex items-center justify-center">
+                      <Clock className="w-4 h-4 text-primary-400" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-display font-black text-primary-400 uppercase">Active Hours</p>
+                      <p className="font-body font-bold text-sm text-light-text dark:text-dark-text">
+                        9:00 AM – 7:00 PM IST
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Sponsor Card */}
+            {siteConfig.sponsorUrl !== undefined && (
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.7 }}
+              >
+                <a
+                  href={siteConfig.sponsorUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block"
+                >
+                  <Card variant="borderless" className="p-5 border-2 border-[#FFDD00] bg-[#FFDD00]/10 hover:bg-[#FFDD00]/20 transition-all duration-200 hover:-translate-y-0.5">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#FFDD00]/20 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                        <Coffee className="w-6 h-6 text-[#B38F00]" />
+                      </div>
+                      <div>
+                        <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                          Enjoy my work?
+                        </p>
+                        <p className="text-xs text-[#B38F00] font-body">
+                          Buy me a coffee ☕ →
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                </a>
+              </motion.div>
+            )}
           </div>
         </div>
 
@@ -329,4 +244,5 @@ export const Contact: FC = () => {
     </section>
   );
 };
+
 export default Contact;

@@ -4,14 +4,15 @@ export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
   title: 'Aman Thakur | Developer & Content Creator',
   tagline: 'Serving hot, freshly-baked code 💻 and exploring delicious street-food journeys 🍳',
-  email: '099amanthakur1@gmail.com', // Professional placeholder
+  email: '099amanthakur1@gmail.com',
+  phone: '917762021493',
   socials: {
     github: 'https://github.com/jhonsnow456',
     instagram: 'https://www.instagram.com/hey.amanthakur/',
-    linkedin: 'https://www.linkedin.com/in/aman--thakur/', // Typical path
+    linkedin: 'https://www.linkedin.com/in/aman--thakur/',
   },
   instaHandle: 'yeh.safar.swaad.ka',
-  sponsorUrl: 'https://www.buymeacoffee.com/hey.amanthakur', // TODO: replace with actual Buy Me a Coffee link
+  sponsorUrl: 'https://www.buymeacoffee.com/hey.amanthakur',
 } as const;
 
 export const navLinks: readonly INavLink[] = [

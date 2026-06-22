@@ -62,6 +62,7 @@ export interface ISiteConfig {
   readonly title: string;
   readonly tagline: string;
   readonly email: string;
+  readonly phone: string;
   readonly socials: Readonly<Record<string, string>>;
   readonly instaHandle: string;
   readonly sponsorUrl?: string;
