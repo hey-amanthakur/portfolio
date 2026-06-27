@@ -56,10 +56,10 @@ export const Contact: FC = () => {
             </div>
           </motion.div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            Let's Build Something <span className="text-[#25D366]">Together</span> 🚀
+            Let&apos;s build something <span className="text-[#25D366]">real</span>.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Pick what you need below — it opens WhatsApp with a pre-filled message. No forms, no waiting.
+            Pick a service below — it opens WhatsApp with a pre-filled brief. No forms, no waiting.
           </p>
         </div>
 
@@ -154,7 +154,7 @@ export const Contact: FC = () => {
             >
               <Card variant="flat-primary" className="p-6">
                 <h3 className="font-display font-black text-lg text-light-text dark:text-dark-text mb-4 flex items-center gap-2">
-                  <span>Quick Reach 🍳</span>
+                  <span>Direct contact</span>
                 </h3>
 
                 <div className="space-y-4">

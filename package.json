@@ -7,6 +7,7 @@
     "scrape:instagram": "npx tsx scripts/scrape-instagram.ts",
     "scrape:instagram:refresh": "npx tsx scripts/scrape-instagram.ts --limit=12",
     "prebuild": "npx tsx scripts/scrape-instagram.ts || true",
+    "start": "vite --host 0.0.0.0 --port 3000",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",

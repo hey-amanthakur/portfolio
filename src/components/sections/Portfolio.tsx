@@ -43,11 +43,14 @@ export const Portfolio: FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+            <span>selected work</span>
+          </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            Crafted Systems <span className="text-primary-400">💻</span>
+            Things I've shipped.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Thoroughly engineered software architectures, custom REST modules, and assistive artificial intelligence systems.
+            Production systems, hackathon winners, and the occasional weekend experiment — code that earns its keep.
           </p>
         </div>
 
@@ -56,8 +59,11 @@ export const Portfolio: FC = () => {
           <div className="flex items-center gap-3 mb-6">
             <GitHubIcon className="w-5 h-5 text-light-text dark:text-dark-text" />
             <h3 className="font-display font-black text-xl sm:text-2xl text-light-text dark:text-dark-text tracking-tight">
-              Pinned on GitHub <span className="text-primary-400">📌</span>
+              Pinned repositories
             </h3>
+            <span className="font-mono text-xs text-light-muted dark:text-dark-muted ml-auto hidden sm:inline">
+              @jhonsnow456
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -132,8 +138,8 @@ export const Portfolio: FC = () => {
         {/* ── Divider ── */}
         <div className="flex items-center gap-4 mb-12">
           <div className="flex-1 h-px bg-light-border dark:bg-dark-border" />
-          <span className="text-xs font-display font-bold text-light-muted dark:text-dark-muted uppercase tracking-widest">
-            Showcase Projects
+          <span className="text-xs font-mono font-bold text-light-muted dark:text-dark-muted uppercase tracking-widest">
+            // case studies
           </span>
           <div className="flex-1 h-px bg-light-border dark:bg-dark-border" />
         </div>
@@ -164,10 +170,10 @@ export const Portfolio: FC = () => {
             </span>
             <input
               type="text"
-              placeholder="Search code recipes..."
+              placeholder="Search projects, tech stacks…"
               value={searchQuery}
               onChange={(e): void => { setSearchQuery(e.target.value); }}
-              className="w-full pl-10 pr-4 py-2 rounded-xl border-2 border-light-text dark:border-dark-text bg-white dark:bg-dark-surface text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-body text-sm font-semibold shadow-sm"
+              className="w-full pl-10 pr-4 py-2 rounded-xl border-2 border-light-text dark:border-dark-text bg-white dark:bg-dark-surface text-light-text dark:text-dark-text focus:outline-none focus:border-primary-400 font-mono text-sm shadow-sm"
             />
           </div>
         </div>
@@ -207,8 +213,8 @@ export const Portfolio: FC = () => {
                     
                     {/* Corner Tag */}
                     {project.featured && (
-                      <span className="absolute top-4 left-4 bg-secondary-400 text-light-text border border-light-text px-2.5 py-0.5 rounded-full font-display font-extrabold text-[10px] uppercase shadow-sm">
-                        Featured 🌟
+                      <span className="absolute top-4 left-4 bg-secondary-400 text-light-text border border-light-text px-2.5 py-0.5 rounded-full font-mono font-bold text-[10px] uppercase shadow-sm">
+                        featured
                       </span>
                     )}
                   </div>
@@ -278,8 +284,8 @@ export const Portfolio: FC = () => {
             <div className="w-16 h-16 rounded-full bg-light-bg dark:bg-dark-bg border-2 border-dashed border-light-text dark:border-dark-text flex items-center justify-center mx-auto mb-4">
               <Layers className="w-6 h-6 text-light-muted dark:text-dark-muted" />
             </div>
-            <p className="font-display font-bold text-lg text-light-text dark:text-dark-text">No code recipes found!</p>
-            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try searching for other tags like 'React' or 'Java'</p>
+            <p className="font-display font-bold text-lg text-light-text dark:text-dark-text">No matching projects.</p>
+            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try a broader tag — 'React', 'Java', or 'AI'.</p>
           </motion.div>
         )}
 

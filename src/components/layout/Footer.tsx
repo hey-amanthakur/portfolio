@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { Heart } from 'lucide-react';
 import { siteConfig } from '@/data/content';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
 
@@ -15,10 +14,9 @@ export const Footer: FC = () => {
           <p className="font-display font-bold text-light-text dark:text-dark-text text-lg">
             Aman Thakur<span className="text-primary-400">.</span>
           </p>
-          <p className="text-sm text-light-muted dark:text-dark-muted mt-1 flex items-center justify-center md:justify-start gap-1">
-            Cooked with
-            <Heart className="w-3.5 h-3.5 text-primary-400 fill-current animate-pulse" />
-            and code in India. © {currentYear}
+          <p className="text-sm text-light-muted dark:text-dark-muted mt-1 flex items-center justify-center md:justify-start gap-1.5 font-mono">
+            <span className="text-primary-400">$</span>
+            <span>built with React + TypeScript · © {currentYear}</span>
           </p>
         </div>
 

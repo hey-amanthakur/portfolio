@@ -50,6 +50,7 @@ export default {
       fontFamily: {
         display: ['"Plus Jakarta Sans"', 'sans-serif'],
         body: ['Outfit', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       animation: {
         'bounce-slow': 'bounce 3s infinite',

@@ -36,16 +36,16 @@ export const Services: FC = () => {
     >
       <div className="max-w-6xl mx-auto px-6">
         
-        {/* Section Header styled like a restaurant banner */}
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-primary-100 text-primary-900 dark:bg-primary-900 dark:text-primary-200 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
-            Today's Specials
-          </span>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">
-            The Freelance Menu <span className="text-primary-400">🍽️</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+            <span>services</span>
+          </div>
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+            What I build for clients.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Chef Aman's gourmet offerings. Served fresh, scalable, and packed with flavor.
+            Pick a track — every engagement is scoped, milestoned, and shipped with strict typing and tests.
           </p>
         </div>
 
@@ -71,8 +71,8 @@ export const Services: FC = () => {
                 >
                   {/* Chef Special Tag */}
                   {isChefSpecial && (
-                    <span className="absolute top-4 right-4 bg-secondary-400 text-light-text px-2.5 py-0.5 rounded-full border border-light-text font-display font-extrabold text-[10px] uppercase shadow-sm">
-                      Chef's Special 🌟
+                    <span className="absolute top-4 right-4 bg-secondary-400 text-light-text px-2.5 py-0.5 rounded-full border border-light-text font-mono font-bold text-[10px] uppercase shadow-sm">
+                      most-booked
                     </span>
                   )}
 
@@ -100,8 +100,8 @@ export const Services: FC = () => {
 
                   {/* "Ingredients" Section */}
                   <div className="w-full mt-6 pt-6 border-t-2 border-light-border dark:border-dark-border text-left">
-                    <span className="text-xs font-display font-extrabold text-light-muted dark:text-dark-muted block mb-2 uppercase tracking-wide">
-                      Key Ingredients:
+                    <span className="text-[10px] font-mono text-light-muted dark:text-dark-muted block mb-2 uppercase tracking-widest">
+                      // stack
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {ingredients.map((ing) => (
@@ -127,7 +127,7 @@ export const Services: FC = () => {
                       className="mt-6 w-full py-2 flex items-center justify-center gap-2 border-2 border-light-text dark:border-dark-text font-display font-black text-xs rounded-xl bg-white dark:bg-dark-surface hover:bg-primary-50 dark:hover:bg-dark-bg text-light-text dark:text-dark-text transition-colors shadow-sm"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      Add to Project Order
+                      Start a project
                     </button>
                   </div>
 

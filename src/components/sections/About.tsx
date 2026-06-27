@@ -25,11 +25,14 @@ export const About: FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+            <span>// the path so far</span>
+          </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            My Journey So Far <span className="text-primary-400">🗺️</span>
+            From hackathon hall <span className="text-primary-400">→</span> production stack.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            A playful balancing act between complex backend microservices and mouth-watering street food exploration.
+            Three years of shipping software, winning hackathons, and — somewhere in between — running a food creator account.
           </p>
         </div>
 
