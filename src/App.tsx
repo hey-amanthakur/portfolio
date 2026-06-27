@@ -27,9 +27,12 @@ const LazyContact = lazy(
 
 export const App: FC = () => {
   return (
-    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300 antialiased selection:bg-primary-300/40">
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300 antialiased dark:bg-grid-pattern-dark relative dark:crt-flicker">
+      {/* CRT scanline overlay — visible only in dark/terminal mode */}
+      <div className="crt-overlay hidden dark:block" aria-hidden="true" />
+
       <Navbar />
-      <main>
+      <main data-testid="main-terminal" className="relative z-10">
         <Hero />
         <About />
         <Services />

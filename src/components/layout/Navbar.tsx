@@ -1,9 +1,20 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 import { navLinks, siteConfig } from '@/data/content';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+
+// Map nav links to fake file extensions for the "tab" feel
+const fileExt: Record<string, string> = {
+  Home: 'hero.tsx',
+  About: 'about.md',
+  Services: 'services.json',
+  Work: 'projects/',
+  Testimonials: 'reviews.log',
+  'Off-Hours': 'side-quest.md',
+  'Hire Me': 'contact.sh',
+};
 
 export const Navbar: FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -14,15 +25,7 @@ export const Navbar: FC = () => {
     } catch {
       // Safe fallback
     }
-
-    try {
-      if (typeof window !== 'undefined') {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-    } catch {
-      // Safe fallback
-    }
-    return 'light';
+    return 'dark';
   });
 
   const sectionIds = useMemo(
@@ -54,45 +57,76 @@ export const Navbar: FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md border-b-2 border-light-border dark:border-dark-border transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Playful Brand Logo */}
-        <a 
-          href="#home" 
-          className="flex items-center gap-2.5 group font-display font-bold text-xl text-light-text dark:text-dark-text"
+    <nav
+      data-testid="navbar"
+      className="fixed top-0 left-0 w-full z-50 bg-light-bg/85 dark:bg-dark-bg/90 backdrop-blur-md border-b border-light-border dark:border-crt-dim transition-colors duration-300"
+    >
+      {/* Top window-chrome bar (dark-only) */}
+      <div className="hidden dark:flex items-center gap-2 px-5 h-7 border-b border-crt-dim bg-dark-surface/60">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+        </div>
+        <span className="font-mono text-[11px] text-phosphor-dim ml-2 truncate">
+          aman@portfolio: ~ — zsh — {siteConfig.name.toLowerCase().replace(' ', '_')}
+        </span>
+        <span className="ml-auto font-mono text-[10px] text-phosphor-dim hidden sm:inline">
+          120×40
+        </span>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
+        {/* Brand */}
+        <a
+          href="#home"
+          className="flex items-center gap-2 group"
+          data-testid="navbar-brand"
         >
-          <div className="relative w-9 h-9 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center bg-primary-400 group-hover:rotate-12 transition-transform duration-200 shadow-sm">
-            <Terminal className="w-5 h-5 text-white" />
-          </div>
-          <span className="tracking-tight hover:text-primary-400 transition-colors font-mono">
-            {siteConfig.name.toLowerCase().replace(' ', '_')}
-            <span className="text-primary-400 font-black animate-pulse">_</span>
+          <span className="font-mono text-sm">
+            <span className="text-primary-400">~/</span>
+            <span className="dark:text-dark-text text-light-text font-semibold">aman_thakur</span>
+            <span className="dark:text-phosphor-bright text-primary-400 animate-blink">_</span>
           </span>
         </a>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop "tabs" */}
+        <div className="hidden lg:flex items-center gap-0.5">
           {navLinks.map((link) => {
-            const isContact = link.href === '#contact';
             const isActive = activeId === link.href.replace('#', '');
-            
+            const isContact = link.href === '#contact';
+            const ext = fileExt[link.label] ?? `${link.label.toLowerCase()}.md`;
+
+            if (isContact) {
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  data-testid={`navlink-${link.label.toLowerCase().replace(' ', '-')}`}
+                  className="ml-3 flex items-center gap-2 font-mono text-sm px-3 py-1.5 border border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-dark-bg transition-colors duration-150"
+                >
+                  <span className="text-primary-400 group-hover:text-dark-bg">$</span>
+                  ./hire-me.sh
+                </a>
+              );
+            }
+
             return (
               <a
                 key={link.label}
                 href={link.href}
-                className={`font-display font-semibold transition-all relative ${
-                  isContact
-                    ? 'px-4 py-1.5 rounded-full border-2 border-light-text dark:border-dark-text bg-secondary-400 hover:bg-secondary-300 text-light-text shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5'
-                    : isActive
-                    ? 'text-primary-400 font-bold scale-105'
-                    : 'text-light-text/75 dark:text-dark-text/75 hover:text-primary-400 dark:hover:text-primary-300'
+                data-testid={`navlink-${link.label.toLowerCase().replace(' ', '-')}`}
+                className={`relative font-mono text-[13px] px-3 py-1.5 transition-colors ${
+                  isActive
+                    ? 'dark:text-phosphor-bright text-primary-400'
+                    : 'dark:text-phosphor-dim text-light-muted hover:dark:text-dark-text hover:text-light-text'
                 }`}
               >
-                {link.label}
-                {isActive && !isContact && (
+                {ext}
+                {isActive && (
                   <motion.span
                     layoutId="activeIndicator"
-                    className="absolute -bottom-1 left-0 w-full h-1 bg-primary-400 rounded-full"
+                    className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-primary-400 dark:bg-crt-bright dark:shadow-crt-glow"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -100,61 +134,66 @@ export const Navbar: FC = () => {
             );
           })}
 
-          {/* Theme Toggle Button */}
+          {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            aria-label="Toggle active theme"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all duration-150 text-light-text dark:text-dark-text"
+            data-testid="theme-toggle"
+            aria-label="Toggle theme"
+            className="ml-3 w-9 h-9 flex items-center justify-center border border-light-border dark:border-crt-dim text-light-muted dark:text-phosphor-dim hover:dark:text-phosphor-bright hover:dark:border-crt-bright hover:text-light-text transition-colors"
           >
-            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
+            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
           </button>
         </div>
 
-        {/* Mobile Buttons */}
-        <div className="flex md:hidden items-center gap-4">
-          {/* Mobile Theme Toggle */}
+        {/* Mobile buttons */}
+        <div className="flex lg:hidden items-center gap-2">
           <button
             onClick={toggleTheme}
-            aria-label="Toggle active theme mobile"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 text-light-text dark:text-dark-text"
+            aria-label="Toggle theme mobile"
+            className="w-9 h-9 flex items-center justify-center border border-light-border dark:border-crt-dim text-light-muted dark:text-phosphor-dim hover:dark:text-phosphor-bright"
           >
-            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
+            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
           </button>
-
-          {/* Mobile Hamburger */}
           <button
             onClick={(): void => { setIsOpen(!isOpen); }}
-            aria-label="Open mobile navigation drawer"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark text-light-text dark:text-dark-text"
+            aria-label="Toggle nav drawer"
+            className="w-9 h-9 flex items-center justify-center border border-light-border dark:border-crt-dim text-light-muted dark:text-phosphor-dim hover:dark:text-phosphor-bright"
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden w-full bg-light-surface dark:bg-dark-surface border-b-2 border-light-border dark:border-dark-border overflow-hidden"
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            className="lg:hidden w-full bg-light-surface dark:bg-dark-surface border-b border-light-border dark:border-crt-dim overflow-hidden"
           >
-            <div className="flex flex-col px-6 py-8 gap-5">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={handleLinkClick}
-                  className={`font-display font-bold text-lg text-light-text dark:text-dark-text py-1.5 border-b border-light-border dark:border-dark-border last:border-none hover:text-primary-400 transition-colors ${
-                    activeId === link.href.replace('#', '') ? 'text-primary-400 pl-2 border-l-4 border-l-primary-400 border-b-0' : ''
-                  }`}
-                >
-                  {link.label}
-                </a>
-              ))}
+            <div className="flex flex-col px-5 py-4 gap-2 font-mono text-sm">
+              {navLinks.map((link) => {
+                const isActive = activeId === link.href.replace('#', '');
+                const ext = fileExt[link.label] ?? `${link.label.toLowerCase()}.md`;
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={handleLinkClick}
+                    className={`py-1.5 flex items-center gap-2 ${
+                      isActive
+                        ? 'dark:text-phosphor-bright text-primary-400'
+                        : 'dark:text-phosphor-dim text-light-muted'
+                    }`}
+                  >
+                    <span className="text-primary-400">▸</span>
+                    {ext}
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         )}

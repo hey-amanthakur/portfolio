@@ -1,20 +1,17 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
+import { Heart, MessageCircle, ExternalLink } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data/content';
 import scrapedPosts from '@/scraped/instagram-posts.json';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
-import { InstagramIcon } from '@components/icons';
+import { TerminalSection } from '@components/ui/TerminalSection';
 
-// Use scraped data if it exists and has real posts; fall back to hardcoded content.
 const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
 const displayPosts: readonly IInstagramPost[] = hasScrapedData
   ? scrapedPosts
   : instagramPosts;
 
-// Fallback image set served from /public/instagram — guarantees images render
-// even if a scraped CDN URL ever leaks back into the JSON.
 const LOCAL_FALLBACKS = [
   '/instagram/post-1.jpg',
   '/instagram/post-2.jpg',
@@ -27,9 +24,7 @@ const LOCAL_FALLBACKS = [
 ] as const;
 
 const resolveImage = (raw: string, index: number): string => {
-  // Treat already-local paths as-is
   if (raw.startsWith('/') || raw.startsWith('blob:') || raw.startsWith('data:')) return raw;
-  // Instagram CDN urls expire and block hot-linking — replace with local snapshot
   if (raw.includes('cdninstagram.com') || raw.includes('fbcdn.net') || raw.includes('instagram.com')) {
     return LOCAL_FALLBACKS[index % LOCAL_FALLBACKS.length] ?? LOCAL_FALLBACKS[0]!;
   }
@@ -37,131 +32,94 @@ const resolveImage = (raw: string, index: number): string => {
 };
 
 export const InstagramFeed: FC = () => {
-  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });
 
   return (
-    <section
-      ref={ref}
+    <TerminalSection
       id="swaad-feed"
-      aria-label="Off-hours side project — food diary on Instagram"
-      className="py-24 bg-light-bg dark:bg-dark-bg transition-colors duration-300 relative bg-grid-pattern-light dark:bg-grid-pattern-dark"
+      command={`curl -s instagram.com/${siteConfig.instaHandle} | jq '.posts'`}
+      ariaLabel="Instagram side-project feed"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* Section header — framed as a side project */}
-        <div className="max-w-3xl mx-auto mb-14 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E1306C]" />
-            <span>Side project · 02</span>
-          </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            Off the keyboard,
-            <br />
-            <span className="text-[#E1306C]">I chase street food.</span>
-          </h2>
-          <p className="mt-5 text-light-muted dark:text-dark-muted font-body text-base sm:text-lg leading-relaxed">
-            <span className="font-mono text-light-text dark:text-dark-text">@{siteConfig.instaHandle}</span> is my Pune-based food diary — a weekly hunt for hidden gems, legendary thalis, and unreasonably good street snacks. It keeps the right-brain warm between sprints.
-          </p>
-        </div>
+      <div ref={ref}>
+        <p className="font-mono text-xs dark:text-phosphor-dim text-light-muted mb-1">
+          HTTP/2 200 · content-type: application/json · cached: 5m ago
+        </p>
+        <p className="font-mono text-xs dark:text-phosphor-amber text-primary-400 mb-5">
+          → side project · pune food diary · @{siteConfig.instaHandle}
+        </p>
 
-        {/* Polaroid Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {displayPosts.map((post, index) => {
             const safeImage = resolveImage(post.imageUrl, index);
             return (
-              <motion.div
+              <motion.a
                 key={post.id}
-                initial={{ opacity: 0, y: 30 }}
+                href={post.postUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid={`insta-post-${post.id}`}
+                initial={{ opacity: 0, y: 12 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.07, ease: [0.34, 1.4, 0.64, 1] }}
+                transition={{ duration: 0.4, delay: index * 0.06 }}
+                className="group relative block aspect-square overflow-hidden border dark:border-crt-dim border-light-border hover:dark:border-crt-bright hover:dark:shadow-crt-glow transition-all"
               >
-                <a
-                  href={post.postUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid={`insta-post-${post.id}`}
-                  className="group relative block rounded-2xl overflow-hidden border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface hover:border-[#E1306C] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <div className="aspect-square bg-gray-100 dark:bg-dark-bg overflow-hidden relative">
-                    <img
-                      src={safeImage}
-                      alt={post.caption.substring(0, 80)}
-                      width="400"
-                      height="400"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e): void => {
-                        const img = e.currentTarget as HTMLImageElement;
-                        const fallback = LOCAL_FALLBACKS[index % LOCAL_FALLBACKS.length] ?? LOCAL_FALLBACKS[0]!;
-                        if (img.src !== window.location.origin + fallback) {
-                          img.src = fallback;
-                        }
-                      }}
-                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                    />
-                    
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-                      <div className="flex items-center gap-4 text-xs font-mono mb-2">
-                        <span className="flex items-center gap-1">
-                          <Heart className="w-3.5 h-3.5 fill-current text-[#E1306C]" />
-                          {post.likes.toLocaleString()}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MessageCircle className="w-3.5 h-3.5" />
-                          {post.comments.toLocaleString()}
-                        </span>
-                        <span className="ml-auto flex items-center gap-1 text-[#E1306C]">
-                          <ExternalLink className="w-3 h-3" />
-                          open
-                        </span>
-                      </div>
-                      <p className="text-[11px] font-body line-clamp-3 leading-snug opacity-90">
-                        {post.caption}
-                      </p>
-                    </div>
+                <img
+                  src={safeImage}
+                  alt={post.caption.substring(0, 80)}
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e): void => {
+                    const img = e.currentTarget as HTMLImageElement;
+                    const fallback = LOCAL_FALLBACKS[index % LOCAL_FALLBACKS.length] ?? LOCAL_FALLBACKS[0]!;
+                    if (!img.src.endsWith(fallback)) img.src = fallback;
+                  }}
+                  className="w-full h-full object-cover dark:opacity-75 dark:group-hover:opacity-100 transition-opacity duration-300 dark:saturate-[1.1]"
+                />
+
+                {/* Corner index */}
+                <span className="absolute top-1.5 left-1.5 font-mono text-[10px] dark:text-phosphor-bright text-light-text bg-black/65 px-1.5 py-0.5">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 font-mono">
+                  <div className="flex items-center gap-3 text-[11px] dark:text-phosphor-bright text-white mb-1">
+                    <span className="flex items-center gap-1">
+                      <Heart className="w-3 h-3" />
+                      {post.likes}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MessageCircle className="w-3 h-3" />
+                      {post.comments}
+                    </span>
+                    <ExternalLink className="w-3 h-3 ml-auto" />
                   </div>
-                </a>
-              </motion.div>
+                  <p className="text-[10px] text-white/85 line-clamp-3 leading-snug">
+                    {post.caption}
+                  </p>
+                </div>
+              </motion.a>
             );
           })}
         </div>
 
-        {/* Footer CTA strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-14 flex flex-col md:flex-row items-center justify-between gap-5 px-6 py-5 rounded-2xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF] flex items-center justify-center">
-              <InstagramIcon className="w-6 h-6 text-white" />
-            </div>
-            <div className="text-left">
-              <p className="font-display font-black text-base text-light-text dark:text-dark-text leading-tight">
-                Hungry for more reels?
-              </p>
-              <p className="font-mono text-xs text-light-muted dark:text-dark-muted mt-0.5 flex items-center gap-1">
-                <MapPin className="w-3 h-3" /> Pune · weekly drops
-              </p>
-            </div>
-          </div>
-          
+        <div className="mt-6 font-mono text-xs dark:text-phosphor-dim text-light-muted">
+          <span className="dark:text-phosphor-amber text-primary-400">›</span>{' '}
+          {displayPosts.length} posts returned ·{' '}
           <a
-            data-testid="insta-follow-cta"
             href={siteConfig.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg hover:opacity-90 transition-opacity"
+            data-testid="insta-follow-cta"
+            className="dark:text-phosphor-bright text-primary-400 underline-offset-4 hover:underline"
           >
-            <InstagramIcon className="w-4 h-4" />
-            Follow @{siteConfig.instaHandle}
+            follow @{siteConfig.instaHandle} →
           </a>
-        </motion.div>
-
+        </div>
       </div>
-    </section>
+    </TerminalSection>
   );
 };
 export default InstagramFeed;

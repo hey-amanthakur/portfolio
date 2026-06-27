@@ -1,144 +1,102 @@
-import type { FC, ComponentType, SVGProps } from 'react';
+import type { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Cpu, ChefHat, ShoppingBag } from 'lucide-react';
 import { services } from '@/data/content';
-import { Card } from '@components/ui/Card';
-import { Badge } from '@components/ui/Badge';
+import { TerminalSection } from '@components/ui/TerminalSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
-type IconKey = 'Terminal' | 'Cpu' | 'ChefHat';
-
-const iconMap: Readonly<Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>>> = {
-  Terminal,
-  Cpu,
-  ChefHat,
-};
+const stackByService: Record<string, readonly string[]> = {
+  fullstack: ['React 19', 'TypeScript', 'Spring Boot 3', 'Java 21', 'Postgres', 'Vitest', 'CI/CD'],
+  'ai-consulting': ['LLMs', 'RAG', 'LangChain', 'Vector DBs', 'Prompt Eng.', 'OpenAI', 'Agents'],
+  'content-creation': ['Storytelling', 'Reels', 'Hook Writing', 'Editing', 'Analytics'],
+} as const;
 
 export const Services: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
-  const getIngredients = (serviceId: string): readonly string[] => {
-    if (serviceId === 'fullstack') {
-      return ['React 18', 'Spring Boot 3', 'Java 21', 'TypeScript', 'Jest/Vitest', 'APIs'] as const;
-    }
-    if (serviceId === 'ai-consulting') {
-      return ['LLMs', 'Prompt Engineering', 'RAG Search', 'LangChain', 'AI Agents', 'OpenAI'] as const;
-    }
-    return ['Storytelling', 'Reels Strategy', 'Hook Writing', 'Video Editing', 'Analytics'] as const;
-  };
-
   return (
-    <section
-      ref={ref}
+    <TerminalSection
       id="services"
-      aria-label="Aman Thakur Freelance Services Menu"
-      className="py-24 bg-light-bg dark:bg-dark-bg transition-colors duration-300 relative bg-grid-pattern-light dark:bg-grid-pattern-dark"
+      command="ls -lh ./services/"
+      ariaLabel="Services list"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
-            <span>services</span>
-          </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            What I build for clients.
-          </h2>
-          <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Pick a track — every engagement is scoped, milestoned, and shipped with strict typing and tests.
-          </p>
+      <div ref={ref} className="font-mono text-sm">
+        <p className="text-xs dark:text-phosphor-dim text-light-muted mb-3">
+          total {services.length} · permissions: <span className="dark:text-phosphor-bright text-primary-400">-rwxr-xr-x</span>
+        </p>
+
+        {/* Header row */}
+        <div className="hidden md:grid grid-cols-12 gap-3 text-[11px] dark:text-phosphor-dim text-light-muted border-b dark:border-crt-dim border-light-border pb-2 mb-3">
+          <div className="col-span-1">type</div>
+          <div className="col-span-3">name</div>
+          <div className="col-span-5">summary</div>
+          <div className="col-span-3 text-right">action</div>
         </div>
 
-        {/* Menu Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((item, index) => {
-            const IconComponent = iconMap[item.icon as IconKey];
-            const ingredients = getIngredients(item.id);
-            const isChefSpecial = item.id === 'fullstack';
-            
+        <ul className="space-y-5">
+          {services.map((s, i) => {
+            const isPrimary = s.id === 'fullstack';
+            const stack = stackByService[s.id] ?? [];
             return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
+              <motion.li
+                key={s.id}
+                initial={{ opacity: 0, y: 8 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.15, ease: [0.34, 1.56, 0.64, 1] }}
-                className="h-full flex"
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="dark:border-l-2 dark:border-crt-dim dark:hover:border-crt-bright dark:hover:shadow-crt-glow border-l-2 border-light-border pl-4 transition-all duration-200 group"
               >
-                <Card
-                  variant={isChefSpecial ? 'flat-primary' : 'default'}
-                  hoverEffect="tilt"
-                  className="p-8 flex flex-col items-start justify-between w-full h-full relative"
-                >
-                  {/* Chef Special Tag */}
-                  {isChefSpecial && (
-                    <span className="absolute top-4 right-4 bg-secondary-400 text-light-text px-2.5 py-0.5 rounded-full border border-light-text font-mono font-bold text-[10px] uppercase shadow-sm">
-                      most-booked
+                <div className="md:grid md:grid-cols-12 md:gap-3 md:items-baseline flex flex-col">
+                  {/* Type */}
+                  <div className="md:col-span-1">
+                    <span className={`text-xs ${isPrimary ? 'dark:text-phosphor-amber text-primary-400' : 'dark:text-phosphor-dim text-light-muted'}`}>
+                      {isPrimary ? '[★]' : '[ ]'}
                     </span>
-                  )}
+                  </div>
 
-                  <div className="w-full text-left">
-                    {/* Course Category Icon */}
-                    <div 
-                      className={`w-12 h-12 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center shadow-flat-light dark:shadow-flat-dark mb-6 ${
-                        isChefSpecial ? 'bg-secondary-400' : 'bg-primary-100 dark:bg-primary-900/30'
-                      }`}
-                    >
-                      <IconComponent className={`w-6 h-6 ${isChefSpecial ? 'text-light-text' : 'text-primary-400'}`} />
-                    </div>
-
-                    <h3 className="font-display font-black text-2xl text-light-text dark:text-dark-text tracking-tight leading-tight">
-                      {item.title}
+                  {/* Name */}
+                  <div className="md:col-span-3">
+                    <h3 className="dark:text-dark-text text-light-text font-semibold text-base">
+                      {s.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/
                     </h3>
-                    <p className="text-xs font-display font-bold text-primary-400 uppercase tracking-wider mt-1">
-                      {item.tagline}
-                    </p>
-
-                    <p className="mt-4 text-sm text-light-muted dark:text-dark-muted font-body leading-relaxed">
-                      {item.description}
+                    <p className="text-[11px] dark:text-phosphor-amber text-primary-400 mt-0.5">
+                      {s.tagline}
                     </p>
                   </div>
 
-                  {/* "Ingredients" Section */}
-                  <div className="w-full mt-6 pt-6 border-t-2 border-light-border dark:border-dark-border text-left">
-                    <span className="text-[10px] font-mono text-light-muted dark:text-dark-muted block mb-2 uppercase tracking-widest">
-                      // stack
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {ingredients.map((ing) => (
-                        <Badge key={ing} variant="neutral" className="px-2 py-0.5 text-[10px]">
-                          {ing}
-                        </Badge>
-                      ))}
-                    </div>
+                  {/* Summary */}
+                  <div className="md:col-span-5 mt-2 md:mt-0">
+                    <p className="dark:text-phosphor-dim text-light-muted text-[13px] leading-relaxed">
+                      {s.description}
+                    </p>
+                  </div>
 
-                    {/* Order Button Trigger */}
-                    <button
-                      onClick={(): void => {
-                        const el = document.getElementById('contact');
-                        if (el !== null) {
-                          el.scrollIntoView({ behavior: 'smooth' });
-                          // Pre-select service type if active
-                          const selectEl = document.getElementById('serviceType') as HTMLSelectElement | null;
-                          if (selectEl !== null) {
-                            selectEl.value = item.id;
-                          }
-                        }
-                      }}
-                      className="mt-6 w-full py-2 flex items-center justify-center gap-2 border-2 border-light-text dark:border-dark-text font-display font-black text-xs rounded-xl bg-white dark:bg-dark-surface hover:bg-primary-50 dark:hover:bg-dark-bg text-light-text dark:text-dark-text transition-colors shadow-sm"
+                  {/* Action */}
+                  <div className="md:col-span-3 md:text-right mt-3 md:mt-0">
+                    <a
+                      href="#contact"
+                      data-testid={`service-cta-${s.id}`}
+                      className="inline-block text-[12px] px-3 py-1 border dark:border-crt-dim border-light-border dark:text-dark-text text-light-text hover:dark:border-crt-bright hover:dark:text-phosphor-bright hover:dark:shadow-crt-glow transition-all"
                     >
-                      <ShoppingBag className="w-4 h-4" />
-                      Start a project
-                    </button>
+                      $ start
+                    </a>
                   </div>
+                </div>
 
-                </Card>
-              </motion.div>
+                {/* Stack */}
+                <div className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-[11px] dark:text-phosphor-dim text-light-muted">
+                  <span className="dark:text-crt-dim text-light-border">{'└─ stack:'}</span>
+                  {stack.map((tag, idx) => (
+                    <span key={tag} className="flex items-center gap-1">
+                      <span>{tag}</span>
+                      {idx < stack.length - 1 && <span className="dark:text-crt-dim text-light-border">·</span>}
+                    </span>
+                  ))}
+                </div>
+              </motion.li>
             );
           })}
-        </div>
-
+        </ul>
       </div>
-    </section>
+    </TerminalSection>
   );
 };
 export default Services;
