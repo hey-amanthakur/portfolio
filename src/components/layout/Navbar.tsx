@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Menu, X, Terminal, Utensils } from 'lucide-react';
+import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
 import { navLinks, siteConfig } from '@/data/content';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 
@@ -61,13 +61,12 @@ export const Navbar: FC = () => {
           href="#home" 
           className="flex items-center gap-2.5 group font-display font-bold text-xl text-light-text dark:text-dark-text"
         >
-          <div className="relative overflow-hidden w-9 h-9 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center bg-primary-400 group-hover:rotate-12 transition-transform duration-200 shadow-sm">
-            <Terminal className="w-5 h-5 text-white absolute group-hover:opacity-0 transition-opacity duration-150" />
-            <Utensils className="w-5 h-5 text-white absolute opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+          <div className="relative w-9 h-9 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center bg-primary-400 group-hover:rotate-12 transition-transform duration-200 shadow-sm">
+            <Terminal className="w-5 h-5 text-white" />
           </div>
-          <span className="tracking-tight hover:text-primary-400 transition-colors">
-            {siteConfig.name}
-            <span className="text-primary-400 font-black">.</span>
+          <span className="tracking-tight hover:text-primary-400 transition-colors font-mono">
+            {siteConfig.name.toLowerCase().replace(' ', '_')}
+            <span className="text-primary-400 font-black animate-pulse">_</span>
           </span>
         </a>
 

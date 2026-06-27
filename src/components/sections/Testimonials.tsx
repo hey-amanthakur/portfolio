@@ -19,14 +19,14 @@ export const Testimonials: FC = () => {
 
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="px-3 py-1 rounded-full border-2 border-light-text dark:border-dark-text bg-primary-100 text-primary-900 dark:bg-primary-900 dark:text-primary-200 font-display font-black text-xs uppercase tracking-wider shadow-flat-light dark:shadow-flat-dark">
-            Happy Clients
-          </span>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text mt-4 tracking-tight">
-            What They Say <span className="text-primary-400">💬</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+            <span>testimonials</span>
+          </div>
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+            What founders say.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
-            Real feedback from clients I've had the pleasure of cooking up solutions with.
+            Real feedback from teams I&apos;ve engineered alongside.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export const Testimonials: FC = () => {
 
                 {/* Quote Text */}
                 <blockquote className="text-light-muted dark:text-dark-muted font-body leading-relaxed flex-grow italic">
-                  "{testimonial.quote}"
+                  &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
                 {/* Author Info */}

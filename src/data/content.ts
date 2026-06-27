@@ -2,8 +2,8 @@ import type { INavLink, IProject, IService, ITestimonial, IInstagramPost, ISiteC
 
 export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
-  title: 'Aman Thakur | Developer & Content Creator',
-  tagline: 'Serving hot, freshly-baked code 💻 and exploring delicious street-food journeys 🍳',
+  title: 'Aman Thakur | Full-Stack Engineer',
+  tagline: 'Full-stack engineer shipping production React, Spring Boot, and AI-agent systems — with a side quest documenting Indian street food.',
   email: '099amanthakur1@gmail.com',
   phone: '917762021493',
   socials: {
@@ -19,32 +19,32 @@ export const navLinks: readonly INavLink[] = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Work', href: '#portfolio' },
   { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Swaad Feed', href: '#swaad-feed' },
-  { label: 'Order Project', href: '#contact' },
+  { label: 'Off-Hours', href: '#swaad-feed' },
+  { label: 'Hire Me', href: '#contact' },
 ] as const;
 
 export const services: readonly IService[] = [
   {
     id: 'fullstack',
-    title: 'Cooked-to-Order Fullstack Dev',
-    tagline: 'High-performance React & Spring Boot systems',
-    description: 'Serving robust, scalable web applications with smooth React frontends and lightning-fast Java / Spring Boot APIs. Crafted with extreme clean-code discipline and high test coverage.',
+    title: 'Full-Stack Engineering',
+    tagline: 'React + Spring Boot, end-to-end',
+    description: 'Production-grade React/TypeScript frontends paired with scalable Java & Spring Boot APIs. Clean architecture, strict typing, CI/CD pipelines, and meaningful test coverage — shipped, not just demoed.',
     icon: 'Terminal',
   },
   {
     id: 'ai-consulting',
-    title: 'AI-Enhanced Architecture',
-    tagline: 'Integrating intelligent agent models',
-    description: 'Empowering your workflows with cutting-edge AI integrations. From prompt engineering and semantic RAG search to building custom autonomous AI agents that supercharge business metrics.',
+    title: 'AI Systems & Agents',
+    tagline: 'LLMs, RAG, and autonomous workflows',
+    description: 'Embed real intelligence into your product. From prompt-tuned LLM features and semantic RAG search to multi-tool autonomous agents that collapse hours of manual work into seconds.',
     icon: 'Cpu',
   },
   {
     id: 'content-creation',
-    title: 'Recipe for Organic Reach',
-    tagline: 'Content strategy and creative partnership',
-    description: 'Merging technical depth with storytelling. Offering influencer partnerships, creative content reviews, high-retention video editing strategies, and audience-growth blueprints.',
+    title: 'Content & Creator Tech',
+    tagline: 'Storytelling × developer leverage',
+    description: 'For founders and creators who want a technical edge. Influencer collabs, retention-focused reel strategy, and lightweight content tooling I build myself — analytics dashboards, automations, and editing pipelines.',
     icon: 'ChefHat',
   }
 ] as const;
