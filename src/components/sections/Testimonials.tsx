@@ -57,7 +57,7 @@ export const Testimonials: FC = () => {
 
                 {/* Quote Text */}
                 <blockquote className="text-light-muted dark:text-dark-muted font-body leading-relaxed flex-grow italic">
-                  "{testimonial.quote}"
+                  &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
 
                 {/* Author Info */}

@@ -47,7 +47,7 @@ export const Portfolio: FC = () => {
             <span>selected work</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            Things I've shipped.
+            Things I&apos;ve shipped.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
             Production systems, hackathon winners, and the occasional weekend experiment — code that earns its keep.
@@ -285,7 +285,7 @@ export const Portfolio: FC = () => {
               <Layers className="w-6 h-6 text-light-muted dark:text-dark-muted" />
             </div>
             <p className="font-display font-bold text-lg text-light-text dark:text-dark-text">No matching projects.</p>
-            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try a broader tag — 'React', 'Java', or 'AI'.</p>
+            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try a broader tag — {`'React'`}, {`'Java'`}, or {`'AI'`}.</p>
           </motion.div>
         )}
 

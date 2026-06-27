@@ -100,7 +100,7 @@ export const Contact: FC = () => {
                     className="bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-3 py-2 max-w-[85%] shadow-sm"
                   >
                     <p className="text-xs text-light-text dark:text-dark-text">
-                      Hey! 👋 Interested in working together? Pick a service below and I'll message you directly on WhatsApp!
+                      Hey! 👋 Interested in working together? Pick a service below and I&apos;ll message you directly on WhatsApp!
                     </p>
                     <p className="text-[10px] text-light-muted dark:text-dark-muted mt-1 text-right">Just now ✓✓</p>
                   </motion.div>
