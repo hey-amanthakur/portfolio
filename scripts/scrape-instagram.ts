@@ -16,9 +16,10 @@
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import type { Browser, Page } from 'puppeteer';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
+import { writeFileSync, existsSync, mkdirSync, createWriteStream } from 'fs';
+import { join, dirname, extname } from 'path';
 import { fileURLToPath } from 'url';
+import { get } from 'https';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,6 +30,7 @@ puppeteer.use(StealthPlugin());
 const INSTA_HANDLE = 'yeh.safar.swaad.ka';
 const OUTPUT_DIR = join(__dirname, '..', 'src', 'scraped');
 const OUTPUT_FILE = join(OUTPUT_DIR, 'instagram-posts.json');
+const IMAGES_DIR = join(__dirname, '..', 'public', 'instagram');
 const DEFAULT_LIMIT = 8;
 
 // ── CLI arg ─────────────────────────────────────────────────────
@@ -61,6 +63,25 @@ interface InstaPost {
 function log(msg: string) {
   // eslint-disable-next-line no-console
   console.log(`[insta-scraper] ${msg}`);
+}
+
+/** Download a remote URL and save it to a local file */
+function downloadImage(url: string, dest: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const file = createWriteStream(dest);
+    get(url, (res) => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`Download failed: HTTP ${res.statusCode}`));
+        return;
+      }
+      res.pipe(file);
+      file.on('finish', () => { file.close(); resolve(); });
+    }).on('error', (err) => {
+      // Clean up partial file
+      try { file.close(); } catch { /* ignore */ }
+      reject(err);
+    });
+  });
 }
 
 async function setupPage(browser: Browser): Promise<Page> {
@@ -137,9 +158,21 @@ async function scrapePost(browser: Browser, shortcode: string): Promise<InstaPos
       return null;
     }
 
+    // Download the image locally so it never expires
+    const ext = '.jpg';
+    const localFilename = `${shortcode}${ext}`;
+    const localPath = join(IMAGES_DIR, localFilename);
+    try {
+      await downloadImage(data.imageUrl, localPath);
+      log(`  ✓ downloaded image for /p/${shortcode}/`);
+    } catch (err) {
+      log(`  ⚠ failed to download image for /p/${shortcode}/: ${err instanceof Error ? err.message : String(err)}`);
+      // Still use the CDN URL as fallback even if local download fails
+    }
+
     return {
       id: `insta-${shortcode}`,
-      imageUrl: data.imageUrl,
+      imageUrl: `/instagram/${localFilename}`,
       caption: data.caption,
       likes: data.likes,
       comments: data.comments,
@@ -156,6 +189,9 @@ async function scrapePost(browser: Browser, shortcode: string): Promise<InstaPos
 // ── Main ────────────────────────────────────────────────────────
 async function main() {
   log(`Launching browser to scrape ${Math.min(SHORTCODES.length, LIMIT)} posts from @${INSTA_HANDLE}…`);
+
+  // Ensure output directories exist
+  mkdirSync(IMAGES_DIR, { recursive: true });
 
   const browser = await puppeteer.launch({
     headless: true,
