@@ -2,16 +2,11 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data/content';
-import scrapedPosts from '@/scraped/instagram-posts.json';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
 import { InstagramIcon } from '@components/icons';
 
-// Use scraped data if it exists and has real posts; fall back to hardcoded content.
-const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
-const displayPosts: readonly IInstagramPost[] = hasScrapedData
-  ? scrapedPosts
-  : instagramPosts;
+const displayPosts: readonly IInstagramPost[] = instagramPosts;
 
 // Fallback image set served from /public/instagram — guarantees images render
 // even if a scraped CDN URL ever leaks back into the JSON.

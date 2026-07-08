@@ -56,5 +56,18 @@
     "vite": "^8.0.12",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.7"
-  }
+  },
+  "description": "A modern, animated personal portfolio website built with **React 19**, **TypeScript**, **Vite**, and **TailwindCSS**. Features dark/light theme, scroll-driven animations, and a build-time Instagram scraper that pulls live posts from [@yeh.safar.swaad.ka](https://www.instagram.com/yeh.safar.swaad.ka/).",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhonsnow456/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhonsnow456/portfolio/issues"
+  },
+  "homepage": "https://github.com/jhonsnow456/portfolio#readme"
 }

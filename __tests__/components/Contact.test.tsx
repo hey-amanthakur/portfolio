@@ -56,7 +56,7 @@ describe('Contact Component', (): void => {
   it('renders sponsor card when sponsorUrl is set', (): void => {
     render(<Contact />);
 
-    expect(screen.getByText(/Enjoy my work/i)).toBeInTheDocument();
     expect(screen.getByText(/Buy me a coffee/i)).toBeInTheDocument();
+    expect(screen.getByText(/Support my work/i)).toBeInTheDocument();
   });
 });

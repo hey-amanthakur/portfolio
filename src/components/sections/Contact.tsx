@@ -32,7 +32,6 @@ export const Contact: FC = () => {
       aria-label="Contact Aman Thakur via WhatsApp"
       className="py-24 bg-light-surface dark:bg-dark-surface border-t-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
-      {/* Background decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#25D366]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-400/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -43,7 +42,6 @@ export const Contact: FC = () => {
       >
       <div className="max-w-5xl mx-auto px-6 relative z-10">
 
-        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -63,10 +61,8 @@ export const Contact: FC = () => {
           </p>
         </div>
 
-        {/* WhatsApp Chat Mockup */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-          {/* Left: Phone Mockup with Chat Bubbles */}
           <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -74,9 +70,7 @@ export const Contact: FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative"
             >
-              {/* Phone Frame */}
               <div className="bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border rounded-3xl overflow-hidden shadow-flat-light dark:shadow-flat-dark">
-                {/* WhatsApp Header */}
                 <div className="bg-[#075E54] px-4 py-3 flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-xs">
                     AT
@@ -90,9 +84,7 @@ export const Contact: FC = () => {
                   </div>
                 </div>
 
-                {/* Chat Area */}
                 <div className="p-4 bg-[#ECE5DD] dark:bg-[#0B141A] min-h-[320px] space-y-3">
-                  {/* Incoming message */}
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={isVisible ? { opacity: 1, x: 0 } : {}}
@@ -105,7 +97,6 @@ export const Contact: FC = () => {
                     <p className="text-[10px] text-light-muted dark:text-dark-muted mt-1 text-right">Just now ✓✓</p>
                   </motion.div>
 
-                  {/* Service cards as chat bubbles */}
                   {services.map((service, index) => (
                     <motion.a
                       key={service.id}
@@ -144,9 +135,7 @@ export const Contact: FC = () => {
             </motion.div>
           </div>
 
-          {/* Right: Contact Info + Sponsor */}
           <div className="lg:col-span-5 space-y-6">
-            {/* Quick Contact Card */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={isVisible ? { opacity: 1, x: 0 } : {}}
@@ -205,35 +194,37 @@ export const Contact: FC = () => {
               </Card>
             </motion.div>
 
-            {/* Sponsor Card */}
+            {/* Buy Me a Coffee Widget */}
             {siteConfig.sponsorUrl !== undefined && (
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={isVisible ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.7 }}
               >
-                <a
-                  href={siteConfig.sponsorUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  <Card variant="borderless" className="p-5 border-2 border-[#FFDD00] bg-[#FFDD00]/10 hover:bg-[#FFDD00]/20 transition-all duration-200 hover:-translate-y-0.5">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#FFDD00]/20 flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-                        <Coffee className="w-6 h-6 text-[#B38F00]" />
-                      </div>
-                      <div>
-                        <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
-                          Enjoy my work?
-                        </p>
-                        <p className="text-xs text-[#B38F00] font-body">
-                          Buy me a coffee ☕ →
-                        </p>
-                      </div>
+                <Card variant="borderless" className="p-5 border-2 border-[#FFDD00] bg-[#FFDD00]/10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-[#FFDD00]/20 flex items-center justify-center flex-shrink-0">
+                      <Coffee className="w-6 h-6 text-[#B38F00]" />
                     </div>
-                  </Card>
-                </a>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                        Buy me a coffee
+                      </p>
+                      <p className="text-xs text-[#B38F00] font-body mt-0.5">
+                        Support my work ☕
+                      </p>
+                      <a
+                        href="https://razorpay.me/@amanthakur7343"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-display font-bold border-2 border-[#B38F00] bg-[#FFDD00] text-[#5C4A00] hover:bg-[#FFDD00]/80 shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-all"
+                      >
+                        <Coffee className="w-3.5 h-3.5" />
+                        Buy
+                      </a>
+                    </div>
+                  </div>
+                </Card>
               </motion.div>
             )}
           </div>
