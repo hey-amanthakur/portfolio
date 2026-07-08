@@ -75,7 +75,7 @@ All static content lives in [src/data/content.ts](src/data/content.ts) as `as co
 ### Prerequisites
 
 - **Node.js** 20+ (ESM project — `"type": "module"`)
-- **npm** 9+ (or equivalent package manager)
+- **Bun** 1.3+ (or `npm` as fallback)
 
 ### Installation
 
@@ -224,7 +224,7 @@ Test files live in `__tests__/` alongside a mirror of the `src/` component struc
 
 1. **Fork** the repository
 2. **Create a feature branch** — `git checkout -b feature/your-feature-name`
-3. **Install dependencies** — `npm install`
+3. **Install dependencies** — `bun install`
 4. **Make your changes** following the coding guidelines above
 5. **Run checks** before committing:
    ```bash

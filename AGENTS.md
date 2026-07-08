@@ -8,6 +8,9 @@ Single-page React portfolio for Aman Thakur — full-stack developer & food blog
 
 | Layer | Tool |
 |---|---|
+| Layer | Tool |
+|---|---|
+| Runtime | Bun 1.3 |
 | Framework | React 19 + TypeScript 6 |
 | Build | Vite 8 |
 | Styling | TailwindCSS 3.4 + `globals.css` utilities |
@@ -97,6 +100,8 @@ public/
 | `npm run scrape:instagram` | Manual IG scrapes |
 | `npm run scrape:instagram:refresh` | Scrape up to 12 posts |
 
+All commands use Bun under the hood (`bun run` / `bunx`). The `prebuild` hook runs the Instagram scraper natively — no `tsx` needed since Bun runs TypeScript directly.
+
 ## Build-Time Scraping
 
 `prebuild` runs `scripts/scrape-instagram.ts`. It:
@@ -105,6 +110,8 @@ public/
 3. Extracts `og:image` + `og:description` meta tags
 4. Downloads each image to `public/instagram/{shortcode}.jpg`
 5. Writes `src/scraped/instagram-posts.json` with local paths
+
+To add new posts: add the shortcode to `SHORTCODES` in the scraper script.
 
 To add new posts: add the shortcode to `SHORTCODES` in the scraper script.
 
