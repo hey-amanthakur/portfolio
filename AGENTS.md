@@ -8,8 +8,6 @@ Single-page React portfolio for Aman Thakur — full-stack developer & food blog
 
 | Layer | Tool |
 |---|---|
-| Layer | Tool |
-|---|---|
 | Runtime | Bun 1.3 |
 | Framework | React 19 + TypeScript 6 |
 | Build | Vite 8 |
@@ -82,9 +80,9 @@ public/
 
 ## Testing
 
-- `npm test` — runs Vitest once
-- `npm run test:watch` — watch mode
-- `npm run test:coverage` — with coverage report
+- `bun test` — runs Vitest once
+- `bun run test:watch` — watch mode
+- `bun run test:coverage` — with coverage report
 - Files in `__tests__/` mirror `src/` structure
 - Setup in `__tests__/setup.ts` (mocks matchMedia, IntersectionObserver)
 
@@ -92,15 +90,15 @@ public/
 
 | Command | Action |
 |---|---|
-| `npm run dev` | Dev server |
-| `npm run build` | Typecheck + production build |
-| `npm run typecheck` | TypeScript check only |
-| `npm test` | Run tests |
-| `npm run lint` | ESLint |
-| `npm run scrape:instagram` | Manual IG scrapes |
-| `npm run scrape:instagram:refresh` | Scrape up to 12 posts |
+| `bun run dev` | Dev server |
+| `bun run build` | Typecheck + production build |
+| `bun run typecheck` | TypeScript check only |
+| `bun test` | Run tests |
+| `bun run lint` | ESLint |
+| `bun run scrape:instagram` | Manual IG scrape |
+| `bun run scrape:instagram:refresh` | Scrape up to 12 posts |
 
-All commands use Bun under the hood (`bun run` / `bunx`). The `prebuild` hook runs the Instagram scraper natively — no `tsx` needed since Bun runs TypeScript directly.
+All commands use Bun under the hood. The `prebuild` hook runs the Instagram scraper natively — no `tsx` needed since Bun runs TypeScript directly.
 
 ## Build-Time Scraping
 
@@ -110,8 +108,6 @@ All commands use Bun under the hood (`bun run` / `bunx`). The `prebuild` hook ru
 3. Extracts `og:image` + `og:description` meta tags
 4. Downloads each image to `public/instagram/{shortcode}.jpg`
 5. Writes `src/scraped/instagram-posts.json` with local paths
-
-To add new posts: add the shortcode to `SHORTCODES` in the scraper script.
 
 To add new posts: add the shortcode to `SHORTCODES` in the scraper script.
 
