@@ -4,47 +4,52 @@ import { Testimonials } from '@components/sections/Testimonials';
 import { testimonials } from '@/data/content';
 
 describe('Testimonials Component', (): void => {
-  it('renders the testimonials heading', (): void => {
+  it('renders the section with correct aria-label', (): void => {
     render(<Testimonials />);
-
-    expect(screen.getByText(/What They Say/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('Client Testimonials and Reviews')).toBeInTheDocument();
   });
 
-  it('renders all testimonial quotes', (): void => {
+  it('renders the section badge and heading', (): void => {
     render(<Testimonials />);
+    expect(screen.getByText('testimonials')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: /What founders say/ })).toBeInTheDocument();
+  });
 
-    testimonials.forEach((testimonial) => {
-      expect(screen.getByText(new RegExp(testimonial.quote))).toBeInTheDocument();
+  it('renders the introductory description', (): void => {
+    render(<Testimonials />);
+    expect(screen.getByText(/Real feedback from teams I've engineered alongside/)).toBeInTheDocument();
+  });
+
+  it('renders the current testimonial quote', (): void => {
+    render(<Testimonials />);
+    expect(screen.getByText(new RegExp(testimonials[0].quote))).toBeInTheDocument();
+  });
+
+  it('displays the current author name and role', (): void => {
+    render(<Testimonials />);
+    expect(screen.getByText(testimonials[0].name)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(testimonials[0].role))).toBeInTheDocument();
+  });
+
+  it('renders navigation arrow buttons', (): void => {
+    render(<Testimonials />);
+    expect(screen.getByRole('button', { name: 'Previous testimonial' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Next testimonial' })).toBeInTheDocument();
+  });
+
+  it('renders dot navigation buttons', (): void => {
+    render(<Testimonials />);
+    testimonials.forEach((_, index) => {
+      expect(screen.getByRole('button', { name: `Go to testimonial ${String(index + 1)}` })).toBeInTheDocument();
     });
   });
 
-  it('displays client names and roles', (): void => {
+  it('renders client avatar image for the current testimonial', (): void => {
     render(<Testimonials />);
-
-    testimonials.forEach((testimonial) => {
-      expect(screen.getByText(testimonial.name)).toBeInTheDocument();
-      expect(
-        screen.getByText(`${testimonial.role} at ${testimonial.company}`)
-      ).toBeInTheDocument();
-    });
-  });
-
-  it('renders star ratings for each testimonial', (): void => {
-    render(<Testimonials />);
-
-    // Each testimonial has 5 star SVGs; verify star containers are present
-    const quoteElements = screen.getAllByText(/"/);
-    expect(quoteElements.length).toBeGreaterThanOrEqual(testimonials.length);
-  });
-
-  it('renders client avatar images', (): void => {
-    render(<Testimonials />);
-
-    testimonials.forEach((testimonial) => {
-      if (testimonial.avatarUrl !== undefined) {
-        const img = screen.getByAltText(`${testimonial.name} profile photo`);
-        expect(img).toHaveAttribute('src', testimonial.avatarUrl);
-      }
-    });
+    const first = testimonials[0];
+    if (first.avatarUrl !== undefined) {
+      const img = screen.getByAltText(`${first.name} profile photo`);
+      expect(img).toHaveAttribute('src', first.avatarUrl);
+    }
   });
 });

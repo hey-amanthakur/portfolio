@@ -1,83 +1,127 @@
 import type { FC, ReactElement } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Star, ChefHat, Code } from 'lucide-react';
+import { Zap, Trophy, GraduationCap, Utensils } from 'lucide-react';
 import { milestones } from '@/data/content';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { SectionReveal } from '@components/ui/SectionReveal';
+import { AnimatedCounter } from '@components/ui/AnimatedCounter';
+import { GlowingEffect } from '@components/ui/GlowingEffect';
+
+const getIcon = (category: 'code' | 'food', title: string): ReactElement => {
+  if (title.includes('Winner')) return <Trophy className="w-5 h-5 text-white" />;
+  if (title.includes('Star') || title.includes('ML')) return <GraduationCap className="w-5 h-5 text-white" />;
+  if (category === 'food') return <Utensils className="w-5 h-5 text-white" />;
+  return <Zap className="w-5 h-5 text-white" />;
+};
+
+const cardColors = [
+  'bg-primary-400',
+  'bg-primary-500',
+  'bg-secondary-400',
+  'bg-secondary-500',
+] as const;
 
 export const About: FC = () => {
-  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
-
-  const getIcon = (category: 'code' | 'food', title: string): ReactElement => {
-    if (title.includes('Winner')) return <Award className="w-5 h-5 text-white" />;
-    if (title.includes('Star')) return <Star className="w-5 h-5 text-white" />;
-    if (category === 'food') return <ChefHat className="w-5 h-5 text-white" />;
-    return <Code className="w-5 h-5 text-white" />;
-  };
-
   return (
     <section
-      ref={ref}
       id="about"
       aria-label="Aman Thakur Story Timeline"
       className="py-24 bg-light-surface dark:bg-dark-surface border-y-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
+      <GlowingEffect className="top-20 right-20 opacity-20" color="#ff6b35" size={500} />
+      <GlowingEffect className="bottom-20 left-20 opacity-15" color="#2ec4b6" size={400} />
+
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+        <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
             <span>// the path so far</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
-            From hackathon hall <span className="text-primary-400">→</span> production stack.
+            From hackathon hall <span className="text-gradient-primary">→</span> production stack.
           </h2>
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
             Three years of shipping software, winning hackathons, and — somewhere in between — running a food creator account.
           </p>
-        </div>
+        </SectionReveal>
 
-        {/* Timeline Path */}
-        <div className="relative border-l-4 border-light-text dark:border-dark-text ml-4 md:ml-32">
+        {/* Stats Bento Grid */}
+        <SectionReveal delay={0.1} className="mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { target: 10, suffix: '+', label: 'Open Source Contributions', color: 'from-primary-400 to-primary-500' },
+              { target: 2, suffix: '×', label: 'Hackathon Wins', color: 'from-secondary-400 to-secondary-500' },
+              { target: 50, suffix: 'K+', label: 'Food Community', color: 'from-primary-400 to-secondary-400' },
+              { target: 3, suffix: '+', label: 'Years Coding', color: 'from-secondary-400 to-primary-400' },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative group p-6 rounded-2xl border-2 border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg hover:border-primary-400 dark:hover:border-primary-400 transition-all duration-300 overflow-hidden text-center"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-300" style={{ backgroundImage: `linear-gradient(135deg, var(--tw-gradient-stops))` }} />
+                <AnimatedCounter target={stat.target} suffix={stat.suffix} className="text-3xl sm:text-4xl text-light-text dark:text-dark-text" />
+                <p className="text-[11px] font-mono text-light-muted dark:text-dark-muted uppercase tracking-wider mt-2">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </SectionReveal>
+
+        {/* Bento Timeline Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {milestones.map((item, index) => {
             const isCode = item.category === 'code';
-            
+            const isWide = index === 0 || index === 3;
+
             return (
-              <motion.div
+              <SectionReveal
                 key={index}
-                initial={{ opacity: 0, x: -30 }}
-                animate={isVisible ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.15, ease: [0.34, 1.56, 0.64, 1] }}
-                className="mb-12 last:mb-0 relative pl-8 md:pl-12 group"
+                delay={index * 0.1}
+                direction={index % 2 === 0 ? 'left' : 'right'}
+                className={isWide ? 'md:col-span-2' : ''}
               >
-                {/* Timeline Bullet Node */}
-                <div 
-                  className={`absolute -left-[22px] top-1.5 w-10 h-10 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center shadow-flat-light dark:shadow-flat-dark group-hover:scale-110 transition-transform duration-200 ${
-                    isCode ? 'bg-primary-400' : 'bg-secondary-400'
-                  }`}
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="relative group p-6 sm:p-8 rounded-2xl border-2 border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg hover:border-light-text dark:hover:border-dark-text transition-all duration-300 overflow-hidden h-full"
                 >
-                  {getIcon(item.category, item.title)}
-                </div>
+                  {/* Accent stripe */}
+                  <div className={`absolute top-0 left-0 w-full h-1 ${isCode ? 'bg-primary-400' : 'bg-secondary-400'} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
 
-                {/* Milestone Detail Card */}
-                <div className="bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border p-6 rounded-2xl-playful relative hover:border-light-text dark:hover:border-dark-text transition-colors duration-200">
-                  {/* Floating Year Label */}
-                  <span
-                    className={`absolute -top-3.5 left-4 px-3 py-0.5 rounded-full border-2 border-light-text dark:border-dark-text font-display font-black text-xs shadow-flat-light dark:shadow-flat-dark ${
-                      isCode ? 'bg-primary-100 text-primary-900 dark:bg-primary-900 dark:text-primary-200' : 'bg-secondary-100 text-secondary-900 dark:bg-secondary-900 dark:text-secondary-200'
-                    }`}
-                  >
-                    {item.year}
-                  </span>
+                  <div className={`flex ${isWide ? 'flex-col sm:flex-row' : 'flex-col'} items-start gap-5`}>
+                    {/* Icon badge */}
+                    <div className={`w-14 h-14 rounded-2xl ${cardColors[index] ?? 'bg-primary-400'} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      {getIcon(item.category, item.title)}
+                    </div>
 
-                  <h3 className="font-display font-extrabold text-xl text-light-text dark:text-dark-text mt-1">
-                    {item.title}
-                  </h3>
-                  
-                  <p className="mt-2 text-sm md:text-base text-light-muted dark:text-dark-muted font-body leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </motion.div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className={`px-3 py-0.5 rounded-full font-display font-black text-xs ${
+                          isCode
+                            ? 'bg-primary-100 text-primary-800 dark:bg-primary-900/40 dark:text-primary-300'
+                            : 'bg-secondary-100 text-secondary-800 dark:bg-secondary-900/40 dark:text-secondary-300'
+                        }`}>
+                          {item.year}
+                        </span>
+                        <span className="text-[10px] font-mono text-light-muted dark:text-dark-muted uppercase tracking-widest">
+                          {isCode ? 'code' : 'food'}
+                        </span>
+                      </div>
+
+                      <h3 className="font-display font-black text-xl sm:text-2xl text-light-text dark:text-dark-text tracking-tight leading-tight">
+                        {item.title}
+                      </h3>
+
+                      <p className="mt-3 text-sm sm:text-base text-light-muted dark:text-dark-muted font-body leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </SectionReveal>
             );
           })}
         </div>

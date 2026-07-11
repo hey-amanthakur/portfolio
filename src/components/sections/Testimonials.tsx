@@ -1,25 +1,63 @@
-import type { FC } from 'react';
-import { motion } from 'framer-motion';
-import { Quote, Star } from 'lucide-react';
+import { useState, useEffect, useCallback, type FC } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { testimonials } from '@/data/content';
-import { Card } from '@components/ui/Card';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { SectionReveal } from '@components/ui/SectionReveal';
+import { GlowingEffect } from '@components/ui/GlowingEffect';
 
 export const Testimonials: FC = () => {
-  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const [current, setCurrent] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(0);
+
+  const paginate = useCallback((newDirection: number): void => {
+    setDirection(newDirection);
+    setCurrent((prev) => {
+      const next = prev + newDirection;
+      if (next < 0) return testimonials.length - 1;
+      if (next >= testimonials.length) return 0;
+      return next;
+    });
+  }, []);
+
+  useEffect((): (() => void) => {
+    const interval = setInterval((): void => {
+      paginate(1);
+    }, 6000);
+    return (): void => { clearInterval(interval); };
+  }, [paginate]);
+
+  const variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.95,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.95,
+    }),
+  };
 
   return (
     <section
-      ref={ref}
       id="testimonials"
       aria-label="Client Testimonials and Reviews"
-      className="py-24 bg-light-surface dark:bg-dark-surface border-y-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
+      className="py-24 bg-light-bg dark:bg-dark-bg border-y-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
+      <GlowingEffect className="top-20 left-1/4 opacity-15" color="#ff6b35" size={400} />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
 
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+        <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
             <span>testimonials</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
@@ -28,69 +66,117 @@ export const Testimonials: FC = () => {
           <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
             Real feedback from teams I&apos;ve engineered alongside.
           </p>
-        </div>
+        </SectionReveal>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.15, ease: [0.34, 1.56, 0.64, 1] }}
-              className="h-full flex"
-            >
-              <Card
-                variant="default"
-                hoverEffect="lift"
-                className="p-8 flex flex-col w-full h-full relative"
+        {/* Carousel */}
+        <div className="relative max-w-3xl mx-auto">
+          <div className="relative min-h-[320px] sm:min-h-[280px]">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={current}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="absolute inset-0"
               >
-                {/* Quote Icon */}
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-primary-200 dark:text-primary-900" />
+                <div className="relative p-8 sm:p-10 rounded-3xl border-2 border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface overflow-hidden group hover:border-primary-400/50 dark:hover:border-primary-400/50 transition-colors duration-300">
+                  {/* Background accent */}
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-400/10 rounded-full blur-3xl pointer-events-none" />
 
-                {/* Star Rating */}
-                <div className="flex items-center gap-1 mb-4">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current text-primary-400" />
-                  ))}
-                </div>
+                  <Quote className="absolute top-6 right-6 w-10 h-10 text-primary-200 dark:text-primary-900/50" />
 
-                {/* Quote Text */}
-                <blockquote className="text-light-muted dark:text-dark-muted font-body leading-relaxed flex-grow italic">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </blockquote>
+                  {/* Star Rating */}
+                  <div className="flex items-center gap-1 mb-5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 500 }}
+                      >
+                        <Star className="w-5 h-5 fill-primary-400 text-primary-400" />
+                      </motion.div>
+                    ))}
+                  </div>
 
-                {/* Author Info */}
-                <div className="mt-6 pt-6 border-t-2 border-light-border dark:border-dark-border flex items-center gap-4">
-                  {testimonial.avatarUrl !== undefined ? (
-                    <img
-                      src={testimonial.avatarUrl}
-                      alt={`${testimonial.name} profile photo`}
-                      width="48"
-                      height="48"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-12 h-12 rounded-xl-playful border-2 border-light-border dark:border-dark-border object-cover"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-xl-playful border-2 border-light-border dark:border-dark-border bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
-                      <span className="text-primary-700 dark:text-primary-300 font-display font-black text-lg">
-                        {testimonial.name.charAt(0)}
-                      </span>
+                  {/* Quote Text */}
+                  <blockquote className="text-light-text dark:text-dark-text font-body text-lg leading-relaxed italic relative z-10">
+                    &ldquo;{testimonials[current]?.quote}&rdquo;
+                  </blockquote>
+
+                  {/* Author Info */}
+                  <div className="mt-8 pt-6 border-t-2 border-light-border dark:border-dark-border flex items-center gap-4 relative z-10">
+                    {testimonials[current]?.avatarUrl !== undefined ? (
+                      <motion.img
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        src={testimonials[current].avatarUrl}
+                        alt={`${testimonials[current].name} profile photo`}
+                        width="52"
+                        height="52"
+                        loading="lazy"
+                        decoding="async"
+                        className="w-13 h-13 rounded-2xl border-2 border-light-border dark:border-dark-border object-cover shadow-lg"
+                      />
+                    ) : (
+                      <div className="w-13 h-13 rounded-2xl border-2 border-light-border dark:border-dark-border bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
+                        <span className="text-primary-700 dark:text-primary-300 font-display font-black text-lg">
+                          {testimonials[current].name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-display font-bold text-light-text dark:text-dark-text text-lg">
+                        {testimonials[current].name}
+                      </p>
+                      <p className="text-sm text-light-muted dark:text-dark-muted font-body">
+                        {testimonials[current].role} at <span className="text-primary-400 font-semibold">{testimonials[current].company}</span>
+                      </p>
                     </div>
-                  )}
-                  <div>
-                    <p className="font-display font-bold text-light-text dark:text-dark-text">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-xs text-light-muted dark:text-dark-muted font-body">
-                      {testimonial.role} at {testimonial.company}
-                    </p>
                   </div>
                 </div>
-              </Card>
-            </motion.div>
-          ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="flex items-center justify-center gap-4 mt-8 relative z-30">
+            <button
+              onClick={(): void => { paginate(-1); }}
+              aria-label="Previous testimonial"
+              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-bg shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex items-center gap-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(): void => { setDirection(index > current ? 1 : -1); setCurrent(index); }}
+                  aria-label={`Go to testimonial ${String(index + 1)}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === current
+                      ? 'w-8 bg-primary-400'
+                      : 'w-2 bg-light-border dark:bg-dark-border hover:bg-primary-300'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={(): void => { paginate(1); }}
+              aria-label="Next testimonial"
+              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-bg shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
       </div>

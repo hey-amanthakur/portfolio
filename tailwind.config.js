@@ -57,12 +57,37 @@ export default {
         'spin-slow': 'spin 8s linear infinite',
         'float': 'float 4s ease-in-out infinite',
         'float-delayed': 'float 4s ease-in-out infinite 2s',
+        'shimmer': 'shimmer 3s linear infinite',
+        'gradient-shift': 'gradient-shift 8s ease infinite',
+        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'slide-up': 'slide-up 0.5s ease-out',
+        'morph': 'morph 8s ease-in-out infinite',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
-        }
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '200% center' },
+          '100%': { backgroundPosition: '-200% center' },
+        },
+        'gradient-shift': {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { opacity: 0.4, transform: 'scale(1)' },
+          '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+        },
+        'slide-up': {
+          '0%': { opacity: 0, transform: 'translateY(20px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        morph: {
+          '0%, 100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
+          '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+        },
       },
       borderRadius: {
         'xl-playful': '1.5rem',

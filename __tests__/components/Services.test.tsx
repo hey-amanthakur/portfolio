@@ -4,11 +4,20 @@ import { Services } from '@components/sections/Services';
 import { services } from '@/data/content';
 
 describe('Services Component', (): void => {
-  it('renders the freelance menu heading', (): void => {
+  it('renders the section with correct aria-label', (): void => {
     render(<Services />);
+    expect(screen.getByLabelText('Aman Thakur Freelance Services Menu')).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(/The Freelance Menu/i)).toBeInTheDocument();
-    expect(screen.getByText(/Chef Aman's gourmet offerings/i)).toBeInTheDocument();
+  it('renders the section badge and heading', (): void => {
+    render(<Services />);
+    expect(screen.getByText('services')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: /What I build for clients/ })).toBeInTheDocument();
+  });
+
+  it('renders the introductory description', (): void => {
+    render(<Services />);
+    expect(screen.getByText(/Pick a track — every engagement is scoped/)).toBeInTheDocument();
   });
 
   it('renders all service cards with titles and taglines', (): void => {
@@ -20,25 +29,22 @@ describe('Services Component', (): void => {
     });
   });
 
-  it('renders key ingredients badges for each service', (): void => {
+  it('renders stack badges for each service', (): void => {
     render(<Services />);
-
     expect(screen.getByText('React 18')).toBeInTheDocument();
     expect(screen.getByText('Spring Boot 3')).toBeInTheDocument();
     expect(screen.getByText('LLMs')).toBeInTheDocument();
     expect(screen.getByText('Storytelling')).toBeInTheDocument();
   });
 
-  it('displays order buttons for each service', (): void => {
+  it('displays start project buttons for each service', (): void => {
     render(<Services />);
-
-    const orderButtons = screen.getAllByRole('button', { name: /Add to Project Order/i });
-    expect(orderButtons).toHaveLength(services.length);
+    const buttons = screen.getAllByRole('button', { name: /Start a project/ });
+    expect(buttons).toHaveLength(services.length);
   });
 
-  it('highlights the chef special service', (): void => {
+  it('highlights the most-booked service', (): void => {
     render(<Services />);
-
-    expect(screen.getByText(/Chef's Special/i)).toBeInTheDocument();
+    expect(screen.getByText('most-booked')).toBeInTheDocument();
   });
 });
