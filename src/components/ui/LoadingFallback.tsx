@@ -1,12 +1,32 @@
 import type { FC } from 'react';
+import { motion } from 'framer-motion';
 
 export const LoadingFallback: FC = () => (
-  <div className="min-h-[400px] flex items-center justify-center animate-pulse">
+  <div className="min-h-[400px] flex items-center justify-center">
     <div className="text-center">
-      <div className="w-16 h-16 rounded-2xl bg-light-bg dark:bg-dark-surface border-2 border-light-border dark:border-dark-border mx-auto mb-4 animate-spin" style={{ animationDuration: '3s' }}>
-        <div className="w-6 h-6 rounded-full bg-primary-400 mx-auto mt-5" />
-      </div>
-      <p className="text-light-muted dark:text-dark-muted font-body text-sm">Loading section...</p>
+      <motion.div
+        animate={{
+          rotate: 360,
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          rotate: { duration: 2, repeat: Infinity, ease: 'linear' },
+          scale: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
+        }}
+        className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-400 to-secondary-400 mx-auto mb-4 flex items-center justify-center shadow-lg shadow-primary-400/30"
+      >
+        <div className="w-6 h-6 rounded-full bg-white/30" />
+      </motion.div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="text-light-muted dark:text-dark-muted font-mono text-sm"
+      >
+        Loading section...
+      </motion.p>
     </div>
   </div>
 );
+
+export default LoadingFallback;

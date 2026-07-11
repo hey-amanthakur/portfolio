@@ -3,14 +3,36 @@ import { vi } from 'vitest';
 import React from 'react';
 import type { ForwardedRef, ReactNode } from 'react';
 
-// Mock IntersectionObserver
+// Mock IntersectionObserver — fires callback immediately so isVisible = true
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root: Element | Document | null = null;
   readonly rootMargin = '';
   readonly thresholds: readonly number[] = [];
-  observe = vi.fn();
-  unobserve = vi.fn();
-  disconnect = vi.fn();
+  private callback: IntersectionObserverCallback;
+  private elements: Element[] = [];
+
+  constructor(callback: IntersectionObserverCallback) {
+    this.callback = callback;
+  }
+
+  observe = (element: Element): void => {
+    this.elements.push(element);
+    queueMicrotask((): void => {
+      this.callback(
+        [{ isIntersecting: true, ratio: 1, target: element, root: null, rootMargin: '', time: Date.now(), boundingClientRect: {} as DOMRect, intersectionRect: {} as DOMRect, intersectionRatio: 1 } as IntersectionObserverEntry],
+        this,
+      );
+    });
+  };
+
+  unobserve = (element: Element): void => {
+    this.elements = this.elements.filter((e) => e !== element);
+  };
+
+  disconnect = (): void => {
+    this.elements = [];
+  };
+
   takeRecords = (): IntersectionObserverEntry[] => [];
 }
 
@@ -19,8 +41,9 @@ class MockIntersectionObserver implements IntersectionObserver {
 // Motion props to strip from mocked components
 const MOTION_PROPS = [
   'initial', 'animate', 'exit', 'transition', 'variants',
-  'whileHover', 'whileTap', 'viewport', 'onAnimationStart',
-  'onAnimationComplete', 'layout', 'layoutId',
+  'whileHover', 'whileTap', 'whileInView', 'viewport',
+  'onAnimationStart', 'onAnimationComplete', 'layout', 'layoutId',
+  'custom',
 ] as const;
 
 type MotionPropKey = typeof MOTION_PROPS[number];
@@ -67,5 +90,9 @@ vi.mock('framer-motion', () => {
     }),
     useTransform: (): number => 0,
     useSpring: (): number => 0,
+    useMotionValue: (val: number): { get: () => number; set: (v: number) => void } => ({
+      get: (): number => val,
+      set: (): void => { /* intentionally no-op for mock */ },
+    }),
   };
 });
