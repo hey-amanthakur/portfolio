@@ -17,7 +17,7 @@ describe('Portfolio Component', (): void => {
   it('renders pinned repositories heading', (): void => {
     render(<Portfolio />);
     expect(screen.getByRole('heading', { level: 3, name: 'Pinned repositories' })).toBeInTheDocument();
-    expect(screen.getByText('@jhonsnow456')).toBeInTheDocument();
+    expect(screen.getByText('@hey-amanthakur')).toBeInTheDocument();
   });
 
   it('renders search input and category filter buttons', (): void => {

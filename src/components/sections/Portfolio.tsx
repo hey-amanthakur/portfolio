@@ -62,7 +62,7 @@ export const Portfolio: FC = () => {
               Pinned repositories
             </h3>
             <span className="font-mono text-xs text-light-muted dark:text-dark-muted ml-auto hidden sm:inline">
-              @jhonsnow456
+              @hey-amanthakur
             </span>
           </div>
 

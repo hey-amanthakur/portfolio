@@ -30,7 +30,7 @@
 - **Hero:** Default mode is `Developer`. Adds `$ whoami` command prompt, "Available for freelance · Pune, IN" availability pill, refined IDE mockup (line numbers, syntax-coloured TS interface, branch + `npm run dev` status bar), mono tech-stack ticker, GitHub + LinkedIn icon rail, subtle pill toggle for Off-hours persona
 - **About:** "// the path so far" → "From hackathon hall → production stack."
 - **Services:** Restaurant-menu language replaced with "What I build for clients" + mono `// stack` labels; `Chef's Special` → `most-booked`
-- **Portfolio:** "Things I've shipped", "Pinned repositories" with `@jhonsnow456` handle, mono `// case studies` divider, mono search placeholder
+- **Portfolio:** "Things I've shipped", "Pinned repositories" with `@hey-amanthakur` handle, mono `// case studies` divider, mono search placeholder
 - **Testimonials:** "What founders say."
 - **Contact:** "Let's build something real."
 - **Footer:** Mono `$ built with React + TypeScript · ©YYYY`
