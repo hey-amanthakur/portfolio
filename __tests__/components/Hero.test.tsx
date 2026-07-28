@@ -1,67 +1,83 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Hero } from '@components/sections/Hero';
 import { siteConfig } from '@/data/content';
 
 describe('Hero Component', (): void => {
-  it('renders dual welcome header and default code mode', (): void => {
+  it('renders the hero section with correct aria-label', (): void => {
     render(<Hero />);
-
-    // Check main title is visible
-    expect(screen.getByText(/Cook Scalable Code/i)).toBeInTheDocument();
-
-    // Check default mode is Code Mode
-    expect(screen.getByText(/Mode: Elite Developer/i)).toBeInTheDocument();
-    expect(screen.getByText(/Code Mode/i)).toBeInTheDocument();
-    expect(screen.getByText(/Food Mode/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('Aman Thakur — Full-Stack Engineer')).toBeInTheDocument();
   });
 
-  it('toggles interactive panels successfully when Food Mode is clicked', async (): Promise<void> => {
-    const user = userEvent.setup();
+  it('renders the availability pill and whoami command', (): void => {
     render(<Hero />);
-
-    const foodBtn = screen.getByRole('button', { name: /Food Mode/i });
-    expect(foodBtn).toBeInTheDocument();
-
-    // Click on Food Mode
-    await user.click(foodBtn);
-
-    // Assert that the theme subheaders change
-    expect(screen.getByText(/Mode: Swaad Explorer/i)).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Yeh Safar Swaad Ka/i })).toBeInTheDocument();
+    expect(screen.getByText('Available for freelance · Pune, IN')).toBeInTheDocument();
+    expect(screen.getByText('whoami')).toBeInTheDocument();
   });
 
-  it('switches back to code mode after food mode is active', async (): Promise<void> => {
-    const user = userEvent.setup();
+  it('renders the main heading elements', (): void => {
     render(<Hero />);
-
-    await user.click(screen.getByRole('button', { name: /Food Mode/i }));
-    expect(screen.getByText(/Mode: Swaad Explorer/i)).toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: /Code Mode/i }));
-    expect(screen.getByText(/Mode: Elite Developer/i)).toBeInTheDocument();
-    expect(screen.getByText(/Cook Scalable Code/i)).toBeInTheDocument();
+    expect(screen.getByText('build software.')).toBeInTheDocument();
+    expect(screen.getByText('Aman')).toBeInTheDocument();
   });
 
-  it('renders CTA links for code mode', (): void => {
+  it('renders developer persona tabs', (): void => {
     render(<Hero />);
-
-    expect(screen.getByRole('button', { name: /Order a System/i })).toBeInTheDocument();
-    const githubLink = screen.getByRole('link', { name: /GitHub Repos/i });
-    expect(githubLink).toBeInTheDocument();
-    expect(githubLink).toHaveAttribute('href', siteConfig.socials.github);
+    expect(screen.getByRole('tab', { name: 'Developer' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Off-hours' })).toBeInTheDocument();
   });
 
-  it('renders CTA links for food mode', async (): Promise<void> => {
-    const user = userEvent.setup();
+  it('renders developer description text', (): void => {
+    render(<Hero />);
+    expect(screen.getByText(/Full-stack engineer specialising/)).toBeInTheDocument();
+  });
+
+  it('renders CTA buttons for developer mode', (): void => {
+    render(<Hero />);
+    expect(screen.getByRole('button', { name: /Hire Me/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', siteConfig.socials.github);
+    expect(screen.getByRole('link', { name: 'LinkedIn' })).toHaveAttribute('href', siteConfig.socials.linkedin);
+  });
+
+  it('renders stat counters', (): void => {
+    render(<Hero />);
+    expect(screen.getByText('Open Source Contributions')).toBeInTheDocument();
+    expect(screen.getByText('Hackathon Wins')).toBeInTheDocument();
+    expect(screen.getByText('Food Community')).toBeInTheDocument();
+  });
+
+  it('renders code stack labels', (): void => {
+    render(<Hero />);
+    const stackLabels = screen.getAllByText('stack');
+    expect(stackLabels.length).toBeGreaterThanOrEqual(1);
+    const reactLabels = screen.getAllByText('React');
+    expect(reactLabels.length).toBeGreaterThanOrEqual(1);
+    const tsLabels = screen.getAllByText('TypeScript');
+    expect(tsLabels.length).toBeGreaterThanOrEqual(1);
+    const springBootLabels = screen.getAllByText('Spring Boot');
+    expect(springBootLabels.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('toggles to off-hours persona and shows food content', (): void => {
     render(<Hero />);
 
-    await user.click(screen.getByRole('button', { name: /Food Mode/i }));
+    fireEvent.click(screen.getByRole('tab', { name: 'Off-hours' }));
 
-    const instaLink = screen.getByRole('link', { name: /Follow @/ });
-    expect(instaLink).toBeInTheDocument();
-    expect(instaLink).toHaveAttribute('href', siteConfig.socials.instagram);
-    expect(screen.getByRole('button', { name: /View Food Feed/i })).toBeInTheDocument();
+    expect(screen.getByText(/chase street food/)).toBeInTheDocument();
+    expect(screen.getByText('Yeh Safar Swaad Ka')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /View food diary/ })).toBeInTheDocument();
+    const followLink = screen.getByRole('link', { name: /Follow @yeh\.safar\.swaad\.ka/ });
+    expect(followLink).toHaveAttribute('href', siteConfig.socials.instagram);
+  });
+
+  it('toggles back to developer mode from off-hours', (): void => {
+    render(<Hero />);
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Off-hours' }));
+    expect(screen.getByText(/chase street food/)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Developer' }));
+    expect(screen.getByText('build software.')).toBeInTheDocument();
   });
 });

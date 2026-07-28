@@ -6,6 +6,7 @@ import { About } from '@components/sections/About';
 import { Services } from '@components/sections/Services';
 import { LoadingFallback } from '@components/ui/LoadingFallback';
 import { Footer } from '@components/layout/Footer';
+import { ScrollProgress } from '@components/ui/ScrollProgress';
 
 const LazyChatBot = lazy(
   async (): Promise<{ default: ComponentType }> =>
@@ -33,6 +34,7 @@ const LazyContact = lazy(
 export const App: FC = () => {
   return (
     <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300 antialiased selection:bg-primary-300/40">
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />

@@ -4,7 +4,7 @@ import type { Browser } from 'puppeteer';
 
 puppeteer.use(StealthPlugin());
 
-const USERNAME = 'jhonsnow456';
+const USERNAME = 'hey-amanthakur';
 const PROFILE_URL = `https://github.com/${USERNAME}`;
 
 const UA =
@@ -99,7 +99,7 @@ async function main() {
         console.log('turbo-frames:', frames.map(f => ({ id: f.id, src: f.getAttribute('src') })));
 
         // Look for any list items with repo links
-        const allRepoLinks = Array.from(document.querySelectorAll('a[href^="/jhonsnow456/"]'))
+        const allRepoLinks = Array.from(document.querySelectorAll('a[href^="/hey-amanthakur/"]'))
           .filter(a => {
             const href = a.getAttribute('href') ?? '';
             return href.match(/^\/[^/]+\/[^/]+$/);
