@@ -1,16 +1,16 @@
 import type { FC, ComponentType, SVGProps } from 'react';
 import { motion } from 'framer-motion';
 import { Terminal, Cpu, ChefHat, ArrowRight } from 'lucide-react';
-import { services } from '@/data/content';
+import { services } from '@/data';
+import type { IServiceIcon } from '@/types';
 import { Badge } from '@components/ui/Badge';
 import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { SectionReveal } from '@components/ui/SectionReveal';
+import { SectionShell } from '@components/ui/SectionShell';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
-type IconKey = 'Terminal' | 'Cpu' | 'ChefHat';
-
-const iconMap: Readonly<Record<IconKey, ComponentType<SVGProps<SVGSVGElement>>>> = {
+const iconMap: Readonly<Record<IServiceIcon, ComponentType<SVGProps<SVGSVGElement>>>> = {
   Terminal,
   Cpu,
   ChefHat,
@@ -34,10 +34,10 @@ const accentGradients: Record<string, string> = {
 
 export const Services: FC = () => {
   return (
-    <section
+    <SectionShell
       id="services"
       aria-label="Aman Thakur Freelance Services Menu"
-      className="py-24 bg-light-bg dark:bg-dark-bg transition-colors duration-300 relative overflow-hidden"
+      tone="canvas"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
       <GlowingEffect className="top-1/3 left-1/4 opacity-15" color="#ff6b35" size={500} />
@@ -47,13 +47,13 @@ export const Services: FC = () => {
 
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-surface font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
             <span>services</span>
           </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
             What I build for clients.
           </h2>
-          <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
+          <p className="mt-4 text-muted font-body text-lg">
             Pick a track — every engagement is scoped, milestoned, and shipped with strict typing and tests.
           </p>
         </SectionReveal>
@@ -61,7 +61,7 @@ export const Services: FC = () => {
         {/* Menu Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((item, index) => {
-            const IconComponent = iconMap[item.icon as IconKey];
+            const IconComponent = iconMap[item.icon];
             const ingredients = getIngredients(item.id);
             const isChefSpecial = item.id === 'fullstack';
 
@@ -76,8 +76,8 @@ export const Services: FC = () => {
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className={`relative p-8 flex flex-col items-start justify-between w-full h-full rounded-xl-playful border-2 ${
                       isChefSpecial
-                        ? 'border-primary-400 dark:border-primary-400 bg-light-surface dark:bg-dark-surface'
-                        : 'border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface'
+                        ? 'border-primary-400 dark:border-primary-400 bg-surface'
+                        : 'border-line bg-surface'
                     } transition-colors duration-300 overflow-hidden`}
                   >
                     {/* Background gradient accent */}
@@ -98,28 +98,28 @@ export const Services: FC = () => {
                       {/* Course Category Icon */}
                       <motion.div
                         whileHover={{ rotate: 12, scale: 1.1 }}
-                        className={`w-14 h-14 rounded-2xl border-2 border-light-text dark:border-dark-text flex items-center justify-center shadow-lg mb-6 ${
+                        className={`w-14 h-14 rounded-2xl border-2 border-ink flex items-center justify-center shadow-lg mb-6 ${
                           isChefSpecial ? 'bg-primary-400 shadow-primary-400/30' : 'bg-secondary-400 shadow-secondary-400/30'
                         }`}
                       >
                         <IconComponent className="w-7 h-7 text-white" />
                       </motion.div>
 
-                      <h3 className="font-display font-black text-2xl text-light-text dark:text-dark-text tracking-tight leading-tight">
+                      <h3 className="font-display font-black text-2xl text-ink tracking-tight leading-tight">
                         {item.title}
                       </h3>
                       <p className="text-xs font-display font-bold text-primary-400 uppercase tracking-wider mt-1.5">
                         {item.tagline}
                       </p>
 
-                      <p className="mt-4 text-sm text-light-muted dark:text-dark-muted font-body leading-relaxed">
+                      <p className="mt-4 text-sm text-muted font-body leading-relaxed">
                         {item.description}
                       </p>
                     </div>
 
                     {/* "Ingredients" Section */}
-                    <div className="w-full mt-6 pt-6 border-t-2 border-light-border dark:border-dark-border text-left relative z-10">
-                      <span className="text-[10px] font-mono text-light-muted dark:text-dark-muted block mb-2 uppercase tracking-widest">
+                    <div className="w-full mt-6 pt-6 border-t-2 border-line text-left relative z-10">
+                      <span className="text-[10px] font-mono text-muted block mb-2 uppercase tracking-widest">
                         // stack
                       </span>
                       <div className="flex flex-wrap gap-1.5">
@@ -142,7 +142,7 @@ export const Services: FC = () => {
                               }
                             }
                           }}
-                          className="w-full py-2.5 flex items-center justify-center gap-2 border-2 border-light-text dark:border-dark-text font-display font-black text-xs rounded-xl bg-white dark:bg-dark-surface hover:bg-primary-50 dark:hover:bg-dark-bg text-light-text dark:text-dark-text transition-colors group/btn"
+                          className="w-full py-2.5 flex items-center justify-center gap-2 border-2 border-ink font-display font-black text-xs rounded-xl bg-surface hover:bg-primary-50 dark:hover:bg-canvas text-ink transition-colors group/btn"
                         >
                           Start a project
                           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -158,7 +158,7 @@ export const Services: FC = () => {
         </div>
 
       </div>
-    </section>
+    </SectionShell>
   );
 };
 export default Services;

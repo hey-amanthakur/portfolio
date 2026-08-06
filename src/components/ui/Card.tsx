@@ -17,9 +17,9 @@ export const Card: FC<ICardProps> = ({
   const baseStyles = 'rounded-xl-playful transition-colors overflow-hidden';
   
   const variantStyles = {
-    default: 'bg-light-surface dark:bg-dark-surface border-2 border-light-border dark:border-dark-border',
-    'flat-primary': 'bg-light-surface dark:bg-dark-surface border-2 border-light-text dark:border-dark-text shadow-flat-primary dark:shadow-flat-primary',
-    'flat-secondary': 'bg-light-surface dark:bg-dark-surface border-2 border-light-text dark:border-dark-text shadow-flat-secondary dark:shadow-flat-secondary',
+    default: 'bg-surface border-2 border-line',
+    'flat-primary': 'bg-surface border-2 border-ink shadow-flat-primary',
+    'flat-secondary': 'bg-surface border-2 border-ink shadow-flat-secondary',
     borderless: 'bg-transparent border-none shadow-none',
   } as const;
 

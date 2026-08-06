@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
-import { navLinks, siteConfig } from '@/data/content';
+import { navLinks, siteConfig } from '@/data';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 
 export const Navbar: FC = () => {
@@ -54,14 +54,14 @@ export const Navbar: FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md border-b-2 border-light-border dark:border-dark-border transition-colors duration-300">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-canvas/80 dark:bg-canvas/80 backdrop-blur-md border-b-2 border-line transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Playful Brand Logo */}
         <a 
           href="#home" 
-          className="flex items-center gap-2.5 group font-display font-bold text-xl text-light-text dark:text-dark-text"
+          className="flex items-center gap-2.5 group font-display font-bold text-xl text-ink"
         >
-          <div className="relative w-9 h-9 rounded-xl-playful border-2 border-light-text dark:border-dark-text flex items-center justify-center bg-primary-400 group-hover:rotate-12 transition-transform duration-200 shadow-sm">
+          <div className="relative w-9 h-9 rounded-xl-playful border-2 border-ink flex items-center justify-center bg-primary-400 group-hover:rotate-12 transition-transform duration-200 shadow-sm">
             <Terminal className="w-5 h-5 text-white" />
           </div>
           <span className="tracking-tight hover:text-primary-400 transition-colors font-mono">
@@ -82,10 +82,10 @@ export const Navbar: FC = () => {
                 href={link.href}
                 className={`font-display font-semibold transition-all relative ${
                   isContact
-                    ? 'px-4 py-1.5 rounded-full border-2 border-light-text dark:border-dark-text bg-secondary-400 hover:bg-secondary-300 text-light-text shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5'
+                    ? 'px-4 py-1.5 rounded-full border-2 border-ink bg-secondary-400 hover:bg-secondary-300 text-ink shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5'
                     : isActive
                     ? 'text-primary-400 font-bold scale-105'
-                    : 'text-light-text/75 dark:text-dark-text/75 hover:text-primary-400 dark:hover:text-primary-300'
+                    : 'text-ink/75 dark:text-ink/75 hover:text-primary-400 dark:hover:text-primary-300'
                 }`}
               >
                 {link.label}
@@ -104,7 +104,7 @@ export const Navbar: FC = () => {
           <button
             onClick={toggleTheme}
             aria-label="Toggle active theme"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all duration-150 text-light-text dark:text-dark-text"
+            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all duration-150 text-ink"
           >
             {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
           </button>
@@ -116,7 +116,7 @@ export const Navbar: FC = () => {
           <button
             onClick={toggleTheme}
             aria-label="Toggle active theme mobile"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 text-light-text dark:text-dark-text"
+            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 text-ink"
           >
             {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
           </button>
@@ -125,7 +125,7 @@ export const Navbar: FC = () => {
           <button
             onClick={(): void => { setIsOpen(!isOpen); }}
             aria-label="Open mobile navigation drawer"
-            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark text-light-text dark:text-dark-text"
+            className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark text-ink"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -140,7 +140,7 @@ export const Navbar: FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden w-full bg-light-surface dark:bg-dark-surface border-b-2 border-light-border dark:border-dark-border overflow-hidden"
+            className="md:hidden w-full bg-surface border-b-2 border-line overflow-hidden"
           >
             <div className="flex flex-col px-6 py-8 gap-5">
               {navLinks.map((link) => (
@@ -148,7 +148,7 @@ export const Navbar: FC = () => {
                   key={link.label}
                   href={link.href}
                   onClick={handleLinkClick}
-                  className={`font-display font-bold text-lg text-light-text dark:text-dark-text py-1.5 border-b border-light-border dark:border-dark-border last:border-none hover:text-primary-400 transition-colors ${
+                  className={`font-display font-bold text-lg text-ink py-1.5 border-b border-line last:border-none hover:text-primary-400 transition-colors ${
                     activeId === link.href.replace('#', '') ? 'text-primary-400 pl-2 border-l-4 border-l-primary-400 border-b-0' : ''
                   }`}
                 >

@@ -1,21 +1,21 @@
 import type { FC } from 'react';
-import { siteConfig } from '@/data/content';
+import { siteConfig } from '@/data';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
 import { MagneticButton } from '@components/ui/MagneticButton';
 
 export const Footer: FC = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="w-full bg-light-surface dark:bg-dark-bg border-t-2 border-light-border dark:border-dark-border py-12 transition-colors duration-300 relative overflow-hidden">
+    <footer className="w-full bg-surface dark:bg-canvas border-t-2 border-line py-12 transition-colors duration-300 relative overflow-hidden">
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none opacity-50" />
 
       <div>
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
           <div className="text-center md:text-left">
-            <p className="font-display font-bold text-light-text dark:text-dark-text text-lg">
+            <p className="font-display font-bold text-ink text-lg">
               Aman Thakur<span className="text-primary-400">.</span>
             </p>
-            <p className="text-sm text-light-muted dark:text-dark-muted mt-1 flex items-center justify-center md:justify-start gap-1.5 font-mono">
+            <p className="text-sm text-muted mt-1 flex items-center justify-center md:justify-start gap-1.5 font-mono">
               <span className="text-primary-400">$</span>
               <span>built with React + TypeScript · &copy; {currentYear}</span>
             </p>
@@ -40,7 +40,7 @@ export const Footer: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-11 h-11 flex items-center justify-center rounded-xl border-2 border-light-text dark:border-dark-text bg-light-bg dark:bg-dark-surface shadow-flat-light dark:shadow-flat-dark hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all duration-150 text-light-text dark:text-dark-text hover:text-primary-400"
+                  className="w-11 h-11 flex items-center justify-center rounded-xl border-2 border-ink bg-canvas dark:bg-surface shadow-flat-light dark:shadow-flat-dark hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all duration-150 text-ink hover:text-primary-400"
                 >
                   {social.icon}
                 </a>

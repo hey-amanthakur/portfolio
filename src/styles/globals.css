@@ -4,8 +4,23 @@
 
 @layer base {
   :root {
+    /* Semantic tokens (RGB triplets for Tailwind alpha support) */
+    --color-canvas: 250 249 246;
+    --color-surface: 255 255 255;
+    --color-line: 232 229 223;
+    --color-ink: 26 25 23;
+    --color-muted: 115 112 107;
+
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .dark {
+    --color-canvas: 15 14 23;
+    --color-surface: 31 30 38;
+    --color-line: 46 44 56;
+    --color-ink: 240 237 245;
+    --color-muted: 167 164 178;
   }
 
   html {
@@ -23,11 +38,11 @@
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-light-bg dark:bg-dark-bg;
+    @apply bg-canvas;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary-200 dark:bg-dark-border rounded-full hover:bg-primary-400 dark:hover:bg-primary-300;
+    @apply bg-primary-200 dark:bg-line rounded-full hover:bg-primary-400 dark:hover:bg-primary-300;
   }
 }
 
@@ -72,15 +87,6 @@
   }
 }
 
-/* Playful utilities */
-.btn-flat-shadow {
-  @apply relative active:translate-x-1 active:translate-y-1 transition-all duration-150;
-}
-
-.flat-shadow-primary {
-  @apply border-2 border-light-text dark:border-dark-text shadow-flat-light dark:shadow-flat-dark hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200;
-}
-
-.flat-shadow-secondary {
-  @apply border-2 border-light-text dark:border-dark-text shadow-flat-secondary dark:shadow-flat-secondary hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200;
-}
+/* Playful utilities — flat shadows come from the `shadow-flat-*` tokens in
+   tailwind.config.js. Pair them with active:translate + active:shadow-none
+   on interactive elements for the press effect. */

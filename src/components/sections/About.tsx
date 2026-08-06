@@ -1,8 +1,9 @@
 import type { FC, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Trophy, GraduationCap, Utensils } from 'lucide-react';
-import { milestones } from '@/data/content';
+import { milestones } from '@/data';
 import { SectionReveal } from '@components/ui/SectionReveal';
+import { SectionShell } from '@components/ui/SectionShell';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
@@ -22,10 +23,11 @@ const cardColors = [
 
 export const About: FC = () => {
   return (
-    <section
+    <SectionShell
       id="about"
       aria-label="Aman Thakur Story Timeline"
-      className="py-24 bg-light-surface dark:bg-dark-surface border-y-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
+      tone="surface"
+      border="y"
     >
       <GlowingEffect className="top-20 right-20 opacity-20" color="#ff6b35" size={500} />
       <GlowingEffect className="bottom-20 left-20 opacity-15" color="#2ec4b6" size={400} />
@@ -34,13 +36,13 @@ export const About: FC = () => {
 
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-canvas font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
             <span>// the path so far</span>
           </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
             From hackathon hall <span className="text-gradient-primary">→</span> production stack.
           </h2>
-          <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
+          <p className="mt-4 text-muted font-body text-lg">
             Three years of shipping software, winning hackathons, and — somewhere in between — running a food creator account.
           </p>
         </SectionReveal>
@@ -60,11 +62,11 @@ export const About: FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative group p-6 rounded-2xl border-2 border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg hover:border-primary-400 dark:hover:border-primary-400 transition-all duration-300 overflow-hidden text-center"
+                className="relative group p-6 rounded-2xl border-2 border-line bg-canvas hover:border-primary-400 dark:hover:border-primary-400 transition-all duration-300 overflow-hidden text-center"
               >
                 <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-300" style={{ backgroundImage: `linear-gradient(135deg, var(--tw-gradient-stops))` }} />
-                <AnimatedCounter target={stat.target} suffix={stat.suffix} className="text-3xl sm:text-4xl text-light-text dark:text-dark-text" />
-                <p className="text-[11px] font-mono text-light-muted dark:text-dark-muted uppercase tracking-wider mt-2">{stat.label}</p>
+                <AnimatedCounter target={stat.target} suffix={stat.suffix} className="text-3xl sm:text-4xl text-ink" />
+                <p className="text-[11px] font-mono text-muted uppercase tracking-wider mt-2">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -86,7 +88,7 @@ export const About: FC = () => {
                 <motion.div
                   whileHover={{ y: -4, scale: 1.01 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="relative group p-6 sm:p-8 rounded-2xl border-2 border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg hover:border-light-text dark:hover:border-dark-text transition-all duration-300 overflow-hidden h-full"
+                  className="relative group p-6 sm:p-8 rounded-2xl border-2 border-line bg-canvas hover:border-ink dark:hover:border-ink transition-all duration-300 overflow-hidden h-full"
                 >
                   {/* Accent stripe */}
                   <div className={`absolute top-0 left-0 w-full h-1 ${isCode ? 'bg-primary-400' : 'bg-secondary-400'} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
@@ -106,16 +108,16 @@ export const About: FC = () => {
                         }`}>
                           {item.year}
                         </span>
-                        <span className="text-[10px] font-mono text-light-muted dark:text-dark-muted uppercase tracking-widest">
+                        <span className="text-[10px] font-mono text-muted uppercase tracking-widest">
                           {isCode ? 'code' : 'food'}
                         </span>
                       </div>
 
-                      <h3 className="font-display font-black text-xl sm:text-2xl text-light-text dark:text-dark-text tracking-tight leading-tight">
+                      <h3 className="font-display font-black text-xl sm:text-2xl text-ink tracking-tight leading-tight">
                         {item.title}
                       </h3>
 
-                      <p className="mt-3 text-sm sm:text-base text-light-muted dark:text-dark-muted font-body leading-relaxed">
+                      <p className="mt-3 text-sm sm:text-base text-muted font-body leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -127,7 +129,7 @@ export const About: FC = () => {
         </div>
 
       </div>
-    </section>
+    </SectionShell>
   );
 };
 export default About;

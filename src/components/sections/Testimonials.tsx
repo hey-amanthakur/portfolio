@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { testimonials } from '@/data/content';
+import { testimonials } from '@/data';
 import { SectionReveal } from '@components/ui/SectionReveal';
+import { SectionShell } from '@components/ui/SectionShell';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
 export const Testimonials: FC = () => {
@@ -45,10 +46,11 @@ export const Testimonials: FC = () => {
   };
 
   return (
-    <section
+    <SectionShell
       id="testimonials"
       aria-label="Client Testimonials and Reviews"
-      className="py-24 bg-light-bg dark:bg-dark-bg border-y-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
+      tone="canvas"
+      border="y"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
       <GlowingEffect className="top-20 left-1/4 opacity-15" color="#ff6b35" size={400} />
@@ -57,13 +59,13 @@ export const Testimonials: FC = () => {
 
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-surface font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
             <span>testimonials</span>
           </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
             What founders say.
           </h2>
-          <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
+          <p className="mt-4 text-muted font-body text-lg">
             Real feedback from teams I&apos;ve engineered alongside.
           </p>
         </SectionReveal>
@@ -82,7 +84,7 @@ export const Testimonials: FC = () => {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 className="absolute inset-0"
               >
-                <div className="relative p-8 sm:p-10 rounded-3xl border-2 border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface overflow-hidden group hover:border-primary-400/50 dark:hover:border-primary-400/50 transition-colors duration-300">
+                <div className="relative p-8 sm:p-10 rounded-3xl border-2 border-line bg-surface overflow-hidden group hover:border-primary-400/50 dark:hover:border-primary-400/50 transition-colors duration-300">
                   {/* Background accent */}
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-400/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -103,12 +105,12 @@ export const Testimonials: FC = () => {
                   </div>
 
                   {/* Quote Text */}
-                  <blockquote className="text-light-text dark:text-dark-text font-body text-lg leading-relaxed italic relative z-10">
+                  <blockquote className="text-ink font-body text-lg leading-relaxed italic relative z-10">
                     &ldquo;{testimonials[current]?.quote}&rdquo;
                   </blockquote>
 
                   {/* Author Info */}
-                  <div className="mt-8 pt-6 border-t-2 border-light-border dark:border-dark-border flex items-center gap-4 relative z-10">
+                  <div className="mt-8 pt-6 border-t-2 border-line flex items-center gap-4 relative z-10">
                     {testimonials[current]?.avatarUrl !== undefined ? (
                       <motion.img
                         initial={{ scale: 0.8, opacity: 0 }}
@@ -120,20 +122,20 @@ export const Testimonials: FC = () => {
                         height="52"
                         loading="lazy"
                         decoding="async"
-                        className="w-13 h-13 rounded-2xl border-2 border-light-border dark:border-dark-border object-cover shadow-lg"
+                        className="w-13 h-13 rounded-2xl border-2 border-line object-cover shadow-lg"
                       />
                     ) : (
-                      <div className="w-13 h-13 rounded-2xl border-2 border-light-border dark:border-dark-border bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
+                      <div className="w-13 h-13 rounded-2xl border-2 border-line bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
                         <span className="text-primary-700 dark:text-primary-300 font-display font-black text-lg">
                           {testimonials[current].name.charAt(0)}
                         </span>
                       </div>
                     )}
                     <div>
-                      <p className="font-display font-bold text-light-text dark:text-dark-text text-lg">
+                      <p className="font-display font-bold text-ink text-lg">
                         {testimonials[current].name}
                       </p>
-                      <p className="text-sm text-light-muted dark:text-dark-muted font-body">
+                      <p className="text-sm text-muted font-body">
                         {testimonials[current].role} at <span className="text-primary-400 font-semibold">{testimonials[current].company}</span>
                       </p>
                     </div>
@@ -148,7 +150,7 @@ export const Testimonials: FC = () => {
             <button
               onClick={(): void => { paginate(-1); }}
               aria-label="Previous testimonial"
-              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-bg shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
+              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -163,7 +165,7 @@ export const Testimonials: FC = () => {
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === current
                       ? 'w-8 bg-primary-400'
-                      : 'w-2 bg-light-border dark:bg-dark-border hover:bg-primary-300'
+                      : 'w-2 bg-line hover:bg-primary-300'
                   }`}
                 />
               ))}
@@ -172,7 +174,7 @@ export const Testimonials: FC = () => {
             <button
               onClick={(): void => { paginate(1); }}
               aria-label="Next testimonial"
-              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-bg shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
+              className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -180,7 +182,7 @@ export const Testimonials: FC = () => {
         </div>
 
       </div>
-    </section>
+    </SectionShell>
   );
 };
 
