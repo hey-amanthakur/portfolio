@@ -18,23 +18,15 @@ const displayPosts: readonly IInstagramPost[] = hasScrapedData
   : instagramPosts;
 
 const LOCAL_FALLBACKS = [
-  '/instagram/post-1.jpg',
-  '/instagram/post-2.jpg',
-  '/instagram/post-3.jpg',
-  '/instagram/post-4.jpg',
-  '/instagram/post-5.jpg',
-  '/instagram/post-6.jpg',
-  '/instagram/post-7.jpg',
-  '/instagram/post-8.jpg',
+  '/assets/instagram/insta-1.jpg',
+  '/assets/instagram/insta-2.jpg',
+  '/assets/instagram/insta-3.jpg',
+  '/assets/instagram/insta-4.jpg',
 ] as const;
 
 const resolveImage = (raw: string, index: number): string => {
   if (raw.startsWith('/') || raw.startsWith('blob:') || raw.startsWith('data:')) return raw;
-  if (raw.includes('cdninstagram.com') || raw.includes('fbcdn.net') || raw.includes('instagram.com')) {
-    const fallbackIndex = index % LOCAL_FALLBACKS.length;
-    return LOCAL_FALLBACKS[fallbackIndex] ?? LOCAL_FALLBACKS[0];
-  }
-  return raw;
+  return LOCAL_FALLBACKS[index % LOCAL_FALLBACKS.length] ?? LOCAL_FALLBACKS[0];
 };
 
 export const InstagramFeed: FC = () => {

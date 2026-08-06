@@ -1,7 +1,7 @@
 [
   {
     "id": "insta-1",
-    "imageUrl": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=60",
+    "imageUrl": "/assets/instagram/insta-1.jpg",
     "caption": "Spice, sizzle, and a journey of a lifetime! Tasting the absolute best Butter Chicken in Delhi 🍛🔥. Every bite has a story! #YehSafarSwaadKa #FoodVlog",
     "likes": 1842,
     "comments": 124,
@@ -9,7 +9,7 @@
   },
   {
     "id": "insta-2",
-    "imageUrl": "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=800&auto=format&fit=crop&q=60",
+    "imageUrl": "/assets/instagram/insta-2.jpg",
     "caption": "Cracking the crispy gold standard! This 4-foot Masala Dosa is a legendary local masterclass 🥞 Sambhar check: 10/10. Chutneys: Spiced to perfection! #StreetFoodIndia",
     "likes": 2150,
     "comments": 187,
@@ -17,7 +17,7 @@
   },
   {
     "id": "insta-3",
-    "imageUrl": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=60",
+    "imageUrl": "/assets/instagram/insta-3.jpg",
     "caption": "Long grained, slow-cooked, and loaded with aroma! Unboxing the most authentic Dum Biryani cooked over coal. Tag a friend who can finish this alone! 👇👇 #BiryaniLovers",
     "likes": 3105,
     "comments": 242,
@@ -25,7 +25,7 @@
   },
   {
     "id": "insta-4",
-    "imageUrl": "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800&auto=format&fit=crop&q=60",
+    "imageUrl": "/assets/instagram/insta-4.jpg",
     "caption": "A sweet ending to a spicy travel journey! Fluffy, milky Rasmalai soaked in saffron and loaded with pistachios 🍧. Pure foodie heaven! #DessertGram #SweetJourney",
     "likes": 1982,
     "comments": 98,
