@@ -16,9 +16,10 @@ export const LocaleProvider = ({ children }: ILocaleProviderProps): ReactNode =>
   useEffect(() => {
     if (locale === DEFAULT_LOCALE) return;
     let active = true;
-    void import(
-      /* webpackChunkName: "locale-[request]" */ `./${locale}.ts`
-    ).then((module: { default: ILocale; [key: string]: ILocale }) => {
+      void import(
+        /* @vite-ignore */
+        /* webpackChunkName: "locale-[request]" */ `./${locale}.ts`
+      ).then((module: { default: ILocale; [key: string]: ILocale }) => {
       const loaded = module[locale] ?? module.default;
       if (active) setData(loaded);
     });
