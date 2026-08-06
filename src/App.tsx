@@ -8,11 +8,6 @@ import { LoadingFallback } from '@components/ui/LoadingFallback';
 import { Footer } from '@components/layout/Footer';
 import { ScrollProgress } from '@components/ui/ScrollProgress';
 
-const LazyChatBot = lazy(
-  async (): Promise<{ default: ComponentType }> =>
-    import('@components/ui/ChatBot')
-);
-
 // Lazy-load below-fold sections — each becomes a separate JS chunk
 const LazyPortfolio = lazy(
   async (): Promise<{ default: ComponentType }> =>
@@ -48,9 +43,6 @@ export const App: FC = () => {
         </Suspense>
       </main>
       <Footer />
-      <Suspense fallback={null}>
-        <LazyChatBot />
-      </Suspense>
     </div>
   );
 };

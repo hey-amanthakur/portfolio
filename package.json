@@ -17,13 +17,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "preview": "vite preview",
-    "dev:all": "bun run chatbot:dev & bun run dev",
-    "chatbot:dev": "bun run scripts/chatbot-server.ts",
-    "chatbot:start": "bun run scripts/chatbot-server.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@hey-amanthakur/chat-bot": "^1.0.2",
     "@hookform/resolvers": "^5.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
