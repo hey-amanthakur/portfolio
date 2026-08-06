@@ -56,6 +56,7 @@ export const Testimonials: FC = () => {
       aria-label={t.meta.sectionLabels.testimonials}
       tone="canvas"
       border="y"
+      className="section-lazy"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
       <GlowingEffect className="top-20 left-1/4 opacity-15" color="#ff6b35" size={400} />

@@ -24,8 +24,12 @@ export const ParticleField: FC<IParticleFieldProps> = ({
   count = 30,
   className = '',
 }) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const effectiveCount = reducedMotion ? 0 : isMobile ? Math.round(count / 3) : count;
+
   const particles = useMemo((): IParticle[] => {
-    return Array.from({ length: count }, (_, i) => ({
+    return Array.from({ length: effectiveCount }, (_, i) => ({
       id: i,
       x: seededRandom(i * 7 + 1) * 100,
       y: seededRandom(i * 13 + 3) * 100,
@@ -33,7 +37,9 @@ export const ParticleField: FC<IParticleFieldProps> = ({
       duration: seededRandom(i * 23 + 7) * 20 + 15,
       delay: seededRandom(i * 29 + 11) * 10,
     }));
-  }, [count]);
+  }, [effectiveCount]);
+
+  if (effectiveCount === 0) return null;
 
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>

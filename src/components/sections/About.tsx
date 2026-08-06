@@ -35,6 +35,7 @@ export const About: FC = () => {
       aria-label={t.meta.sectionLabels.about}
       tone="surface"
       border="y"
+      className="section-lazy"
     >
       <GlowingEffect className="top-20 right-20 opacity-20" color="#ff6b35" size={500} />
       <GlowingEffect className="bottom-20 left-20 opacity-15" color="#2ec4b6" size={400} />

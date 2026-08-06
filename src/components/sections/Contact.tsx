@@ -57,6 +57,7 @@ export const Contact: FC = () => {
       aria-label={t.meta.sectionLabels.contact}
       tone="surface"
       border="top"
+      className="section-lazy"
     >
       <GlowingEffect className="top-0 right-0 opacity-10" color="#25D366" size={500} />
       <GlowingEffect className="bottom-0 left-0 opacity-10" color="#ff6b35" size={400} />

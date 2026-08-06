@@ -296,7 +296,7 @@ export const Hero: FC = () => {
                 </div>
                 <div className="border-t border-white/5 px-5 py-2.5 bg-[#1B1B23] flex items-center justify-between text-[11px] relative z-10">
                   <span className="flex items-center gap-2 text-secondary-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary-400 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-secondary-400" />
                     main
                   </span>
                   <span className="text-gray-500">npm run dev <span className="text-secondary-400">{t.hero.codePanelReadyIn} 142ms</span></span>

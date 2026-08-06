@@ -120,9 +120,6 @@ export const Navbar: FC = () => {
 
         {/* Mobile Buttons */}
         <div className="flex md:hidden items-center gap-4">
-          {/* Mobile Language Switcher */}
-          <LocaleSwitcher />
-
           {/* Mobile Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -151,7 +148,7 @@ export const Navbar: FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="md:hidden w-full bg-surface border-b-2 border-line overflow-hidden"
+            className="md:hidden w-full bg-surface border-b-2 border-line overflow-y-auto overflow-x-visible"
           >
             <div className="flex flex-col px-6 py-8 gap-5">
               {navLinks.map((link) => (
@@ -166,6 +163,11 @@ export const Navbar: FC = () => {
                   {t.nav[link.label]}
                 </a>
               ))}
+
+              {/* Mobile Language Switcher */}
+              <div className="pt-4 border-t border-line">
+                <LocaleSwitcher />
+              </div>
             </div>
           </motion.div>
         )}

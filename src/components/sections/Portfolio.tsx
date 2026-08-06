@@ -47,6 +47,7 @@ export const Portfolio: FC = () => {
       aria-label={t.meta.sectionLabels.portfolio}
       tone="surface"
       border="y"
+      className="section-lazy"
     >
       <div className="max-w-6xl mx-auto px-6">
 
@@ -133,14 +134,14 @@ export const Portfolio: FC = () => {
         {/* Filter & Search Bar Panel */}
         <SectionReveal delay={0.15} className="mb-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-canvas p-4 rounded-2xl-playful border-2 border-line">
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-2 justify-center overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {filterCategories.map((cat) => (
                 <motion.button
                   key={cat}
                   onClick={(): void => { setActiveFilter(cat); }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-5 py-2 font-display font-bold text-xs rounded-full border-2 border-ink transition-all duration-300 ${
+                  className={`flex-shrink-0 px-5 py-2 font-display font-bold text-xs rounded-full border-2 border-ink transition-all duration-300 ${
                     activeFilter === cat
                       ? 'bg-primary-400 text-white shadow-lg shadow-primary-400/30'
                       : 'bg-surface text-ink hover:bg-primary-50'

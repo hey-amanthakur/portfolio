@@ -69,6 +69,7 @@ export const InstagramFeed: FC = () => {
       id={SECTION_IDS.instagram}
       aria-label={t.meta.sectionLabels.instagram}
       tone="canvas"
+      className="section-lazy"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
       <GlowingEffect className="top-1/4 right-1/4 opacity-10" color="#E1306C" size={400} />
