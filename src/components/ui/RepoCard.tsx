@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Star, GitFork, GitPullRequest } from 'lucide-react';
+import { useI18n } from '@/i18n';
 import { languageColor } from '@/utils/languageColor';
 
 interface IRepoCardProps {
@@ -28,6 +29,7 @@ export const RepoCard: FC<IRepoCardProps> = ({
   index = 0,
   isVisible = false,
 }) => {
+  const { t } = useI18n();
   const isOss = variant === 'oss';
 
   return (
@@ -67,7 +69,7 @@ export const RepoCard: FC<IRepoCardProps> = ({
         {prCount > 0 && (
           <span className="flex items-center gap-1">
             <GitPullRequest className="w-3 h-3" />
-            {prCount} PR{prCount === 1 ? '' : 's'}
+            {prCount} {prCount === 1 ? t.repoCard.pr : t.repoCard.prs}
           </span>
         )}
         {stars > 0 && (

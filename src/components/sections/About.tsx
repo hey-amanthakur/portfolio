@@ -2,17 +2,19 @@ import type { FC, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Trophy, GraduationCap, Utensils } from 'lucide-react';
 import { milestones } from '@/data';
+import { getContentOverrides, localize, useI18n, type ILocaleContent } from '@/i18n';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
-import { SECTION_IDS, SECTION_LABELS, PERSONAS } from '@/constants';
+import { SECTION_IDS, PERSONAS } from '@/constants';
 import type { Persona } from '@/constants';
+import type { MilestoneKind } from '@/types';
 
-const getIcon = (category: Persona, title: string): ReactElement => {
-  if (title.includes('Winner')) return <Trophy className="w-5 h-5 text-white" />;
-  if (title.includes('Star') || title.includes('ML')) return <GraduationCap className="w-5 h-5 text-white" />;
-  if (category === PERSONAS.food) return <Utensils className="w-5 h-5 text-white" />;
+const getIcon = (category: Persona, kind: MilestoneKind): ReactElement => {
+  if (kind === 'hackathon') return <Trophy className="w-5 h-5 text-white" />;
+  if (kind === 'education') return <GraduationCap className="w-5 h-5 text-white" />;
+  if (kind === 'food' || category === PERSONAS.food) return <Utensils className="w-5 h-5 text-white" />;
   return <Zap className="w-5 h-5 text-white" />;
 };
 
@@ -24,10 +26,13 @@ const cardColors = [
 ] as const;
 
 export const About: FC = () => {
+  const { t, locale } = useI18n();
+  const content = getContentOverrides(locale);
+
   return (
     <SectionShell
       id={SECTION_IDS.about}
-      aria-label={SECTION_LABELS.about}
+      aria-label={t.meta.sectionLabels.about}
       tone="surface"
       border="y"
     >
@@ -39,13 +44,13 @@ export const About: FC = () => {
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-canvas font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
-            <span>// the path so far</span>
+            <span>{t.about.badge}</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
-            From hackathon hall <span className="text-gradient-primary">→</span> production stack.
+            {t.about.headingBefore} <span className="text-gradient-primary">→</span> {t.about.headingAfter}
           </h2>
           <p className="mt-4 text-muted font-body text-lg">
-            Three years of shipping software, winning hackathons, and — somewhere in between — running a food creator account.
+            {t.about.subtext}
           </p>
         </SectionReveal>
 
@@ -53,10 +58,10 @@ export const About: FC = () => {
         <SectionReveal delay={0.1} className="mb-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { target: 10, suffix: '+', label: 'Open Source Contributions', color: 'from-primary-400 to-primary-500' },
-              { target: 2, suffix: '×', label: 'Hackathon Wins', color: 'from-secondary-400 to-secondary-500' },
-              { target: 50, suffix: 'K+', label: 'Food Community', color: 'from-primary-400 to-secondary-400' },
-              { target: 3, suffix: '+', label: 'Years Coding', color: 'from-secondary-400 to-primary-400' },
+              { target: 10, suffix: '+', label: t.about.statOpenSource, color: 'from-primary-400 to-primary-500' },
+              { target: 2, suffix: '×', label: t.about.statHackathons, color: 'from-secondary-400 to-secondary-500' },
+              { target: 50, suffix: 'K+', label: t.about.statFoodCommunity, color: 'from-primary-400 to-secondary-400' },
+              { target: 3, suffix: '+', label: t.about.statYearsCoding, color: 'from-secondary-400 to-primary-400' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -79,10 +84,11 @@ export const About: FC = () => {
           {milestones.map((item, index) => {
             const isCode = item.category === PERSONAS.code;
             const isWide = index === 0 || index === 3;
+            const milestoneText = content.milestones?.[item.id as keyof NonNullable<ILocaleContent['milestones']>] ?? {};
 
             return (
               <SectionReveal
-                key={index}
+                key={item.id}
                 delay={index * 0.1}
                 direction={index % 2 === 0 ? 'left' : 'right'}
                 className={isWide ? 'md:col-span-2' : ''}
@@ -98,7 +104,7 @@ export const About: FC = () => {
                   <div className={`flex ${isWide ? 'flex-col sm:flex-row' : 'flex-col'} items-start gap-5`}>
                     {/* Icon badge */}
                     <div className={`w-14 h-14 rounded-2xl ${cardColors[index] ?? 'bg-primary-400'} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      {getIcon(item.category, item.title)}
+                      {getIcon(item.category, item.kind)}
                     </div>
 
                     <div className="flex-1">
@@ -111,16 +117,16 @@ export const About: FC = () => {
                           {item.year}
                         </span>
                         <span className="text-[10px] font-mono text-muted uppercase tracking-widest">
-                          {isCode ? PERSONAS.code : PERSONAS.food}
+                          {isCode ? t.about.personaCode : t.about.personaFood}
                         </span>
                       </div>
 
                       <h3 className="font-display font-black text-xl sm:text-2xl text-ink tracking-tight leading-tight">
-                        {item.title}
+                        {localize(milestoneText.title, item.title)}
                       </h3>
 
                       <p className="mt-3 text-sm sm:text-base text-muted font-body leading-relaxed">
-                        {item.description}
+                        {localize(milestoneText.description, item.description)}
                       </p>
                     </div>
                   </div>

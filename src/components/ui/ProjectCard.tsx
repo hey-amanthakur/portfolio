@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import type { IProject } from '@/types';
+import { getContentOverrides, localize, useI18n, type ProjectId } from '@/i18n';
 import { Badge } from '@components/ui/Badge';
 import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
@@ -12,6 +13,11 @@ interface IProjectCardProps {
 }
 
 export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
+  const { t, locale } = useI18n();
+  const content = getContentOverrides(locale);
+  const override = content.projects?.[project.id as ProjectId];
+  const description = localize(override?.description, project.description);
+
   return (
     <SpotlightCard className="w-full h-full" spotlightColor="rgba(255, 107, 53, 0.12)">
       <motion.div
@@ -37,7 +43,7 @@ export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
 
           {project.featured && (
             <span className="absolute top-4 left-4 bg-secondary-400 text-white border-2 border-white/30 px-3 py-1 rounded-full font-mono font-bold text-[10px] uppercase shadow-lg shadow-secondary-400/30">
-              featured
+              {t.projectCard.featured}
             </span>
           )}
         </div>
@@ -58,7 +64,7 @@ export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
             </h3>
 
             <p className="mt-3 text-sm text-muted font-body leading-relaxed">
-              {project.description}
+              {description}
             </p>
           </div>
 
@@ -73,7 +79,7 @@ export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
                   className="flex items-center gap-2 px-4 py-2 font-display font-bold text-xs rounded-xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5"
                 >
                   <GitHubIcon className="w-4 h-4" />
-                  Source Code
+                  {t.projectCard.sourceCode}
                 </a>
               </MagneticButton>
             )}
@@ -87,7 +93,7 @@ export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
                   className="flex items-center gap-2 px-4 py-2 font-display font-bold text-xs rounded-xl border-2 border-ink bg-primary-400 text-white hover:bg-primary-300 shadow-lg shadow-primary-400/20 active:translate-x-0.5 active:translate-y-0.5"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Live Demo
+                  {t.projectCard.liveDemo}
                 </a>
               </MagneticButton>
             )}

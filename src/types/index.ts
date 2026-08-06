@@ -1,8 +1,9 @@
 import type { Route, Persona, ServiceId, IProjectCategory } from '@/constants';
+import type { NavKey } from '@/i18n/types';
 
 // Navigation
 export interface INavLink {
-  readonly label: string;
+  readonly label: NavKey;
   readonly href: Route;
   readonly isExternal?: boolean;
 }
@@ -95,11 +96,15 @@ export interface IOpenSourceContribution {
 }
 
 // Milestone
+export type MilestoneKind = 'hackathon' | 'education' | 'food' | 'engineering';
+
 export interface IMilestone {
+  readonly id: string;
   readonly year: string;
   readonly title: string;
   readonly description: string;
   readonly category: Persona;
+  readonly kind: MilestoneKind;
 }
 
 // Component Props patterns

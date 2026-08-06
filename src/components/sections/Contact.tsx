@@ -2,13 +2,14 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Clock, Coffee, Send, ArrowRight } from 'lucide-react';
 import { siteConfig, services } from '@/data';
+import { getContentOverrides, localize, useI18n, type IUIStrings } from '@/i18n';
 import { Card } from '@components/ui/Card';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS } from '@/constants';
+import { SECTION_IDS, SERVICE_IDS } from '@/constants';
 import type { ServiceId } from '@/constants';
 
 const serviceEmoji: Readonly<Record<ServiceId, string>> = {
@@ -17,23 +18,35 @@ const serviceEmoji: Readonly<Record<ServiceId, string>> = {
   [SERVICE_IDS.contentCreation]: '📸',
 };
 
-function buildWhatsAppMessage(projectType = '', details = ''): string {
-  const service = services.find((s) => s.id === projectType);
+function buildWhatsAppMessage(
+  contactStrings: IUIStrings['contact'],
+  serviceTitle: string | undefined,
+  details = ''
+): string {
   const lines = [
-    `Hi Aman! I'd like to discuss a project.`,
-    service ? `Service: ${service.title}` : `Service: ${projectType || 'General inquiry'}`,
-    details ? `Details: ${details}` : '',
+    contactStrings.waIntro,
+    serviceTitle !== undefined ? `${contactStrings.waServicePrefix} ${serviceTitle}` : contactStrings.waGeneralInquiry,
+    details ? `${contactStrings.waDetailsPrefix} ${details}` : '',
     '',
-    "Let me know your availability for a quick call!",
+    contactStrings.waClosing,
   ].filter(Boolean);
   return lines.join('\n');
 }
 
 export const Contact: FC = () => {
+  const { t, locale } = useI18n();
+  const content = getContentOverrides(locale);
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
-  const whatsAppUrl = (projectType = '', details = ''): string => {
-    const msg = buildWhatsAppMessage(projectType, details);
+  const getServiceTitle = (serviceId: ServiceId | ''): string | undefined => {
+    if (serviceId === '') return undefined;
+    const service = services.find((s) => s.id === serviceId);
+    if (service === undefined) return undefined;
+    return localize(content.services?.[service.id]?.title, service.title);
+  };
+
+  const whatsAppUrl = (serviceId: ServiceId | '' = '', details = ''): string => {
+    const msg = buildWhatsAppMessage(t.contact, getServiceTitle(serviceId), details);
     return `https://wa.me/${siteConfig.phone}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -41,7 +54,7 @@ export const Contact: FC = () => {
     <SectionShell
       ref={ref}
       id={SECTION_IDS.contact}
-      aria-label={SECTION_LABELS.contact}
+      aria-label={t.meta.sectionLabels.contact}
       tone="surface"
       border="top"
     >
@@ -67,10 +80,10 @@ export const Contact: FC = () => {
               </div>
             </motion.div>
             <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
-              Let&apos;s build something <span className="text-[#25D366]">real</span>.
+              {t.contact.headingBefore} <span className="text-[#25D366]">{t.contact.headingAfter}</span>
             </h2>
             <p className="mt-4 text-muted font-body text-lg">
-              Pick a service below — it opens WhatsApp with a pre-filled brief. No forms, no waiting.
+              {t.contact.subtext}
             </p>
           </SectionReveal>
 
@@ -90,7 +103,7 @@ export const Contact: FC = () => {
                     </div>
                     <div>
                       <p className="text-white font-bold text-sm">Aman Thakur</p>
-                      <p className="text-[#A5D6A7] text-[10px]">Full-Stack Developer</p>
+                      <p className="text-[#A5D6A7] text-[10px]">{t.contact.chatHeaderRole}</p>
                     </div>
                     <div className="ml-auto">
                       <MessageCircle className="w-5 h-5 text-white" />
@@ -105,12 +118,14 @@ export const Contact: FC = () => {
                       className="bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-4 py-3 max-w-[85%] shadow-sm"
                     >
                       <p className="text-xs text-ink">
-                        Hey! Interested in working together? Pick a service below and I&apos;ll message you directly on WhatsApp!
+                        {t.contact.chatBubble}
                       </p>
-                      <p className="text-[10px] text-muted mt-1 text-right">Just now</p>
+                      <p className="text-[10px] text-muted mt-1 text-right">{t.contact.justNow}</p>
                     </motion.div>
 
-                    {services.map((service, index) => (
+                    {services.map((service, index) => {
+                      const override = content.services?.[service.id];
+                      return (
                       <motion.a
                         key={service.id}
                         href={whatsAppUrl(service.id)}
@@ -127,11 +142,11 @@ export const Contact: FC = () => {
                             <div className="flex items-center gap-2">
                               <span className="text-lg">{serviceEmoji[service.id]}</span>
                               <p className="font-display font-bold text-sm text-ink">
-                                {service.title}
+                                {localize(override?.title, service.title)}
                               </p>
                             </div>
                             <p className="text-[11px] text-muted mt-1 leading-relaxed">
-                              {service.tagline}
+                              {localize(override?.tagline, service.tagline)}
                             </p>
                           </div>
                           <ArrowRight className="w-4 h-4 text-[#25D366] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
@@ -139,11 +154,12 @@ export const Contact: FC = () => {
                         <div className="mt-2 flex items-center gap-1">
                           <Send className="w-3 h-3 text-[#25D366]" />
                           <span className="text-[10px] font-bold text-[#25D366] uppercase tracking-wide">
-                            Tap to WhatsApp
+                            {t.contact.tapToWhatsApp}
                           </span>
                         </div>
                       </motion.a>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               </motion.div>
@@ -157,7 +173,7 @@ export const Contact: FC = () => {
               >
                 <Card variant="flat-primary" className="p-6">
                   <h3 className="font-display font-black text-lg text-ink mb-4 flex items-center gap-2">
-                    <span>Direct contact</span>
+                    <span>{t.contact.directContact}</span>
                   </h3>
 
                   <div className="space-y-4">
@@ -169,7 +185,7 @@ export const Contact: FC = () => {
                         <Mail className="w-5 h-5 text-primary-400" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-display font-black text-primary-400 uppercase">Email</p>
+                        <p className="text-[10px] font-display font-black text-primary-400 uppercase">{t.contact.emailLabel}</p>
                         <p className="font-body font-bold text-sm text-ink break-all">
                           {siteConfig.email}
                         </p>
@@ -186,7 +202,7 @@ export const Contact: FC = () => {
                         <MessageCircle className="w-5 h-5 text-[#25D366]" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-display font-black text-[#25D366] uppercase">WhatsApp</p>
+                        <p className="text-[10px] font-display font-black text-[#25D366] uppercase">{t.contact.whatsappLabel}</p>
                         <p className="font-body font-bold text-sm text-ink">
                           +{siteConfig.phone.slice(0, 2)} {siteConfig.phone.slice(2, 7)} {siteConfig.phone.slice(7)}
                         </p>
@@ -198,9 +214,9 @@ export const Contact: FC = () => {
                         <Clock className="w-5 h-5 text-primary-400" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-display font-black text-primary-400 uppercase">Active Hours</p>
+                        <p className="text-[10px] font-display font-black text-primary-400 uppercase">{t.contact.activeHoursLabel}</p>
                         <p className="font-body font-bold text-sm text-ink">
-                          9:00 AM – 7:00 PM IST
+                          {t.contact.activeHoursValue}
                         </p>
                       </div>
                     </div>
@@ -222,10 +238,10 @@ export const Contact: FC = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-display font-bold text-sm text-ink">
-                          Buy me a coffee
+                          {t.contact.buyCoffee}
                         </p>
                         <p className="text-xs text-[#B38F00] font-body mt-0.5">
-                          Support my work
+                          {t.contact.supportWork}
                         </p>
                         <MagneticButton strength={0.2} className="mt-3">
                           <a
@@ -235,7 +251,7 @@ export const Contact: FC = () => {
                             className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs font-display font-bold border-2 border-[#B38F00] bg-[#FFDD00] text-[#5C4A00] hover:bg-[#FFDD00]/80 shadow-lg shadow-[#FFDD00]/20 active:translate-x-0.5 active:translate-y-0.5 transition-all"
                           >
                             <Coffee className="w-3.5 h-3.5" />
-                            Buy
+                            {t.contact.buy}
                           </a>
                         </MagneticButton>
                       </div>

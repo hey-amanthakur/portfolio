@@ -5,10 +5,11 @@ import { Heart, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
+import { useI18n } from '@/i18n';
 import { InstagramIcon } from '@components/icons';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
-import { SECTION_IDS, SECTION_LABELS } from '@/constants';
+import { SECTION_IDS } from '@/constants';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
@@ -41,6 +42,7 @@ const resolveImage = (raw: string, index: number): string => {
 };
 
 export const InstagramFeed: FC = () => {
+  const { t } = useI18n();
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
   const [displayPosts, setDisplayPosts] = useState<readonly IInstagramPost[]>(instagramPosts);
 
@@ -65,7 +67,7 @@ export const InstagramFeed: FC = () => {
     <SectionShell
       ref={ref}
       id={SECTION_IDS.instagram}
-      aria-label={SECTION_LABELS.instagram}
+      aria-label={t.meta.sectionLabels.instagram}
       tone="canvas"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
@@ -77,15 +79,15 @@ export const InstagramFeed: FC = () => {
         <SectionReveal className="max-w-3xl mx-auto mb-14 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-surface font-mono text-[11px] uppercase tracking-widest text-muted mb-5">
             <span className="w-2 h-2 rounded-full bg-[#E1306C] animate-pulse" />
-            <span>Side project · 02</span>
+            <span>{t.instagram.badge}</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
-            Off the keyboard,
+            {t.instagram.headingBefore}
             <br />
-            <span className="text-[#E1306C]">I chase street food.</span>
+            <span className="text-[#E1306C]">{t.instagram.headingAfter}</span>
           </h2>
           <p className="mt-5 text-muted font-body text-base sm:text-lg leading-relaxed">
-            <span className="font-mono text-ink">@{siteConfig.instaHandle}</span> is my Pune-based food diary — a weekly hunt for hidden gems, legendary thalis, and unreasonably good street snacks. It keeps the right-brain warm between sprints.
+            <span className="font-mono text-ink">@{siteConfig.instaHandle}</span> {t.instagram.descPrefix}
           </p>
         </SectionReveal>
 
@@ -139,7 +141,7 @@ export const InstagramFeed: FC = () => {
                         </span>
                         <span className="ml-auto flex items-center gap-1 text-[#E1306C]">
                           <ExternalLink className="w-3 h-3" />
-                          open
+                          {t.instagram.open}
                         </span>
                       </div>
                       <p className="text-[11px] font-body line-clamp-3 leading-snug opacity-90">
@@ -161,26 +163,27 @@ export const InstagramFeed: FC = () => {
                 <InstagramIcon className="w-7 h-7 text-white" />
               </div>
               <div className="text-left">
-                <p className="font-display font-black text-lg text-ink leading-tight">
-                  Hungry for more reels?
-                </p>
-                <p className="font-mono text-xs text-muted mt-0.5 flex items-center gap-1">
-                  <MapPin className="w-3 h-3" /> Pune · weekly drops
-                </p>
+                 <p className="font-display font-black text-lg text-ink leading-tight">
+                   {t.instagram.bannerTitle}
+                 </p>
+                 <p className="font-mono text-xs text-muted mt-0.5 flex items-center gap-1">
+                   <MapPin className="w-3 h-3" /> {t.instagram.bannerLocation}
+                 </p>
               </div>
             </div>
 
             <MagneticButton strength={0.2}>
-              <a
-                data-testid="insta-follow-cta"
-                href={siteConfig.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 font-display font-bold text-sm rounded-full bg-ink text-canvas hover:opacity-90 transition-opacity shadow-lg"
-              >
-                <InstagramIcon className="w-4 h-4" />
-                Follow @{siteConfig.instaHandle}
-              </a>
+               <a
+                 data-testid="insta-follow-cta"
+                 href={siteConfig.socials.instagram}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 aria-label={`Follow @${siteConfig.instaHandle}`}
+                 className="flex items-center gap-2 px-6 py-3 font-display font-bold text-sm rounded-full bg-ink text-canvas hover:opacity-90 transition-opacity shadow-lg"
+               >
+                 <InstagramIcon className="w-4 h-4" />
+                 {t.instagram.follow}@{siteConfig.instaHandle}
+               </a>
             </MagneticButton>
           </div>
         </SectionReveal>

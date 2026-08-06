@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
 import { navLinks, siteConfig } from '@/data';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+import { useI18n } from '@/i18n';
+import { LocaleSwitcher } from '@components/ui/LocaleSwitcher';
 import { ROUTES, THEMES, STORAGE_KEYS } from '@/constants';
 import type { Theme } from '@/constants';
 
 export const Navbar: FC = () => {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useState<Theme>((): Theme => {
     try {
@@ -90,7 +93,7 @@ export const Navbar: FC = () => {
                     : 'text-ink/75 dark:text-ink/75 hover:text-primary-400 dark:hover:text-primary-300'
                 }`}
               >
-                {link.label}
+                {t.nav[link.label]}
                 {isActive && !isContact && (
                   <motion.span
                     layoutId="activeIndicator"
@@ -102,10 +105,13 @@ export const Navbar: FC = () => {
             );
           })}
 
+          {/* Language Switcher */}
+          <LocaleSwitcher />
+
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            aria-label="Toggle active theme"
+            aria-label={t.nav.themeToggle}
             className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all duration-150 text-ink"
           >
             {theme === THEMES.light ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
@@ -114,10 +120,13 @@ export const Navbar: FC = () => {
 
         {/* Mobile Buttons */}
         <div className="flex md:hidden items-center gap-4">
+          {/* Mobile Language Switcher */}
+          <LocaleSwitcher />
+
           {/* Mobile Theme Toggle */}
           <button
             onClick={toggleTheme}
-            aria-label="Toggle active theme mobile"
+            aria-label={t.nav.themeToggleMobile}
             className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 text-ink"
           >
             {theme === THEMES.light ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5 text-yellow-400" />}
@@ -126,7 +135,7 @@ export const Navbar: FC = () => {
           {/* Mobile Hamburger */}
           <button
             onClick={(): void => { setIsOpen(!isOpen); }}
-            aria-label="Open mobile navigation drawer"
+            aria-label={t.nav.menuOpen}
             className="w-10 h-10 flex items-center justify-center rounded-xl-playful border-2 border-ink bg-surface shadow-flat-light dark:shadow-flat-dark text-ink"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -154,7 +163,7 @@ export const Navbar: FC = () => {
                     activeId === link.href.slice(1) ? 'text-primary-400 pl-2 border-l-4 border-l-primary-400 border-b-0' : ''
                   }`}
                 >
-                  {link.label}
+                  {t.nav[link.label]}
                 </a>
               ))}
             </div>

@@ -1,9 +1,11 @@
 import type { FC } from 'react';
 import { siteConfig } from '@/data';
+import { useI18n } from '@/i18n';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
 import { MagneticButton } from '@components/ui/MagneticButton';
 
 export const Footer: FC = () => {
+  const { t } = useI18n();
   const currentYear = new Date().getFullYear();
   return (
     <footer className="w-full bg-surface dark:bg-canvas border-t-2 border-line py-12 transition-colors duration-300 relative overflow-hidden">
@@ -17,7 +19,7 @@ export const Footer: FC = () => {
             </p>
             <p className="text-sm text-muted mt-1 flex items-center justify-center md:justify-start gap-1.5 font-mono">
               <span className="text-primary-400">$</span>
-              <span>built with React + TypeScript · &copy; {currentYear}</span>
+              <span>{t.footer.builtWith} {currentYear}</span>
             </p>
           </div>
           <div className="flex items-center gap-3">

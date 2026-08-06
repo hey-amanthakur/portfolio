@@ -2,24 +2,28 @@ import { useState, useEffect, useCallback, type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { testimonials } from '@/data';
+import { getContentOverrides, localize, useI18n, type TestimonialId } from '@/i18n';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
-import { SECTION_IDS, SECTION_LABELS } from '@/constants';
+import { SECTION_IDS } from '@/constants';
 
 export const Testimonials: FC = () => {
+  const { t, locale } = useI18n();
+  const content = getContentOverrides(locale);
   const [current, setCurrent] = useState<number>(0);
   const [direction, setDirection] = useState<number>(0);
 
-  const paginate = useCallback((newDirection: number): void => {
-    setDirection(newDirection);
-    setCurrent((prev) => {
-      const next = prev + newDirection;
-      if (next < 0) return testimonials.length - 1;
-      if (next >= testimonials.length) return 0;
-      return next;
-    });
-  }, []);
+   // eslint-disable-next-line react-hooks/preserve-manual-memoization
+   const paginate = useCallback((newDirection: number): void => {
+     setDirection(newDirection);
+     setCurrent((prev) => {
+       const next = prev + newDirection;
+       if (next < 0) return testimonials.length - 1;
+       if (next >= testimonials.length) return 0;
+       return next;
+     });
+   }, []);
 
   useEffect((): (() => void) => {
     const interval = setInterval((): void => {
@@ -49,7 +53,7 @@ export const Testimonials: FC = () => {
   return (
     <SectionShell
       id={SECTION_IDS.testimonials}
-      aria-label={SECTION_LABELS.testimonials}
+      aria-label={t.meta.sectionLabels.testimonials}
       tone="canvas"
       border="y"
     >
@@ -61,13 +65,13 @@ export const Testimonials: FC = () => {
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-surface font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
-            <span>testimonials</span>
+            <span>{t.testimonials.badge}</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
-            What founders say.
+            {t.testimonials.heading}
           </h2>
           <p className="mt-4 text-muted font-body text-lg">
-            Real feedback from teams I&apos;ve engineered alongside.
+            {t.testimonials.subtext}
           </p>
         </SectionReveal>
 
@@ -85,6 +89,10 @@ export const Testimonials: FC = () => {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 className="absolute inset-0"
               >
+                {(() => {
+                  const entry = testimonials[current];
+                  const override = entry !== undefined ? content.testimonials?.[entry.id as TestimonialId] : undefined;
+                  return (
                 <div className="relative p-8 sm:p-10 rounded-3xl border-2 border-line bg-surface overflow-hidden group hover:border-primary-400/50 dark:hover:border-primary-400/50 transition-colors duration-300">
                   {/* Background accent */}
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-400/10 rounded-full blur-3xl pointer-events-none" />
@@ -107,18 +115,18 @@ export const Testimonials: FC = () => {
 
                   {/* Quote Text */}
                   <blockquote className="text-ink font-body text-lg leading-relaxed italic relative z-10">
-                    &ldquo;{testimonials[current]?.quote}&rdquo;
+                    &ldquo;{localize(override?.quote, entry?.quote ?? '')}&rdquo;
                   </blockquote>
 
                   {/* Author Info */}
                   <div className="mt-8 pt-6 border-t-2 border-line flex items-center gap-4 relative z-10">
-                    {testimonials[current]?.avatarUrl !== undefined ? (
+                    {entry?.avatarUrl !== undefined ? (
                       <motion.img
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.2 }}
-                        src={testimonials[current].avatarUrl}
-                        alt={`${testimonials[current].name} profile photo`}
+                        src={entry.avatarUrl}
+                        alt={t.testimonials.profilePhotoAlt.replace('{name}', entry.name)}
                         width="52"
                         height="52"
                         loading="lazy"
@@ -128,20 +136,22 @@ export const Testimonials: FC = () => {
                     ) : (
                       <div className="w-13 h-13 rounded-2xl border-2 border-line bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
                         <span className="text-primary-700 dark:text-primary-300 font-display font-black text-lg">
-                          {testimonials[current].name.charAt(0)}
+                          {entry?.name.charAt(0) ?? ''}
                         </span>
                       </div>
                     )}
                     <div>
                       <p className="font-display font-bold text-ink text-lg">
-                        {testimonials[current].name}
+                        {entry?.name}
                       </p>
                       <p className="text-sm text-muted font-body">
-                        {testimonials[current].role} at <span className="text-primary-400 font-semibold">{testimonials[current].company}</span>
+                        {localize(override?.role, entry?.role ?? '')} at <span className="text-primary-400 font-semibold">{entry?.company}</span>
                       </p>
                     </div>
                   </div>
                 </div>
+                  );
+                })()}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -150,7 +160,7 @@ export const Testimonials: FC = () => {
           <div className="flex items-center justify-center gap-4 mt-8 relative z-30">
             <button
               onClick={(): void => { paginate(-1); }}
-              aria-label="Previous testimonial"
+              aria-label={t.testimonials.previous}
               className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -162,7 +172,7 @@ export const Testimonials: FC = () => {
                 <button
                   key={index}
                   onClick={(): void => { setDirection(index > current ? 1 : -1); setCurrent(index); }}
-                  aria-label={`Go to testimonial ${String(index + 1)}`}
+                  aria-label={`${t.testimonials.goto} ${String(index + 1)}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === current
                       ? 'w-8 bg-primary-400'
@@ -174,7 +184,7 @@ export const Testimonials: FC = () => {
 
             <button
               onClick={(): void => { paginate(1); }}
-              aria-label="Next testimonial"
+              aria-label={t.testimonials.next}
               className="w-12 h-12 flex items-center justify-center rounded-2xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
             >
               <ChevronRight className="w-5 h-5" />

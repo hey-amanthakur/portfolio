@@ -10,17 +10,24 @@ import { RepoCard } from '@components/ui/RepoCard';
 import { ProjectCard } from '@components/ui/ProjectCard';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { GitHubIcon } from '@components/icons';
-import { ALL_FILTER, SECTION_IDS, SECTION_LABELS, projectCategories } from '@/constants';
+import { getContentOverrides, localize, useI18n } from '@/i18n';
+import { ALL_FILTER, SECTION_IDS, projectCategories } from '@/constants';
 import type { IProjectCategory } from '@/constants';
+import type { RepoId, OssId } from '@/i18n/types';
 
 type FilterTag = typeof ALL_FILTER | IProjectCategory;
 
 export const Portfolio: FC = () => {
+  const { t, locale } = useI18n();
+  const content = getContentOverrides(locale);
   const [activeFilter, setActiveFilter] = useState<FilterTag>(ALL_FILTER);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });
 
   const filterCategories: readonly FilterTag[] = [ALL_FILTER, ...projectCategories];
+
+  const getFilterLabel = (cat: FilterTag): string =>
+    cat === ALL_FILTER ? t.portfolio.allFilter : t.portfolio.categoryLabels[cat];
 
   const filteredProjects = projects.filter((project) => {
     const matchesFilter = activeFilter === ALL_FILTER || project.category === activeFilter;
@@ -37,7 +44,7 @@ export const Portfolio: FC = () => {
     <SectionShell
       ref={ref}
       id={SECTION_IDS.portfolio}
-      aria-label={SECTION_LABELS.portfolio}
+      aria-label={t.meta.sectionLabels.portfolio}
       tone="surface"
       border="y"
     >
@@ -46,13 +53,13 @@ export const Portfolio: FC = () => {
         {/* Section Header */}
         <SectionReveal className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-canvas font-mono text-[11px] uppercase tracking-widest text-muted mb-4">
-            <span>selected work</span>
+            <span>{t.portfolio.badge}</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
-            Things I&apos;ve shipped.
+            {t.portfolio.heading}
           </h2>
           <p className="mt-4 text-muted font-body text-lg">
-            Production systems, hackathon winners, and the occasional weekend experiment — code that earns its keep.
+            {t.portfolio.subtext}
           </p>
         </SectionReveal>
 
@@ -61,7 +68,7 @@ export const Portfolio: FC = () => {
           <div className="flex items-center gap-3 mb-6">
             <GitHubIcon className="w-5 h-5 text-ink" />
             <h3 className="font-display font-black text-xl sm:text-2xl text-ink tracking-tight">
-              Pinned repositories
+              {t.portfolio.pinnedRepos}
             </h3>
             <span className="font-mono text-xs text-muted ml-auto hidden sm:inline">
               @hey-amanthakur
@@ -73,7 +80,7 @@ export const Portfolio: FC = () => {
               <RepoCard
                 key={repo.id}
                 name={repo.name}
-                description={repo.description}
+                description={localize(content.pinnedRepos?.[repo.id as RepoId]?.description, repo.description)}
                 url={repo.url}
                 language={repo.language}
                 stars={repo.stars}
@@ -90,10 +97,10 @@ export const Portfolio: FC = () => {
           <div className="flex items-center gap-3 mb-6">
             <Handshake className="w-5 h-5 text-primary-400" />
             <h3 className="font-display font-black text-xl sm:text-2xl text-ink tracking-tight">
-              Open source contributions
+              {t.portfolio.ossHeading}
             </h3>
             <Badge variant="primary" className="ml-auto hidden sm:inline-flex px-3 py-1 text-[10px]">
-              contributor
+              {t.portfolio.contributor}
             </Badge>
           </div>
 
@@ -103,7 +110,7 @@ export const Portfolio: FC = () => {
                 key={contribution.id}
                 variant="oss"
                 name={`${contribution.org}/${contribution.name}`}
-                description={contribution.description}
+                description={localize(content.oss?.[contribution.id as OssId]?.description, contribution.description)}
                 url={contribution.url}
                 language={contribution.language}
                 prCount={contribution.prCount}
@@ -118,7 +125,7 @@ export const Portfolio: FC = () => {
         <div className="flex items-center gap-4 mb-12">
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-line to-transparent" />
           <span className="text-xs font-mono font-bold text-muted uppercase tracking-widest">
-            // case studies
+            {t.portfolio.caseStudies}
           </span>
           <div className="flex-1 h-px bg-gradient-to-r from-transparent via-line to-transparent" />
         </div>
@@ -139,7 +146,7 @@ export const Portfolio: FC = () => {
                       : 'bg-surface text-ink hover:bg-primary-50'
                   }`}
                 >
-                  {cat}
+                  {getFilterLabel(cat)}
                 </motion.button>
               ))}
             </div>
@@ -150,7 +157,7 @@ export const Portfolio: FC = () => {
               </span>
               <input
                 type="text"
-                placeholder="Search projects, tech stacks..."
+                placeholder={t.portfolio.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e): void => { setSearchQuery(e.target.value); }}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-ink bg-surface text-ink focus:outline-none focus:border-primary-400 focus:shadow-lg focus:shadow-primary-400/10 font-mono text-sm transition-all duration-300"
@@ -188,8 +195,8 @@ export const Portfolio: FC = () => {
             <div className="w-16 h-16 rounded-full bg-canvas border-2 border-dashed border-ink flex items-center justify-center mx-auto mb-4">
               <Layers className="w-6 h-6 text-muted" />
             </div>
-            <p className="font-display font-bold text-lg text-ink">No matching projects.</p>
-            <p className="text-sm text-muted font-body mt-1">Try a different category or search term.</p>
+            <p className="font-display font-bold text-lg text-ink">{t.portfolio.noProjects}</p>
+            <p className="text-sm text-muted font-body mt-1">{t.portfolio.noProjectsHint}</p>
           </motion.div>
         )}
 
