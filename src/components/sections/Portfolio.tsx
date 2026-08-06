@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Layers, Search, Star, GitFork } from 'lucide-react';
-import { projects, pinnedRepos } from '@/data/content';
+import { ExternalLink, Layers, Search, Star, GitFork, GitPullRequest, Handshake } from 'lucide-react';
+import { projects, pinnedRepos, openSourceContributions } from '@/data/content';
 import { Badge } from '@components/ui/Badge';
 import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
@@ -10,14 +10,14 @@ import { SectionReveal } from '@components/ui/SectionReveal';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { GitHubIcon } from '@components/icons';
 
-type FilterTag = 'All' | 'React' | 'Java' | 'Spring Boot' | 'AI';
+type FilterTag = 'All' | 'React' | 'Java' | 'Spring Boot' | 'AI' | 'TypeScript' | 'Python';
 
 export const Portfolio: FC = () => {
   const [activeFilter, setActiveFilter] = useState<FilterTag>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });
 
-  const filterCategories: readonly FilterTag[] = ['All', 'React', 'Java', 'Spring Boot', 'AI'] as const;
+  const filterCategories: readonly FilterTag[] = ['All', 'React', 'TypeScript', 'Java', 'Spring Boot', 'AI', 'Python'] as const;
 
   const filteredProjects = projects.filter((project) => {
     const matchesFilter =
@@ -121,6 +121,75 @@ export const Portfolio: FC = () => {
                     <span className="flex items-center gap-1">
                       <GitFork className="w-3 h-3" />
                       {repo.forks}
+                    </span>
+                  )}
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </SectionReveal>
+
+        {/* Open Source Contributions */}
+        <SectionReveal delay={0.05} className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <Handshake className="w-5 h-5 text-primary-400" />
+            <h3 className="font-display font-black text-xl sm:text-2xl text-light-text dark:text-dark-text tracking-tight">
+              Open source contributions
+            </h3>
+            <Badge variant="primary" className="ml-auto hidden sm:inline-flex px-3 py-1 text-[10px]">
+              contributor
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {openSourceContributions.map((contribution, index) => (
+              <motion.a
+                key={contribution.id}
+                href={contribution.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.3, delay: index * 0.08 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="group block p-5 rounded-2xl border-2 border-dashed border-primary-400/40 dark:border-primary-400/30 bg-light-bg dark:bg-dark-bg hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-400/5 transition-all duration-300 hover:shadow-xl hover:shadow-primary-400/10"
+              >
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <span className="font-display font-bold text-sm text-primary-400 group-hover:text-primary-300 truncate">
+                    {contribution.org}/{contribution.name}
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-light-muted dark:text-dark-muted opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                </div>
+
+                <p className="text-xs text-light-muted dark:text-dark-muted font-body leading-relaxed mb-3 line-clamp-2">
+                  {contribution.description}
+                </p>
+
+                <div className="flex items-center gap-3 text-[11px] text-light-muted dark:text-dark-muted">
+                  {contribution.language && (
+                    <span className="flex items-center gap-1">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full inline-block"
+                        style={{
+                          backgroundColor:
+                            contribution.language === 'TypeScript'
+                              ? '#3178c6'
+                              : contribution.language === 'JavaScript'
+                                ? '#f7df1e'
+                                : contribution.language === 'Python'
+                                  ? '#3572A5'
+                                  : contribution.language === 'Java'
+                                    ? '#b07219'
+                                    : '#8b8b8b',
+                        }}
+                      />
+                      {contribution.language}
+                    </span>
+                  )}
+                  {contribution.prCount > 0 && (
+                    <span className="flex items-center gap-1">
+                      <GitPullRequest className="w-3 h-3" />
+                      {contribution.prCount} PR{contribution.prCount === 1 ? '' : 's'}
                     </span>
                   )}
                 </div>
@@ -288,7 +357,7 @@ export const Portfolio: FC = () => {
               <Layers className="w-6 h-6 text-light-muted dark:text-dark-muted" />
             </div>
             <p className="font-display font-bold text-lg text-light-text dark:text-dark-text">No matching projects.</p>
-            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try a broader tag — {`'React'`}, {`'Java'`}, or {`'AI'`}.</p>
+            <p className="text-sm text-light-muted dark:text-dark-muted font-body mt-1">Try a broader tag — {`'React'`}, {`'TypeScript'`}, {`'Java'`}, or {`'AI'`}.</p>
           </motion.div>
         )}
 

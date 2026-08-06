@@ -79,6 +79,17 @@ export interface IGitHubRepo {
   readonly forks: number;
 }
 
+// Open Source Contribution
+export interface IOpenSourceContribution {
+  readonly id: string;
+  readonly org: string;
+  readonly name: string;
+  readonly description: string;
+  readonly url: string;
+  readonly language: string;
+  readonly prCount: number;
+}
+
 // Component Props patterns
 export type PropsWithClassName<T = unknown> = T & {
   className?: string;

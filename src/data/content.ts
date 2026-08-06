@@ -1,4 +1,4 @@
-import type { INavLink, IProject, IService, ITestimonial, IInstagramPost, ISiteConfig, IGitHubRepo } from '@/types';
+import type { INavLink, IProject, IService, ITestimonial, IInstagramPost, ISiteConfig, IGitHubRepo, IOpenSourceContribution } from '@/types';
 
 export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
@@ -51,6 +51,28 @@ export const services: readonly IService[] = [
 
 export const projects: readonly IProject[] = [
   {
+    id: 'roomvision',
+    title: 'RoomVision',
+    description: 'AI-powered room visualization platform — a white-label, embeddable tool for interior designers to render and preview space redesigns.',
+    tags: ['TypeScript', 'React', 'NestJS', 'TypeORM', 'AI'],
+    imageUrl: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&auto=format&fit=crop&q=60',
+    liveUrl: 'https://github.com/hey-amanthakur/RoomVision',
+    repoUrl: 'https://github.com/hey-amanthakur/RoomVision',
+    featured: true,
+    type: 'code',
+  },
+  {
+    id: 'charrade',
+    title: 'Charred',
+    description: 'A real-time, browser-based charades party game — one player silently acts out a word on camera while teammates race to guess it before the clock runs out.',
+    tags: ['TypeScript', 'WebRTC', 'Node.js', 'WebSockets'],
+    imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60',
+    liveUrl: 'https://github.com/hey-amanthakur/charrade',
+    repoUrl: 'https://github.com/hey-amanthakur/charrade',
+    featured: true,
+    type: 'code',
+  },
+  {
     id: 'saathi-ai',
     title: 'Saathi — Assistive Platform',
     description: "SIH'22 winner. An assistive computer vision system for early detection of special learning needs in children using React, OpenCV, and TensorFlow.",
@@ -91,7 +113,7 @@ export const projects: readonly IProject[] = [
     imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60',
     liveUrl: 'https://github.com/hey-amanthakur/Mutiplayer-Game',
     repoUrl: 'https://github.com/hey-amanthakur/Mutiplayer-Game',
-    featured: false,
+    featured: true,
     type: 'code',
   },
 ] as const;
@@ -153,6 +175,24 @@ export const testimonials: readonly ITestimonial[] = [
 // GitHub Pinned Repos (scraped via Puppeteer)
 export const pinnedRepos: readonly IGitHubRepo[] = [
   {
+    id: 'gh-roomvision',
+    name: 'RoomVision',
+    description: 'AI-powered room visualization platform — a white-label, embeddable tool for interior designers.',
+    url: 'https://github.com/hey-amanthakur/RoomVision',
+    language: 'TypeScript',
+    stars: 0,
+    forks: 0,
+  },
+  {
+    id: 'gh-charrade',
+    name: 'charrade',
+    description: 'Real-time, browser-based charades party game built with WebRTC — act it out, teammates guess.',
+    url: 'https://github.com/hey-amanthakur/charrade',
+    language: 'TypeScript',
+    stars: 0,
+    forks: 0,
+  },
+  {
     id: 'gh-ml-algorithms',
     name: 'ML Algorithms',
     description: 'Implementation of popular Machine Learning algorithms from scratch in Python. Clean, well-documented code with visualizations.',
@@ -180,24 +220,6 @@ export const pinnedRepos: readonly IGitHubRepo[] = [
     forks: 0,
   },
   {
-    id: 'gh-deno-std',
-    name: 'deno_std (Contributor)',
-    description: 'Contributed to the Deno Standard Library — the core toolkit for Deno applications.',
-    url: 'https://github.com/denoland/deno_std',
-    language: 'TypeScript',
-    stars: 0,
-    forks: 0,
-  },
-  {
-    id: 'gh-enhanced-resolve',
-    name: 'enhanced-resolve (webpack)',
-    description: 'Contributed to webpack\'s enhanced-resolve — the module resolution engine powering JavaScript bundling.',
-    url: 'https://github.com/webpack/enhanced-resolve',
-    language: 'JavaScript',
-    stars: 0,
-    forks: 0,
-  },
-  {
     id: 'gh-path-finding',
     name: 'Path Finding Algorithm',
     description: 'A* pathfinding algorithm visualized with Pygame. Interactive GUI to step through the algorithm in real time.',
@@ -205,6 +227,37 @@ export const pinnedRepos: readonly IGitHubRepo[] = [
     language: 'Python',
     stars: 1,
     forks: 0,
+  },
+] as const;
+
+// Open Source Contributions
+export const openSourceContributions: readonly IOpenSourceContribution[] = [
+  {
+    id: 'oss-deno-std',
+    org: 'denoland',
+    name: 'std',
+    description: 'Shipped utility functions to the Deno Standard Library — text, collections, and math modules.',
+    url: 'https://github.com/denoland/std',
+    language: 'TypeScript',
+    prCount: 3,
+  },
+  {
+    id: 'oss-enhanced-resolve',
+    org: 'webpack',
+    name: 'enhanced-resolve',
+    description: 'Built a resolution TracePlugin and performance profiler for webpack\'s module resolution engine, plus alias bucketing tests.',
+    url: 'https://github.com/webpack/enhanced-resolve',
+    language: 'JavaScript',
+    prCount: 3,
+  },
+  {
+    id: 'oss-sympy',
+    org: 'sympy',
+    name: 'sympy',
+    description: 'Extended test coverage for the finite difference routines in the pure-Python computer algebra system.',
+    url: 'https://github.com/sympy/sympy',
+    language: 'Python',
+    prCount: 1,
   },
 ] as const;
 
