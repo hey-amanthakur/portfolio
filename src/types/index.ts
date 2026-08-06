@@ -1,4 +1,4 @@
-import type { Route, Persona, ServiceId } from '@/constants';
+import type { Route, Persona, ServiceId, IProjectCategory } from '@/constants';
 
 // Navigation
 export interface INavLink {
@@ -8,9 +8,6 @@ export interface INavLink {
 }
 
 // Projects
-export const projectCategories = ['AI', 'Web', 'Data Science', 'Security', 'Game Dev'] as const;
-export type IProjectCategory = (typeof projectCategories)[number];
-
 export interface IProject {
   readonly id: string;
   readonly title: string;

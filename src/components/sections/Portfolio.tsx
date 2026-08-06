@@ -3,8 +3,6 @@ import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Layers, Handshake } from 'lucide-react';
 import { projects, pinnedRepos, openSourceContributions } from '@/data';
-import { projectCategories } from '@/types';
-import type { IProjectCategory } from '@/types';
 import { Badge } from '@components/ui/Badge';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
@@ -12,7 +10,8 @@ import { RepoCard } from '@components/ui/RepoCard';
 import { ProjectCard } from '@components/ui/ProjectCard';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { GitHubIcon } from '@components/icons';
-import { ALL_FILTER, SECTION_IDS, SECTION_LABELS } from '@/constants';
+import { ALL_FILTER, SECTION_IDS, SECTION_LABELS, projectCategories } from '@/constants';
+import type { IProjectCategory } from '@/constants';
 
 type FilterTag = typeof ALL_FILTER | IProjectCategory;
 

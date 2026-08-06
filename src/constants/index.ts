@@ -21,18 +21,25 @@ export const SECTION_IDS = {
 export type SectionId = (typeof SECTION_IDS)[keyof typeof SECTION_IDS];
 
 // Hash routes — anchors use these, App hash-routing compares against them.
+// Derived from SECTION_IDS so anchors can never drift from the DOM ids the
+// scroll-spy looks up.
 export const ROUTES = {
-  home: '#home',
-  about: '#about',
-  services: '#services',
-  portfolio: '#portfolio',
-  testimonials: '#testimonials',
-  instagram: '#swaad-feed',
-  contact: '#contact',
+  home: `#${SECTION_IDS.home}`,
+  about: `#${SECTION_IDS.about}`,
+  services: `#${SECTION_IDS.services}`,
+  portfolio: `#${SECTION_IDS.portfolio}`,
+  testimonials: `#${SECTION_IDS.testimonials}`,
+  instagram: `#${SECTION_IDS.instagram}`,
+  contact: `#${SECTION_IDS.contact}`,
   design: '#design',
 } as const;
 
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];
+
+// Portfolio filter categories — chips derive from this. Keep in sync with
+// the `category` field in src/data/projects.ts.
+export const projectCategories = ['AI', 'Web', 'Data Science', 'Security', 'Game Dev'] as const;
+export type IProjectCategory = (typeof projectCategories)[number];
 
 // Accessible section labels (aria-label; mirrored by tests).
 export const SECTION_LABELS = {

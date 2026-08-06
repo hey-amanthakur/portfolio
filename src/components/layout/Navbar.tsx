@@ -28,7 +28,7 @@ export const Navbar: FC = () => {
   });
 
   const sectionIds = useMemo(
-    (): readonly string[] => navLinks.map((link) => link.href.replace('#', '')),
+    (): readonly string[] => navLinks.map((link) => link.href.slice(1)),
     []
   );
   const activeId = useScrollSpy(sectionIds, 120);
@@ -76,7 +76,7 @@ export const Navbar: FC = () => {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
             const isContact = link.href === ROUTES.contact;
-            const isActive = activeId === link.href.replace('#', '');
+            const isActive = activeId === link.href.slice(1);
             
             return (
               <a
@@ -151,7 +151,7 @@ export const Navbar: FC = () => {
                   href={link.href}
                   onClick={handleLinkClick}
                   className={`font-display font-bold text-lg text-ink py-1.5 border-b border-line last:border-none hover:text-primary-400 transition-colors ${
-                    activeId === link.href.replace('#', '') ? 'text-primary-400 pl-2 border-l-4 border-l-primary-400 border-b-0' : ''
+                    activeId === link.href.slice(1) ? 'text-primary-400 pl-2 border-l-4 border-l-primary-400 border-b-0' : ''
                   }`}
                 >
                   {link.label}
