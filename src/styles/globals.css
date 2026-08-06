@@ -30,6 +30,26 @@
 
   body {
     @apply transition-colors duration-300 antialiased;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Content visibility for below-fold sections — skips layout/paint until near viewport */
+  .section-lazy {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   /* Custom Scrollbar */
@@ -84,6 +104,13 @@
   }
   .border-gradient {
     border-image: linear-gradient(135deg, #ff6b35, #2ec4b6) 1;
+  }
+  .glow-pulse {
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
   }
 }
 

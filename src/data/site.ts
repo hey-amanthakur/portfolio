@@ -17,11 +17,11 @@ export const siteConfig: ISiteConfig = {
 } as const;
 
 export const navLinks: readonly INavLink[] = [
-  { label: 'Home', href: ROUTES.home },
-  { label: 'About', href: ROUTES.about },
-  { label: 'Services', href: ROUTES.services },
-  { label: 'Work', href: ROUTES.portfolio },
-  { label: 'Testimonials', href: ROUTES.testimonials },
-  { label: 'Off-Hours', href: ROUTES.instagram },
-  { label: 'Hire Me', href: ROUTES.contact },
+  { label: 'home', href: ROUTES.home },
+  { label: 'about', href: ROUTES.about },
+  { label: 'services', href: ROUTES.services },
+  { label: 'work', href: ROUTES.portfolio },
+  { label: 'testimonials', href: ROUTES.testimonials },
+  { label: 'offHours', href: ROUTES.instagram },
+  { label: 'hireMe', href: ROUTES.contact },
 ] as const;

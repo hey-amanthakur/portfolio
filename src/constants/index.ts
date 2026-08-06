@@ -71,6 +71,7 @@ export type Theme = (typeof THEMES)[keyof typeof THEMES];
 
 export const STORAGE_KEYS = {
   theme: 'theme',
+  locale: 'locale',
 } as const;
 
 // Portfolio category filter ("show everything").

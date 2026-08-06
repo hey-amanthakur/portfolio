@@ -45,6 +45,16 @@ vi.stubGlobal(
   vi.fn((): Promise<never> => Promise.reject(new Error('network disabled in tests')))
 );
 
+// matchMedia mock — ParticleField uses it to detect prefers-reduced-motion and mobile.
+vi.stubGlobal(
+  'matchMedia',
+  vi.fn((): { matches: boolean; addListener: () => void; removeListener: () => void } => ({
+    matches: false,
+    addListener: () => undefined,
+    removeListener: () => undefined,
+  }))
+);
+
 // Motion props to strip from mocked components
 const MOTION_PROPS = [
   'initial', 'animate', 'exit', 'transition', 'variants',

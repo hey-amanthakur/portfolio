@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { motion } from 'framer-motion';
 
 interface IGlowingEffectProps {
   readonly className?: string;
@@ -13,17 +12,8 @@ export const GlowingEffect: FC<IGlowingEffectProps> = ({
   size = 300,
 }) => {
   return (
-    <motion.div
-      animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.6, 0.3],
-      }}
-      transition={{
-        duration: 4,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-      className={`absolute pointer-events-none rounded-full blur-3xl ${className}`}
+    <div
+      className={`absolute pointer-events-none rounded-full blur-3xl ${className} glow-pulse`}
       style={{
         width: size,
         height: size,
