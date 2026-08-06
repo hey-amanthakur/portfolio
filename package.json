@@ -6,6 +6,7 @@
   "scripts": {
     "scrape:instagram": "bun run scripts/scrape-instagram.ts",
     "scrape:instagram:refresh": "bun run scripts/scrape-instagram.ts --limit=12",
+    "scrape:github": "bun run scripts/scrape-github-pinned.ts",
     "prebuild": "bun run scripts/scrape-instagram.ts || true",
     "start": "vite --host 0.0.0.0 --port 3000",
     "dev": "vite",
