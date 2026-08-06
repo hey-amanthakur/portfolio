@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { InstagramFeed } from '@components/sections/InstagramFeed';
-import { siteConfig } from '@/data/content';
+import { siteConfig } from '@/data';
+import { SECTION_LABELS } from '@/constants';
 
 describe('InstagramFeed Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
     render(<InstagramFeed />);
-    expect(screen.getByLabelText('Off-hours side project — food diary on Instagram')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.instagram)).toBeInTheDocument();
   });
 
   it('renders the section badge and heading', (): void => {

@@ -2,22 +2,23 @@ import { useState } from 'react';
 import type { FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, ChefHat, ArrowRight, Code2, MapPin, Sparkles } from 'lucide-react';
-import { siteConfig } from '@/data/content';
+import { siteConfig } from '@/data';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
-import { Button } from '@components/ui/Button';
 import { ParticleField } from '@components/ui/ParticleField';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
 import { MagneticButton } from '@components/ui/MagneticButton';
+import { ROUTES, SECTION_IDS, SECTION_LABELS, PERSONAS } from '@/constants';
+import type { Persona } from '@/constants';
 
 export const Hero: FC = () => {
-  const [mode, setMode] = useState<'code' | 'food'>('code');
+  const [mode, setMode] = useState<Persona>(PERSONAS.code);
 
   return (
     <section
-      id="home"
-      aria-label="Aman Thakur — Full-Stack Engineer"
-      className="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden bg-light-bg dark:bg-dark-bg transition-colors duration-300"
+      id={SECTION_IDS.home}
+      aria-label={SECTION_LABELS.hero}
+      className="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden bg-canvas transition-colors duration-300"
     >
       <ParticleField count={25} />
 
@@ -37,7 +38,7 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: -20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-light-border dark:border-dark-border bg-light-surface/80 dark:bg-dark-surface/80 backdrop-blur-sm font-mono text-[11px] mb-6 text-light-muted dark:text-dark-muted"
+            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-line bg-surface/80 dark:bg-surface/80 backdrop-blur-sm font-mono text-[11px] mb-6 text-muted"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-400 opacity-75" />
@@ -53,18 +54,18 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="font-mono text-sm text-primary-400 mb-3"
           >
-            <span className="text-light-muted dark:text-dark-muted">$</span> whoami
+            <span className="text-muted">$</span> whoami
           </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="font-display font-black text-4xl sm:text-6xl lg:text-7xl text-light-text dark:text-dark-text leading-[1.05] tracking-tight"
+            className="font-display font-black text-4xl sm:text-6xl lg:text-7xl text-ink leading-[1.05] tracking-tight"
           >
             Hi, I&apos;m <span className="text-gradient-primary">Aman</span>.
             <br />
-            <span className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-light-muted dark:text-dark-muted">I </span>
+            <span className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-muted">I </span>
             <AnimatePresence mode="wait">
               <motion.span
                 key={mode}
@@ -74,7 +75,7 @@ export const Hero: FC = () => {
                 transition={{ duration: 0.35 }}
                 className="text-3xl sm:text-5xl lg:text-6xl font-black text-gradient-secondary inline-block"
               >
-                {mode === 'code' ? 'build software.' : 'chase street food.'}
+                {mode === PERSONAS.code ? 'build software.' : 'chase street food.'}
               </motion.span>
             </AnimatePresence>
           </motion.h1>
@@ -83,11 +84,11 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 text-lg text-light-muted dark:text-dark-muted font-body max-w-xl leading-relaxed"
+            className="mt-6 text-lg text-muted font-body max-w-xl leading-relaxed"
           >
-            {mode === 'code'
-              ? <>Full-stack engineer specialising in <span className="font-semibold text-light-text dark:text-dark-text">React</span>, <span className="font-semibold text-light-text dark:text-dark-text">Spring Boot</span>, and <span className="font-semibold text-light-text dark:text-dark-text">AI agent</span> systems. SIH&apos;22 winner and ET Campus Star, currently shipping bespoke software for early-stage teams.</>
-              : <>Off the keyboard, I run <span className="font-semibold text-light-text dark:text-dark-text">@yeh.safar.swaad.ka</span> — a Pune-based food diary documenting hidden gems, legendary thalis, and unreasonably good street snacks.</>
+            {mode === PERSONAS.code
+              ? <>Full-stack engineer specialising in <span className="font-semibold text-ink">React</span>, <span className="font-semibold text-ink">Spring Boot</span>, and <span className="font-semibold text-ink">AI agent</span> systems. SIH&apos;22 winner and ET Campus Star, currently shipping bespoke software for early-stage teams.</>
+              : <>Off the keyboard, I run <span className="font-semibold text-ink">@yeh.safar.swaad.ka</span> — a Pune-based food diary documenting hidden gems, legendary thalis, and unreasonably good street snacks.</>
             }
           </motion.p>
 
@@ -96,20 +97,19 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.55 }}
-            role="tablist"
             aria-label="Toggle persona"
             data-testid="hero-mode-switch"
-            className="inline-flex items-center gap-1 mt-8 p-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-surface/60 dark:bg-dark-surface/60 backdrop-blur-sm"
+            className="inline-flex items-center gap-1 mt-8 p-1.5 rounded-full border border-line bg-surface/60 dark:bg-surface/60 backdrop-blur-sm"
           >
             <button
-              role="tab"
-              aria-selected={mode === 'code'}
+              type="button"
+              aria-pressed={mode === PERSONAS.code}
               data-testid="hero-mode-code"
-              onClick={(): void => { setMode('code'); }}
+              onClick={(): void => { setMode(PERSONAS.code); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
-                mode === 'code'
+                mode === PERSONAS.code
                   ? 'bg-primary-400 text-white shadow-lg shadow-primary-400/30'
-                  : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+                  : 'text-muted hover:text-ink dark:hover:text-ink'
               }`}
             >
               <Terminal className="w-4 h-4" />
@@ -117,14 +117,14 @@ export const Hero: FC = () => {
             </button>
 
             <button
-              role="tab"
-              aria-selected={mode === 'food'}
+              type="button"
+              aria-pressed={mode === PERSONAS.food}
               data-testid="hero-mode-food"
-              onClick={(): void => { setMode('food'); }}
+              onClick={(): void => { setMode(PERSONAS.food); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
-                mode === 'food'
+                mode === PERSONAS.food
                   ? 'bg-secondary-400 text-white shadow-lg shadow-secondary-400/30'
-                  : 'text-light-muted dark:text-dark-muted hover:text-light-text dark:hover:text-dark-text'
+                  : 'text-muted hover:text-ink dark:hover:text-ink'
               }`}
             >
               <ChefHat className="w-4 h-4" />
@@ -139,26 +139,22 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.65 }}
             className="flex flex-wrap gap-4 mt-10 items-center"
           >
-            {mode === 'code' ? (
+            {mode === PERSONAS.code ? (
               <>
                 <MagneticButton strength={0.2}>
-                  <Button
+                  <a
                     data-testid="hero-cta-hire"
-                    onClick={(): void => {
-                      const el = document.getElementById('contact');
-                      if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    variant="primary"
-                    size="lg"
+                    href={ROUTES.contact}
+                    className="inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-ink px-8 py-3.5 text-lg bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150"
                   >
                     Hire Me <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                  </a>
                 </MagneticButton>
                 <MagneticButton strength={0.2}>
                   <a
                     data-testid="hero-cta-work"
-                    href="#portfolio"
-                    className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-light-surface dark:bg-dark-surface text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-bg shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
+                    href={ROUTES.portfolio}
+                    className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
                   >
                     <Code2 className="w-5 h-5" />
                     See Work
@@ -182,7 +178,7 @@ export const Hero: FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={social.label}
-                        className="w-11 h-11 flex items-center justify-center rounded-xl border border-light-border dark:border-dark-border bg-light-surface/80 dark:bg-dark-surface/80 backdrop-blur-sm text-light-muted dark:text-dark-muted hover:text-primary-400 dark:hover:text-primary-300 hover:border-primary-400 dark:hover:border-primary-400 hover:shadow-lg hover:shadow-primary-400/10 transition-all duration-300"
+                        className="w-11 h-11 flex items-center justify-center rounded-xl border border-line bg-surface/80 dark:bg-surface/80 backdrop-blur-sm text-muted hover:text-primary-400 dark:hover:text-primary-300 hover:border-primary-400 dark:hover:border-primary-400 hover:shadow-lg hover:shadow-primary-400/10 transition-all duration-300"
                       >
                         {social.icon}
                       </a>
@@ -198,31 +194,27 @@ export const Hero: FC = () => {
                     href={siteConfig.socials.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-light-text dark:border-dark-text bg-secondary-400 text-light-text shadow-lg shadow-secondary-400/30 hover:shadow-xl hover:shadow-secondary-400/40 hover:-translate-y-0.5 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-ink bg-secondary-400 text-ink shadow-lg shadow-secondary-400/30 hover:shadow-xl hover:shadow-secondary-400/40 hover:-translate-y-0.5 transition-all"
                   >
                     <InstagramIcon className="w-5 h-5" />
                     Follow @{siteConfig.instaHandle}
                   </a>
                 </MagneticButton>
                 <MagneticButton strength={0.2}>
-                  <Button
+                  <a
                     data-testid="hero-cta-feed"
-                    onClick={(): void => {
-                      const el = document.getElementById('swaad-feed');
-                      if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    variant="primary"
-                    size="lg"
+                    href={ROUTES.instagram}
+                    className="inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-ink px-8 py-3.5 text-lg bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150"
                   >
                     View food diary <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                  </a>
                 </MagneticButton>
               </>
             )}
           </motion.div>
 
           {/* Stats row */}
-          {mode === 'code' && (
+          {mode === PERSONAS.code && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -237,7 +229,7 @@ export const Hero: FC = () => {
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <AnimatedCounter target={stat.target} suffix={stat.suffix} className="text-2xl text-primary-400" />
-                    <p className="text-[11px] font-mono text-light-muted dark:text-dark-muted uppercase tracking-wider mt-1">{stat.label}</p>
+                    <p className="text-[11px] font-mono text-muted uppercase tracking-wider mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -245,15 +237,15 @@ export const Hero: FC = () => {
           )}
 
           {/* Tech stack mono ticker */}
-          {mode === 'code' && (
+          {mode === PERSONAS.code && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 1 }}
               className="mt-8 w-full max-w-xl"
             >
-              <p className="font-mono text-[11px] text-light-muted dark:text-dark-muted uppercase tracking-widest mb-2">stack</p>
-              <div className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-sm text-light-muted dark:text-dark-muted">
+              <p className="font-mono text-[11px] text-muted uppercase tracking-widest mb-2">stack</p>
+              <div className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-sm text-muted">
                 {['React', 'TypeScript', 'Spring Boot', 'Python', 'Postgres', 'LangChain', 'AWS'].map((tech, i) => (
                   <span key={tech} className="hover:text-primary-400 transition-colors cursor-default">
                     {tech}{i < 6 && <span className="text-primary-400/60 ml-4">·</span>}
@@ -267,7 +259,7 @@ export const Hero: FC = () => {
         {/* Right Column: Interactive Showcase */}
         <div className="lg:col-span-5 w-full flex items-center justify-center min-h-[420px]">
           <AnimatePresence mode="wait">
-            {mode === 'code' ? (
+            {mode === PERSONAS.code ? (
               <motion.div
                 key="code-panel"
                 data-testid="hero-code-panel"
@@ -275,7 +267,7 @@ export const Hero: FC = () => {
                 animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, scale: 0.85, rotate: 3, filter: 'blur(10px)' }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="w-full max-w-md rounded-2xl border-2 border-light-text/20 dark:border-dark-border bg-[#16161E] text-gray-200 shadow-2xl shadow-primary-400/10 font-mono text-[13px] relative overflow-hidden"
+                className="w-full max-w-md rounded-2xl border-2 border-ink/20 dark:border-line bg-[#16161E] text-gray-200 shadow-2xl shadow-primary-400/10 font-mono text-[13px] relative overflow-hidden"
               >
                 {/* Glow accent */}
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-400/20 rounded-full blur-3xl pointer-events-none" />
@@ -316,11 +308,11 @@ export const Hero: FC = () => {
                 animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, scale: 0.85, rotate: -3, filter: 'blur(10px)' }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="w-full max-w-sm rounded-2xl-playful border-4 border-light-text dark:border-dark-text bg-white p-5 shadow-2xl shadow-secondary-400/20 text-light-text relative overflow-hidden"
+                className="w-full max-w-sm rounded-2xl-playful border-4 border-ink bg-white p-5 shadow-2xl shadow-secondary-400/20 text-ink relative overflow-hidden"
               >
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-secondary-400/20 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="bg-gray-100 rounded-xl overflow-hidden aspect-[4/3] relative border-2 border-light-text">
+                <div className="bg-gray-100 rounded-xl overflow-hidden aspect-[4/3] relative border-2 border-ink">
                   <img
                     src="/instagram/post-1.jpg"
                     alt="Yeh Safar Swaad Ka — featured food post"
@@ -340,18 +332,18 @@ export const Hero: FC = () => {
                 </div>
 
                 <div className="pt-5 pb-2 text-left font-display relative z-10">
-                  <h3 className="font-black text-xl tracking-tight text-light-text">
+                  <h3 className="font-black text-xl tracking-tight text-ink">
                     Yeh Safar Swaad Ka
                   </h3>
-                  <p className="text-sm text-light-muted mt-1 leading-snug flex items-center gap-1.5">
+                  <p className="text-sm text-muted mt-1 leading-snug flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5" /> Pune street food, weekly
                   </p>
 
                   <div className="mt-4 border-t-2 border-gray-100 pt-3 flex items-center justify-between">
-                    <span className="font-mono text-[11px] text-light-muted uppercase tracking-wide">
+                    <span className="font-mono text-[11px] text-muted uppercase tracking-wide">
                       followers
                     </span>
-                    <span className="font-mono font-bold text-sm text-light-text">
+                    <span className="font-mono font-bold text-sm text-ink">
                       growing · 8 posts
                     </span>
                   </div>

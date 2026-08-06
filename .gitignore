@@ -27,7 +27,8 @@ dist-ssr
 *.sw?
 
 # Scraped Instagram data (keep fallback for CI)
-src/scraped/instagram-posts.json
+public/scraped/instagram-posts.json
+public/instagram/
 !src/scraped/instagram-posts.fallback.json
 insta-cookies.json
 .env

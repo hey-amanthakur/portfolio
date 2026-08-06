@@ -18,12 +18,12 @@ export const Button: FC<IButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-light-text dark:border-dark-text transition-colors focus:outline-none';
+  const baseStyles = 'inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-ink transition-colors focus:outline-none';
   
   const variantStyles = {
-    primary: 'bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark btn-flat-shadow',
-    secondary: 'bg-secondary-400 text-light-text hover:bg-secondary-300 shadow-flat-light dark:shadow-flat-dark btn-flat-shadow',
-    outline: 'bg-transparent text-light-text dark:text-dark-text hover:bg-primary-50 dark:hover:bg-dark-surface',
+    primary: 'bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150',
+    secondary: 'bg-secondary-400 text-ink hover:bg-secondary-300 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150',
+    outline: 'bg-transparent text-ink hover:bg-primary-50 dark:hover:bg-surface',
   } as const;
 
   const sizeStyles = {

@@ -1,49 +1,72 @@
+import { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
-import { instagramPosts, siteConfig } from '@/data/content';
-import scrapedPosts from '@/scraped/instagram-posts.json';
+import { instagramPosts, siteConfig } from '@/data';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
 import { InstagramIcon } from '@components/icons';
 import { SectionReveal } from '@components/ui/SectionReveal';
+import { SectionShell } from '@components/ui/SectionShell';
+import { SECTION_IDS, SECTION_LABELS } from '@/constants';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
-const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
-const displayPosts: readonly IInstagramPost[] = hasScrapedData
-  ? scrapedPosts
-  : instagramPosts;
+const SCRAPED_POSTS_URL = '/scraped/instagram-posts.json';
+
+const isInstagramPostArray = (value: unknown): value is readonly IInstagramPost[] =>
+  Array.isArray(value) &&
+  value.every(
+    (post): boolean =>
+      typeof post === 'object' &&
+      post !== null &&
+      'id' in post &&
+      'imageUrl' in post &&
+      'caption' in post &&
+      'likes' in post &&
+      'comments' in post &&
+      'postUrl' in post
+  );
 
 const LOCAL_FALLBACKS = [
-  '/instagram/post-1.jpg',
-  '/instagram/post-2.jpg',
-  '/instagram/post-3.jpg',
-  '/instagram/post-4.jpg',
-  '/instagram/post-5.jpg',
-  '/instagram/post-6.jpg',
-  '/instagram/post-7.jpg',
-  '/instagram/post-8.jpg',
+  '/assets/instagram/insta-1.jpg',
+  '/assets/instagram/insta-2.jpg',
+  '/assets/instagram/insta-3.jpg',
+  '/assets/instagram/insta-4.jpg',
 ] as const;
 
 const resolveImage = (raw: string, index: number): string => {
   if (raw.startsWith('/') || raw.startsWith('blob:') || raw.startsWith('data:')) return raw;
-  if (raw.includes('cdninstagram.com') || raw.includes('fbcdn.net') || raw.includes('instagram.com')) {
-    const fallbackIndex = index % LOCAL_FALLBACKS.length;
-    return LOCAL_FALLBACKS[fallbackIndex] ?? LOCAL_FALLBACKS[0];
-  }
-  return raw;
+  return LOCAL_FALLBACKS[index % LOCAL_FALLBACKS.length] ?? LOCAL_FALLBACKS[0];
 };
 
 export const InstagramFeed: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const [displayPosts, setDisplayPosts] = useState<readonly IInstagramPost[]>(instagramPosts);
+
+  useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+    void fetch(SCRAPED_POSTS_URL, { signal: controller.signal })
+      .then((res): Promise<unknown> => (res.ok ? res.json() : Promise.resolve(null)))
+      .then((data): void => {
+        if (active && isInstagramPostArray(data) && data.length > 0) {
+          setDisplayPosts(data);
+        }
+      })
+      .catch((): void => { /* keep tracked fallback posts */ });
+    return (): void => {
+      active = false;
+      controller.abort();
+    };
+  }, []);
 
   return (
-    <section
+    <SectionShell
       ref={ref}
-      id="swaad-feed"
-      aria-label="Off-hours side project — food diary on Instagram"
-      className="py-24 bg-light-bg dark:bg-dark-bg transition-colors duration-300 relative overflow-hidden"
+      id={SECTION_IDS.instagram}
+      aria-label={SECTION_LABELS.instagram}
+      tone="canvas"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
       <GlowingEffect className="top-1/4 right-1/4 opacity-10" color="#E1306C" size={400} />
@@ -52,17 +75,17 @@ export const InstagramFeed: FC = () => {
 
         {/* Section header */}
         <SectionReveal className="max-w-3xl mx-auto mb-14 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface font-mono text-[11px] uppercase tracking-widest text-light-muted dark:text-dark-muted mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-line bg-surface font-mono text-[11px] uppercase tracking-widest text-muted mb-5">
             <span className="w-2 h-2 rounded-full bg-[#E1306C] animate-pulse" />
             <span>Side project · 02</span>
           </div>
-          <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+          <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
             Off the keyboard,
             <br />
             <span className="text-[#E1306C]">I chase street food.</span>
           </h2>
-          <p className="mt-5 text-light-muted dark:text-dark-muted font-body text-base sm:text-lg leading-relaxed">
-            <span className="font-mono text-light-text dark:text-dark-text">@{siteConfig.instaHandle}</span> is my Pune-based food diary — a weekly hunt for hidden gems, legendary thalis, and unreasonably good street snacks. It keeps the right-brain warm between sprints.
+          <p className="mt-5 text-muted font-body text-base sm:text-lg leading-relaxed">
+            <span className="font-mono text-ink">@{siteConfig.instaHandle}</span> is my Pune-based food diary — a weekly hunt for hidden gems, legendary thalis, and unreasonably good street snacks. It keeps the right-brain warm between sprints.
           </p>
         </SectionReveal>
 
@@ -82,9 +105,9 @@ export const InstagramFeed: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-testid={`insta-post-${post.id}`}
-                  className="group relative block rounded-2xl overflow-hidden border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface hover:border-[#E1306C] hover:shadow-xl hover:shadow-[#E1306C]/10 hover:-translate-y-1 transition-all duration-300"
+                  className="group relative block rounded-2xl overflow-hidden border border-line bg-surface hover:border-[#E1306C] hover:shadow-xl hover:shadow-[#E1306C]/10 hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div className="aspect-square bg-gray-100 dark:bg-dark-bg overflow-hidden relative">
+                  <div className="aspect-square bg-gray-100 dark:bg-canvas overflow-hidden relative">
                     <img
                       src={safeImage}
                       alt={post.caption.substring(0, 80)}
@@ -132,16 +155,16 @@ export const InstagramFeed: FC = () => {
 
         {/* Footer CTA strip */}
         <SectionReveal delay={0.3} className="mt-14">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-6 py-6 rounded-3xl border-2 border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface hover:border-[#E1306C]/50 transition-colors duration-300">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-6 py-6 rounded-3xl border-2 border-line bg-surface hover:border-[#E1306C]/50 transition-colors duration-300">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF] flex items-center justify-center shadow-lg shadow-[#DD2A7B]/20">
                 <InstagramIcon className="w-7 h-7 text-white" />
               </div>
               <div className="text-left">
-                <p className="font-display font-black text-lg text-light-text dark:text-dark-text leading-tight">
+                <p className="font-display font-black text-lg text-ink leading-tight">
                   Hungry for more reels?
                 </p>
-                <p className="font-mono text-xs text-light-muted dark:text-dark-muted mt-0.5 flex items-center gap-1">
+                <p className="font-mono text-xs text-muted mt-0.5 flex items-center gap-1">
                   <MapPin className="w-3 h-3" /> Pune · weekly drops
                 </p>
               </div>
@@ -153,7 +176,7 @@ export const InstagramFeed: FC = () => {
                 href={siteConfig.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 font-display font-bold text-sm rounded-full bg-light-text dark:bg-dark-text text-light-bg dark:text-dark-bg hover:opacity-90 transition-opacity shadow-lg"
+                className="flex items-center gap-2 px-6 py-3 font-display font-bold text-sm rounded-full bg-ink text-canvas hover:opacity-90 transition-opacity shadow-lg"
               >
                 <InstagramIcon className="w-4 h-4" />
                 Follow @{siteConfig.instaHandle}
@@ -163,7 +186,7 @@ export const InstagramFeed: FC = () => {
         </SectionReveal>
 
       </div>
-    </section>
+    </SectionShell>
   );
 };
 export default InstagramFeed;

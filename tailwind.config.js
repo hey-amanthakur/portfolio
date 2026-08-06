@@ -32,20 +32,13 @@ export default {
           800: '#065f46',
           900: '#064e3b',
         },
-        dark: {
-          bg: '#0F0E17',
-          surface: '#1F1E26',
-          border: '#2E2C38',
-          text: '#F0EDF5',
-          muted: '#A7A4B2',
-        },
-        light: {
-          bg: '#FAF9F6',
-          surface: '#FFFFFF',
-          border: '#E8E5DF',
-          text: '#1A1917',
-          muted: '#73706B',
-        }
+        // Semantic tokens — flip automatically in dark mode via CSS vars
+        // in globals.css. Use these instead of light-*/dark-* pairs.
+        canvas: 'rgb(var(--color-canvas) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        line: 'rgb(var(--color-line) / <alpha-value>)',
+        ink: 'rgb(var(--color-ink) / <alpha-value>)',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
       },
       fontFamily: {
         display: ['"Plus Jakarta Sans"', 'sans-serif'],

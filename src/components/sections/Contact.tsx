@@ -1,12 +1,21 @@
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Clock, Coffee, Send, ArrowRight } from 'lucide-react';
-import { siteConfig, services } from '@/data/content';
+import { siteConfig, services } from '@/data';
 import { Card } from '@components/ui/Card';
 import { SectionReveal } from '@components/ui/SectionReveal';
+import { SectionShell } from '@components/ui/SectionShell';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS } from '@/constants';
+import type { ServiceId } from '@/constants';
+
+const serviceEmoji: Readonly<Record<ServiceId, string>> = {
+  [SERVICE_IDS.fullstack]: '💻',
+  [SERVICE_IDS.aiConsulting]: '🧠',
+  [SERVICE_IDS.contentCreation]: '📸',
+};
 
 function buildWhatsAppMessage(projectType = '', details = ''): string {
   const service = services.find((s) => s.id === projectType);
@@ -29,11 +38,12 @@ export const Contact: FC = () => {
   };
 
   return (
-    <section
+    <SectionShell
       ref={ref}
-      id="contact"
-      aria-label="Contact Aman Thakur via WhatsApp"
-      className="py-24 bg-light-surface dark:bg-dark-surface border-t-2 border-light-border dark:border-dark-border transition-colors duration-300 relative overflow-hidden"
+      id={SECTION_IDS.contact}
+      aria-label={SECTION_LABELS.contact}
+      tone="surface"
+      border="top"
     >
       <GlowingEffect className="top-0 right-0 opacity-10" color="#25D366" size={500} />
       <GlowingEffect className="bottom-0 left-0 opacity-10" color="#ff6b35" size={400} />
@@ -56,10 +66,10 @@ export const Contact: FC = () => {
                 <MessageCircle className="w-6 h-6 text-[#25D366]" />
               </div>
             </motion.div>
-            <h2 className="font-display font-black text-3xl sm:text-5xl text-light-text dark:text-dark-text tracking-tight">
+            <h2 className="font-display font-black text-3xl sm:text-5xl text-ink tracking-tight">
               Let&apos;s build something <span className="text-[#25D366]">real</span>.
             </h2>
-            <p className="mt-4 text-light-muted dark:text-dark-muted font-body text-lg">
+            <p className="mt-4 text-muted font-body text-lg">
               Pick a service below — it opens WhatsApp with a pre-filled brief. No forms, no waiting.
             </p>
           </SectionReveal>
@@ -73,7 +83,7 @@ export const Contact: FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="relative"
               >
-                <div className="bg-light-bg dark:bg-dark-bg border-2 border-light-border dark:border-dark-border rounded-3xl overflow-hidden shadow-2xl shadow-black/5">
+                <div className="bg-canvas border-2 border-line rounded-3xl overflow-hidden shadow-2xl shadow-black/5">
                   <div className="bg-[#075E54] px-5 py-4 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-[#25D366]/30">
                       AT
@@ -94,10 +104,10 @@ export const Contact: FC = () => {
                       transition={{ delay: 0.4 }}
                       className="bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-4 py-3 max-w-[85%] shadow-sm"
                     >
-                      <p className="text-xs text-light-text dark:text-dark-text">
+                      <p className="text-xs text-ink">
                         Hey! Interested in working together? Pick a service below and I&apos;ll message you directly on WhatsApp!
                       </p>
-                      <p className="text-[10px] text-light-muted dark:text-dark-muted mt-1 text-right">Just now</p>
+                      <p className="text-[10px] text-muted mt-1 text-right">Just now</p>
                     </motion.div>
 
                     {services.map((service, index) => (
@@ -115,12 +125,12 @@ export const Contact: FC = () => {
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-grow">
                             <div className="flex items-center gap-2">
-                              <span className="text-lg">{service.id === 'fullstack' ? '💻' : service.id === 'ai-consulting' ? '🧠' : '📸'}</span>
-                              <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                              <span className="text-lg">{serviceEmoji[service.id]}</span>
+                              <p className="font-display font-bold text-sm text-ink">
                                 {service.title}
                               </p>
                             </div>
-                            <p className="text-[11px] text-light-muted dark:text-dark-muted mt-1 leading-relaxed">
+                            <p className="text-[11px] text-muted mt-1 leading-relaxed">
                               {service.tagline}
                             </p>
                           </div>
@@ -146,21 +156,21 @@ export const Contact: FC = () => {
                 transition={{ delay: 0.5 }}
               >
                 <Card variant="flat-primary" className="p-6">
-                  <h3 className="font-display font-black text-lg text-light-text dark:text-dark-text mb-4 flex items-center gap-2">
+                  <h3 className="font-display font-black text-lg text-ink mb-4 flex items-center gap-2">
                     <span>Direct contact</span>
                   </h3>
 
                   <div className="space-y-4">
                     <a
                       href={`mailto:${siteConfig.email}`}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-light-bg dark:bg-dark-bg hover:bg-primary-50 dark:hover:bg-dark-surface transition-colors group"
+                      className="flex items-center gap-3 p-3 rounded-xl bg-canvas hover:bg-primary-50 dark:hover:bg-surface transition-colors group"
                     >
                       <div className="w-10 h-10 rounded-xl bg-primary-400/10 flex items-center justify-center group-hover:bg-primary-400/20 transition-colors">
                         <Mail className="w-5 h-5 text-primary-400" />
                       </div>
                       <div>
                         <p className="text-[10px] font-display font-black text-primary-400 uppercase">Email</p>
-                        <p className="font-body font-bold text-sm text-light-text dark:text-dark-text break-all">
+                        <p className="font-body font-bold text-sm text-ink break-all">
                           {siteConfig.email}
                         </p>
                       </div>
@@ -177,19 +187,19 @@ export const Contact: FC = () => {
                       </div>
                       <div>
                         <p className="text-[10px] font-display font-black text-[#25D366] uppercase">WhatsApp</p>
-                        <p className="font-body font-bold text-sm text-light-text dark:text-dark-text">
+                        <p className="font-body font-bold text-sm text-ink">
                           +{siteConfig.phone.slice(0, 2)} {siteConfig.phone.slice(2, 7)} {siteConfig.phone.slice(7)}
                         </p>
                       </div>
                     </a>
 
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-light-bg dark:bg-dark-bg">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-canvas">
                       <div className="w-10 h-10 rounded-xl bg-primary-400/10 flex items-center justify-center">
                         <Clock className="w-5 h-5 text-primary-400" />
                       </div>
                       <div>
                         <p className="text-[10px] font-display font-black text-primary-400 uppercase">Active Hours</p>
-                        <p className="font-body font-bold text-sm text-light-text dark:text-dark-text">
+                        <p className="font-body font-bold text-sm text-ink">
                           9:00 AM – 7:00 PM IST
                         </p>
                       </div>
@@ -211,7 +221,7 @@ export const Contact: FC = () => {
                         <Coffee className="w-7 h-7 text-[#B38F00]" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-display font-bold text-sm text-light-text dark:text-dark-text">
+                        <p className="font-display font-bold text-sm text-ink">
                           Buy me a coffee
                         </p>
                         <p className="text-xs text-[#B38F00] font-body mt-0.5">
@@ -238,7 +248,7 @@ export const Contact: FC = () => {
 
         </div>
       </motion.div>
-    </section>
+    </SectionShell>
   );
 };
 

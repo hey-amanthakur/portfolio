@@ -1,7 +1,9 @@
+import type { Route, Persona, ServiceId, IProjectCategory } from '@/constants';
+
 // Navigation
 export interface INavLink {
   readonly label: string;
-  readonly href: string;
+  readonly href: Route;
   readonly isExternal?: boolean;
 }
 
@@ -12,18 +14,20 @@ export interface IProject {
   readonly description: string;
   readonly tags: readonly string[];
   readonly imageUrl: string;
+  readonly category: IProjectCategory;
   readonly liveUrl?: string;
   readonly repoUrl?: string;
   readonly featured: boolean;
-  readonly type: 'code' | 'food';
 }
 
 // Services
+export type IServiceIcon = 'Terminal' | 'Cpu' | 'ChefHat';
+
 export interface IService {
-  readonly id: string;
+  readonly id: ServiceId;
   readonly title: string;
   readonly description: string;
-  readonly icon: string;
+  readonly icon: IServiceIcon;
   readonly tagline: string;
 }
 
@@ -88,6 +92,14 @@ export interface IOpenSourceContribution {
   readonly url: string;
   readonly language: string;
   readonly prCount: number;
+}
+
+// Milestone
+export interface IMilestone {
+  readonly year: string;
+  readonly title: string;
+  readonly description: string;
+  readonly category: Persona;
 }
 
 // Component Props patterns

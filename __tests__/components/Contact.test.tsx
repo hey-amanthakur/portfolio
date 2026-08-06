@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Contact } from '@components/sections/Contact';
-import { siteConfig, services } from '@/data/content';
+import { siteConfig, services } from '@/data';
+import { SECTION_LABELS } from '@/constants';
 
 describe('Contact Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
     render(<Contact />);
-    expect(screen.getByLabelText('Contact Aman Thakur via WhatsApp')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.contact)).toBeInTheDocument();
   });
 
   it('renders the heading and description', (): void => {

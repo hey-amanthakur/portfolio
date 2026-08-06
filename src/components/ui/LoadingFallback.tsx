@@ -21,7 +21,7 @@ export const LoadingFallback: FC = () => (
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="text-light-muted dark:text-dark-muted font-mono text-sm"
+        className="text-muted font-mono text-sm"
       >
         Loading section...
       </motion.p>

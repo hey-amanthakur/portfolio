@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Portfolio } from '@components/sections/Portfolio';
+import { SECTION_LABELS, ALL_FILTER } from '@/constants';
 
 describe('Portfolio Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
     render(<Portfolio />);
-    expect(screen.getByLabelText('Aman Thakur Coding Projects Portfolio')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.portfolio)).toBeInTheDocument();
   });
 
   it('renders the section badge and heading', (): void => {
@@ -23,11 +24,12 @@ describe('Portfolio Component', (): void => {
   it('renders search input and category filter buttons', (): void => {
     render(<Portfolio />);
     expect(screen.getByPlaceholderText(/Search projects, tech stacks/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'React' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Java' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Spring Boot' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: ALL_FILTER })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'AI' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Web' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Data Science' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Security' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Game Dev' })).toBeInTheDocument();
   });
 
   it('renders featured projects', (): void => {

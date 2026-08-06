@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { About } from '@components/sections/About';
-import { milestones } from '@/data/content';
+import { milestones } from '@/data';
+import { SECTION_LABELS } from '@/constants';
 
 describe('About Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
     render(<About />);
-    expect(screen.getByLabelText('Aman Thakur Story Timeline')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.about)).toBeInTheDocument();
   });
 
   it('renders the section badge and heading', (): void => {
