@@ -85,7 +85,7 @@ Open `src/data/github.ts` and add an entry to `openSourceContributions`:
 ## Updating the Instagram feed
 
 - The fallback posts live in `src/data/instagram.ts`.
-- `bun run scrape:instagram` re-scrapes at build time and writes `src/scraped/instagram-posts.json` (gitignored), which takes precedence over the fallback when present.
+- `bun run scrape:instagram` re-scrapes at build time and writes `public/scraped/instagram-posts.json` (gitignored), which takes precedence over the fallback when present.
 - New shortcodes go in `SHORTCODES` in `scripts/scrape-instagram.ts`.
 
 ## Styling / design system

@@ -11,8 +11,8 @@
 ## Architecture
 - **Stack:** React 19 + TypeScript + Vite 8 + Tailwind v3 + framer-motion
 - Single-page portfolio served by Vite dev server at `:3000` (supervisor-managed via `/app/frontend` proxy package)
-- No backend — pure static SPA. Instagram content is scraped at build time via `scripts/scrape-instagram.ts` (Puppeteer) and persisted to `src/scraped/instagram-posts.json`
-- Images: snapshots stored locally in `public/instagram/post-N.jpg` (bypasses Instagram CDN hot-link block)
+- No backend — pure static SPA. Instagram content is scraped at build time via `scripts/scrape-instagram.ts` (Puppeteer) and persisted to `public/scraped/instagram-posts.json`
+- Images: snapshots stored locally in `public/instagram/{shortcode}.jpg` (bypasses Instagram CDN hot-link block)
 
 ## Personas
 1. **Hiring manager / CTO** evaluating Aman for freelance / FT engineering work
@@ -22,7 +22,7 @@
 ## What's Implemented — Jan 27, 2026
 
 ### Instagram images fix
-- `src/scraped/instagram-posts.json` now references `/instagram/post-N.jpg` (local) instead of expiring `scontent.cdninstagram.com` URLs
+- `public/scraped/instagram-posts.json` now references `/instagram/{shortcode}.jpg` (local) instead of expiring `scontent.cdninstagram.com` URLs
 - `InstagramFeed.tsx` adds a defensive `resolveImage()` mapper + `onError` handler that swaps to a local fallback if a CDN URL ever leaks back into the JSON
 
 ### Developer-first UX overhaul
@@ -40,17 +40,17 @@
 - Added **JetBrains Mono** for all code / terminal / metadata accents (preloaded in `index.html`, exposed as `font-mono` in Tailwind)
 
 ### Infra fix
-- Vite is now served via supervisor through `/app/frontend/package.json` proxy script (`yarn start` → `npx vite --host 0.0.0.0 --port 3000`)
+- Vite is now served via supervisor through `/app/frontend/package.json` proxy script (`bun run dev` → `vite --host 0.0.0.0 --port 3000`)
 
 ## Verified
-- `yarn typecheck` clean (TS strict mode)
+- `bun run typecheck` clean (TS strict mode)
 - Light & dark mode visually verified via screenshots
 - All 8 Instagram images render from local files
 - Hero persona toggle (Developer ↔ Off-hours) animates cleanly
 - All nav anchors scroll correctly; mobile nav and theme toggle preserved
 
 ## Backlog / Next Items
-- **P1:** Re-scrape Instagram with the updated workflow so captions match downloaded images (currently the 8 local files were captured independently from the JSON captions). Add a `--download-images` flag to `scripts/scrape-instagram.ts` so future scrapes write `post-N.jpg` automatically.
+- **P1:** Re-scrape Instagram with the updated workflow so captions match downloaded images (currently the 8 local files were captured independently from the JSON captions). Add a `--download-images` flag to `scripts/scrape-instagram.ts` so future scrapes write `{shortcode}.jpg` automatically.
 - **P2:** Restore the broken `vitest` suite — install missing `@testing-library/dom` dependency and update component-level tests for the new copy.
 - **P2:** Add an analytics/visit counter, a downloadable CV link in the hero, and a "What I'm reading / playing with" mini-section.
 - **P3:** Generate an OG image (`/og-cover.png` referenced in `index.html` is 404).

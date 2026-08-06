@@ -42,19 +42,19 @@ src/
 │                                      RepoCard, ProjectCard, DesignSystemPreview…
 ├── utils/                           # Pure helpers (languageColor, …)
 ├── assets/                          # hero.png, svg icons
-├── scraped/
-│   └── instagram-posts.fallback.json # Static fallback (versioned)
 └── styles/globals.css               # Tailwind layers + semantic token vars
-
-scripts/
-├── scrape-instagram.ts              # Puppeteer scraper — runs on prebuild
-└── scrape-github-pinned.ts          # GitHub pinned repos scraper
 
 public/
 ├── assets/projects/, instagram/, avatars/   # Local images (no external hotlinks)
 ├── instagram/                       # Downloaded IG images (shortcode-named) — gitignored
-├── scraped/instagram-posts.json     # Scraped posts JSON (generated, gitignored)
+├── scraped/
+│   ├── instagram-posts.json        # Scraped posts JSON (generated, gitignored)
+│   └── instagram-posts.fallback.json # Static fallback (versioned)
 ├── favicon.svg, icons.svg, robots.txt, sitemap.xml
+
+scripts/
+├── scrape-instagram.ts              # Puppeteer scraper — runs on prebuild
+└── scrape-github-pinned.ts          # GitHub pinned repos scraper
 ```
 
 ## Component Conventions
@@ -119,7 +119,7 @@ All commands use Bun under the hood. The `prebuild` hook runs the Instagram scra
 The feed then fetches that JSON at runtime (`InstagramFeed`), falling back to
 the tracked posts in `src/data/instagram.ts` when the file is absent. If the
 scraper finds no posts and no output exists, it copies
-`src/scraped/instagram-posts.fallback.json` into place.
+`public/scraped/instagram-posts.fallback.json` into place.
 
 To add new posts: add the shortcode to `SHORTCODES` in the scraper script.
 
