@@ -1,13 +1,15 @@
 import { createContext, useContext } from 'react';
-import type { ILocale } from './types';
+import type { ILocale, ILocaleContent } from './types';
 import { DEFAULT_LOCALE, type LocaleCode } from './locales';
-import { translations } from './translations';
+import { en } from './en';
 
 export interface II18nContext {
   readonly locale: LocaleCode;
   readonly setLocale: (locale: LocaleCode) => void;
   /** UI strings for the active locale. */
   readonly t: ILocale['ui'];
+  /** Content overrides for the active locale. */
+  readonly content: ILocaleContent;
   /** True when the active locale has any content overrides. */
   readonly hasContentOverrides: boolean;
 }
@@ -20,7 +22,8 @@ export interface II18nContext {
 export const I18nContext = createContext<II18nContext>({
   locale: DEFAULT_LOCALE,
   setLocale: () => undefined,
-  t: translations[DEFAULT_LOCALE].ui,
+  t: en.ui,
+  content: en.content,
   hasContentOverrides: false,
 });
 

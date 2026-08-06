@@ -2,20 +2,18 @@ import { useState, useEffect, useCallback, type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { testimonials } from '@/data';
-import { getContentOverrides, localize, useI18n, type TestimonialId } from '@/i18n';
+import { localize, useI18n, type TestimonialId } from '@/i18n';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { SECTION_IDS } from '@/constants';
 
 export const Testimonials: FC = () => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
   const [current, setCurrent] = useState<number>(0);
   const [direction, setDirection] = useState<number>(0);
 
-   // eslint-disable-next-line react-hooks/preserve-manual-memoization
-   const paginate = useCallback((newDirection: number): void => {
+  const paginate = useCallback((newDirection: number): void => {
      setDirection(newDirection);
      setCurrent((prev) => {
        const next = prev + newDirection;

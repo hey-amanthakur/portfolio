@@ -1,7 +1,3 @@
-import type { ILocaleContent, IUIStrings } from './types';
-import { translations } from './translations';
-import { DEFAULT_LOCALE, isLocaleCode, type LocaleCode } from './locales';
-
 export type {
   ILocale,
   ILocaleContent,
@@ -13,17 +9,16 @@ export type {
   OssId,
   NavKey,
 } from './types';
+import { DEFAULT_LOCALE, isLocaleCode, type LocaleCode } from './locales';
+import { en } from './en';
+
 export { LOCALES, DEFAULT_LOCALE, isLocaleCode, type LocaleCode, type ILocaleMeta } from './locales';
-export { translations } from './translations';
-export { useI18n, I18nContext, type II18nContext } from './useI18n';
+export { en };
+export { useI18n } from './useI18n';
 export { LocaleProvider } from './LocaleProvider';
 
 export const getLocale = (code: string): LocaleCode =>
   isLocaleCode(code) ? code : DEFAULT_LOCALE;
-
-export const getUIStrings = (code: string): IUIStrings => translations[getLocale(code)].ui;
-
-export const getContentOverrides = (code: string): ILocaleContent => translations[getLocale(code)].content;
 
 /**
  * Reads a translated field off a locale content override, falling back to

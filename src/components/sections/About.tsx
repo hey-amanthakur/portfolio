@@ -2,7 +2,7 @@ import type { FC, ReactElement } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Trophy, GraduationCap, Utensils } from 'lucide-react';
 import { milestones } from '@/data';
-import { getContentOverrides, localize, useI18n, type ILocaleContent } from '@/i18n';
+import { localize, useI18n, type ILocaleContent } from '@/i18n';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
@@ -26,8 +26,7 @@ const cardColors = [
 ] as const;
 
 export const About: FC = () => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
 
   return (
     <SectionShell

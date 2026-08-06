@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Mail, Clock, Coffee, Send, ArrowRight } from 'lucide-react';
 import { siteConfig, services } from '@/data';
-import { getContentOverrides, localize, useI18n, type IUIStrings } from '@/i18n';
+import { localize, useI18n, type IUIStrings } from '@/i18n';
 import { Card } from '@components/ui/Card';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
@@ -34,8 +34,7 @@ function buildWhatsAppMessage(
 }
 
 export const Contact: FC = () => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const getServiceTitle = (serviceId: ServiceId | ''): string | undefined => {

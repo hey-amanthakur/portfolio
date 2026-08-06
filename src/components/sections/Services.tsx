@@ -2,7 +2,7 @@ import type { FC, ComponentType, SVGProps } from 'react';
 import { Terminal, Cpu, ChefHat, ArrowRight } from 'lucide-react';
 import { services } from '@/data';
 import type { IServiceIcon } from '@/types';
-import { getContentOverrides, localize, useI18n } from '@/i18n';
+import { localize, useI18n } from '@/i18n';
 import { Badge } from '@components/ui/Badge';
 import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
@@ -33,8 +33,7 @@ const accentGradients: Readonly<Record<ServiceId, string>> = {
 };
 
 export const Services: FC = () => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
 
   return (
     <SectionShell

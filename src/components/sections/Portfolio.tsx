@@ -10,7 +10,7 @@ import { RepoCard } from '@components/ui/RepoCard';
 import { ProjectCard } from '@components/ui/ProjectCard';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { GitHubIcon } from '@components/icons';
-import { getContentOverrides, localize, useI18n } from '@/i18n';
+import { localize, useI18n } from '@/i18n';
 import { ALL_FILTER, SECTION_IDS, projectCategories } from '@/constants';
 import type { IProjectCategory } from '@/constants';
 import type { RepoId, OssId } from '@/i18n/types';
@@ -18,8 +18,7 @@ import type { RepoId, OssId } from '@/i18n/types';
 type FilterTag = typeof ALL_FILTER | IProjectCategory;
 
 export const Portfolio: FC = () => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
   const [activeFilter, setActiveFilter] = useState<FilterTag>(ALL_FILTER);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });

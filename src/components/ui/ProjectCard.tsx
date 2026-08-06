@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import type { IProject } from '@/types';
-import { getContentOverrides, localize, useI18n, type ProjectId } from '@/i18n';
+import { localize, useI18n, type ProjectId } from '@/i18n';
 import { Badge } from '@components/ui/Badge';
 import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
@@ -13,8 +13,7 @@ interface IProjectCardProps {
 }
 
 export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
-  const { t, locale } = useI18n();
-  const content = getContentOverrides(locale);
+  const { t, content } = useI18n();
   const override = content.projects?.[project.id as ProjectId];
   const description = localize(override?.description, project.description);
 
