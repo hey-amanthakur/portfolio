@@ -5,6 +5,13 @@ import { loadStoredLocale, persistLocale } from './storage';
 import { en } from './en';
 import type { ILocale } from './types';
 
+const localeImports: Record<LocaleCode, () => Promise<{ default: ILocale; [key: string]: ILocale }>> = {
+  fr: () => import(/* webpackChunkName: "locale-fr" */ './fr.ts'),
+  de: () => import(/* webpackChunkName: "locale-de" */ './de.ts'),
+  ja: () => import(/* webpackChunkName: "locale-ja" */ './ja.ts'),
+  ko: () => import(/* webpackChunkName: "locale-ko" */ './ko.ts'),
+};
+
 interface ILocaleProviderProps {
   readonly children: ReactNode;
 }
@@ -16,10 +23,7 @@ export const LocaleProvider = ({ children }: ILocaleProviderProps): ReactNode =>
   useEffect(() => {
     if (locale === DEFAULT_LOCALE) return;
     let active = true;
-      void import(
-        /* @vite-ignore */
-        /* webpackChunkName: "locale-[request]" */ `./${locale}.ts`
-      ).then((module: { default: ILocale; [key: string]: ILocale }) => {
+    void localeImports[locale]().then((module) => {
       const loaded = module[locale] ?? module.default;
       if (active) setData(loaded);
     });
