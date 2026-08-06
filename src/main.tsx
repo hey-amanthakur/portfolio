@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '@/styles/globals.css';
 import App from '@/App';
 import { ErrorBoundary } from '@components/ui/ErrorBoundary';
+import { LocaleProvider } from '@/i18n';
 
 const container = document.getElementById('root');
 if (container !== null) {
@@ -10,7 +11,9 @@ if (container !== null) {
   root.render(
     <StrictMode>
       <ErrorBoundary>
-        <App />
+        <LocaleProvider>
+          <App />
+        </LocaleProvider>
       </ErrorBoundary>
     </StrictMode>
   );
