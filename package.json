@@ -56,7 +56,6 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.7"
   },
   "description": "A modern, animated personal portfolio website built with **React 19**, **TypeScript**, **Vite**, and **TailwindCSS**. Features dark/light theme, scroll-driven animations, and a build-time Instagram scraper that pulls live posts from [@yeh.safar.swaad.ka](https://www.instagram.com/yeh.safar.swaad.ka/).",
