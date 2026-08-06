@@ -8,6 +8,7 @@ import { LoadingFallback } from '@components/ui/LoadingFallback';
 import { Footer } from '@components/layout/Footer';
 import { ScrollProgress } from '@components/ui/ScrollProgress';
 import { DesignSystemPreview } from '@components/ui/DesignSystemPreview';
+import { ROUTES } from '@/constants';
 
 // Lazy-load below-fold sections — each becomes a separate JS chunk
 const LazyPortfolio = lazy(
@@ -40,7 +41,7 @@ const useHashRoute = (): string => {
 export const App: FC = () => {
   const hash = useHashRoute();
 
-  if (hash === '#design') {
+  if (hash === ROUTES.design) {
     return <DesignSystemPreview />;
   }
 

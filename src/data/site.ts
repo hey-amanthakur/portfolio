@@ -1,4 +1,5 @@
 import type { INavLink, ISiteConfig } from '@/types';
+import { ROUTES } from '@/constants';
 
 export const siteConfig: ISiteConfig = {
   name: 'Aman Thakur',
@@ -16,11 +17,11 @@ export const siteConfig: ISiteConfig = {
 } as const;
 
 export const navLinks: readonly INavLink[] = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#portfolio' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Off-Hours', href: '#swaad-feed' },
-  { label: 'Hire Me', href: '#contact' },
+  { label: 'Home', href: ROUTES.home },
+  { label: 'About', href: ROUTES.about },
+  { label: 'Services', href: ROUTES.services },
+  { label: 'Work', href: ROUTES.portfolio },
+  { label: 'Testimonials', href: ROUTES.testimonials },
+  { label: 'Off-Hours', href: ROUTES.instagram },
+  { label: 'Hire Me', href: ROUTES.contact },
 ] as const;

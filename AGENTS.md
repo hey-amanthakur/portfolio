@@ -26,6 +26,7 @@ src/
 ├── main.tsx                         # Entry — mounts <App />
 ├── App.tsx                          # Root — composes sections (hash-route: #design)
 ├── types/index.ts                   # Shared interfaces (I-prefixed)
+├── constants/index.ts               # Single source of truth for magic strings (routes, section ids/labels, themes, personas, service ids, filter) — edit strings HERE only
 ├── data/                            # Content split by domain (see index.ts barrel)
 │   ├── index.ts                     # Barrel re-exporting all data
 │   ├── site.ts, services.ts, projects.ts, instagram.ts,

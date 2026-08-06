@@ -8,6 +8,8 @@ import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
+import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS } from '@/constants';
+import type { ServiceId } from '@/constants';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
 const iconMap: Readonly<Record<IServiceIcon, ComponentType<SVGProps<SVGSVGElement>>>> = {
@@ -16,27 +18,25 @@ const iconMap: Readonly<Record<IServiceIcon, ComponentType<SVGProps<SVGSVGElemen
   ChefHat,
 };
 
-const getIngredients = (serviceId: string): readonly string[] => {
-  if (serviceId === 'fullstack') {
-    return ['React 18', 'Spring Boot 3', 'Java 21', 'TypeScript', 'Jest/Vitest', 'APIs'] as const;
-  }
-  if (serviceId === 'ai-consulting') {
-    return ['LLMs', 'Prompt Engineering', 'RAG Search', 'LangChain', 'AI Agents', 'OpenAI'] as const;
-  }
-  return ['Storytelling', 'Reels Strategy', 'Hook Writing', 'Video Editing', 'Analytics'] as const;
+const ingredientsByService: Readonly<Record<ServiceId, readonly string[]>> = {
+  [SERVICE_IDS.fullstack]: ['React 18', 'Spring Boot 3', 'Java 21', 'TypeScript', 'Jest/Vitest', 'APIs'],
+  [SERVICE_IDS.aiConsulting]: ['LLMs', 'Prompt Engineering', 'RAG Search', 'LangChain', 'AI Agents', 'OpenAI'],
+  [SERVICE_IDS.contentCreation]: ['Storytelling', 'Reels Strategy', 'Hook Writing', 'Video Editing', 'Analytics'],
 };
 
-const accentGradients: Record<string, string> = {
-  fullstack: 'from-primary-400/20 to-primary-500/5',
-  'ai-consulting': 'from-secondary-400/20 to-secondary-500/5',
-  'content-creation': 'from-primary-400/10 via-secondary-400/10 to-primary-400/5',
+const getIngredients = (serviceId: ServiceId): readonly string[] => ingredientsByService[serviceId];
+
+const accentGradients: Readonly<Record<ServiceId, string>> = {
+  [SERVICE_IDS.fullstack]: 'from-primary-400/20 to-primary-500/5',
+  [SERVICE_IDS.aiConsulting]: 'from-secondary-400/20 to-secondary-500/5',
+  [SERVICE_IDS.contentCreation]: 'from-primary-400/10 via-secondary-400/10 to-primary-400/5',
 };
 
 export const Services: FC = () => {
   return (
     <SectionShell
-      id="services"
-      aria-label="Aman Thakur Freelance Services Menu"
+      id={SECTION_IDS.services}
+      aria-label={SECTION_LABELS.services}
       tone="canvas"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />
@@ -81,7 +81,7 @@ export const Services: FC = () => {
                     } transition-colors duration-300 overflow-hidden`}
                   >
                     {/* Background gradient accent */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${accentGradients[item.id] ?? ''} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${accentGradients[item.id]} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
 
                     {/* Chef Special Tag */}
                     {isChefSpecial && (
@@ -133,13 +133,9 @@ export const Services: FC = () => {
                       <MagneticButton strength={0.15} className="mt-6 w-full">
                         <button
                           onClick={(): void => {
-                            const el = document.getElementById('contact');
+                            const el = document.getElementById(SECTION_IDS.contact);
                             if (el !== null) {
                               el.scrollIntoView({ behavior: 'smooth' });
-                              const selectEl = document.getElementById('serviceType') as HTMLSelectElement | null;
-                              if (selectEl !== null) {
-                                selectEl.value = item.id;
-                              }
                             }
                           }}
                           className="w-full py-2.5 flex items-center justify-center gap-2 border-2 border-ink font-display font-black text-xs rounded-xl bg-surface hover:bg-primary-50 dark:hover:bg-canvas text-ink transition-colors group/btn"

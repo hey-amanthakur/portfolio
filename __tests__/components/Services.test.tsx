@@ -2,11 +2,12 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Services } from '@components/sections/Services';
 import { services } from '@/data';
+import { SECTION_LABELS } from '@/constants';
 
 describe('Services Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
     render(<Services />);
-    expect(screen.getByLabelText('Aman Thakur Freelance Services Menu')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.services)).toBeInTheDocument();
   });
 
   it('renders the section badge and heading', (): void => {

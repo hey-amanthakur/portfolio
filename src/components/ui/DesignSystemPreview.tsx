@@ -4,6 +4,7 @@ import { Badge } from '@components/ui/Badge';
 import { Card } from '@components/ui/Card';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { GitHubIcon } from '@components/icons';
+import { ROUTES } from '@/constants';
 
 const swatches = [
   { name: 'canvas', class: 'bg-canvas' },
@@ -62,7 +63,7 @@ export const DesignSystemPreview: FC = () => {
             <p className="font-mono text-xs text-muted uppercase tracking-widest">design system</p>
             <h1 className="font-display font-black text-2xl">Kitchen sink</h1>
           </div>
-          <a href="#home" className="font-mono text-xs text-muted hover:text-primary-400">
+          <a href={ROUTES.home} className="font-mono text-xs text-muted hover:text-primary-400">
             ← back to portfolio
           </a>
         </div>
@@ -189,7 +190,7 @@ export const DesignSystemPreview: FC = () => {
             <code className="font-mono text-primary-400">active:translate-x-0.5 active:translate-y-0.5 active:shadow-none</code>.
           </p>
           <a
-            href="#design"
+            href={ROUTES.design}
             className="inline-flex items-center gap-2 px-4 py-2 font-display font-bold text-xs rounded-xl border-2 border-ink bg-surface text-ink hover:bg-primary-50 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150"
           >
             <GitHubIcon className="w-4 h-4" />

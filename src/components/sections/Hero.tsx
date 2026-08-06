@@ -9,14 +9,16 @@ import { ParticleField } from '@components/ui/ParticleField';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
 import { MagneticButton } from '@components/ui/MagneticButton';
+import { ROUTES, SECTION_IDS, SECTION_LABELS, PERSONAS } from '@/constants';
+import type { Persona } from '@/constants';
 
 export const Hero: FC = () => {
-  const [mode, setMode] = useState<'code' | 'food'>('code');
+  const [mode, setMode] = useState<Persona>(PERSONAS.code);
 
   return (
     <section
-      id="home"
-      aria-label="Aman Thakur — Full-Stack Engineer"
+      id={SECTION_IDS.home}
+      aria-label={SECTION_LABELS.hero}
       className="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden bg-canvas transition-colors duration-300"
     >
       <ParticleField count={25} />
@@ -74,7 +76,7 @@ export const Hero: FC = () => {
                 transition={{ duration: 0.35 }}
                 className="text-3xl sm:text-5xl lg:text-6xl font-black text-gradient-secondary inline-block"
               >
-                {mode === 'code' ? 'build software.' : 'chase street food.'}
+                {mode === PERSONAS.code ? 'build software.' : 'chase street food.'}
               </motion.span>
             </AnimatePresence>
           </motion.h1>
@@ -85,7 +87,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-6 text-lg text-muted font-body max-w-xl leading-relaxed"
           >
-            {mode === 'code'
+            {mode === PERSONAS.code
               ? <>Full-stack engineer specialising in <span className="font-semibold text-ink">React</span>, <span className="font-semibold text-ink">Spring Boot</span>, and <span className="font-semibold text-ink">AI agent</span> systems. SIH&apos;22 winner and ET Campus Star, currently shipping bespoke software for early-stage teams.</>
               : <>Off the keyboard, I run <span className="font-semibold text-ink">@yeh.safar.swaad.ka</span> — a Pune-based food diary documenting hidden gems, legendary thalis, and unreasonably good street snacks.</>
             }
@@ -103,11 +105,11 @@ export const Hero: FC = () => {
           >
             <button
               role="tab"
-              aria-selected={mode === 'code'}
+              aria-selected={mode === PERSONAS.code}
               data-testid="hero-mode-code"
-              onClick={(): void => { setMode('code'); }}
+              onClick={(): void => { setMode(PERSONAS.code); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
-                mode === 'code'
+                mode === PERSONAS.code
                   ? 'bg-primary-400 text-white shadow-lg shadow-primary-400/30'
                   : 'text-muted hover:text-ink dark:hover:text-ink'
               }`}
@@ -118,11 +120,11 @@ export const Hero: FC = () => {
 
             <button
               role="tab"
-              aria-selected={mode === 'food'}
+              aria-selected={mode === PERSONAS.food}
               data-testid="hero-mode-food"
-              onClick={(): void => { setMode('food'); }}
+              onClick={(): void => { setMode(PERSONAS.food); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
-                mode === 'food'
+                mode === PERSONAS.food
                   ? 'bg-secondary-400 text-white shadow-lg shadow-secondary-400/30'
                   : 'text-muted hover:text-ink dark:hover:text-ink'
               }`}
@@ -139,13 +141,13 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.65 }}
             className="flex flex-wrap gap-4 mt-10 items-center"
           >
-            {mode === 'code' ? (
+            {mode === PERSONAS.code ? (
               <>
                 <MagneticButton strength={0.2}>
                   <Button
                     data-testid="hero-cta-hire"
                     onClick={(): void => {
-                      const el = document.getElementById('contact');
+                      const el = document.getElementById(SECTION_IDS.contact);
                       if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
                     }}
                     variant="primary"
@@ -157,7 +159,7 @@ export const Hero: FC = () => {
                 <MagneticButton strength={0.2}>
                   <a
                     data-testid="hero-cta-work"
-                    href="#portfolio"
+                    href={ROUTES.portfolio}
                     className="flex items-center gap-2 px-6 py-3 font-display font-bold rounded-xl-playful border-2 border-ink bg-surface text-ink hover:bg-primary-50 dark:hover:bg-canvas shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 transition-all"
                   >
                     <Code2 className="w-5 h-5" />
@@ -208,7 +210,7 @@ export const Hero: FC = () => {
                   <Button
                     data-testid="hero-cta-feed"
                     onClick={(): void => {
-                      const el = document.getElementById('swaad-feed');
+                      const el = document.getElementById(SECTION_IDS.instagram);
                       if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
                     }}
                     variant="primary"
@@ -222,7 +224,7 @@ export const Hero: FC = () => {
           </motion.div>
 
           {/* Stats row */}
-          {mode === 'code' && (
+          {mode === PERSONAS.code && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -245,7 +247,7 @@ export const Hero: FC = () => {
           )}
 
           {/* Tech stack mono ticker */}
-          {mode === 'code' && (
+          {mode === PERSONAS.code && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -267,7 +269,7 @@ export const Hero: FC = () => {
         {/* Right Column: Interactive Showcase */}
         <div className="lg:col-span-5 w-full flex items-center justify-center min-h-[420px]">
           <AnimatePresence mode="wait">
-            {mode === 'code' ? (
+            {mode === PERSONAS.code ? (
               <motion.div
                 key="code-panel"
                 data-testid="hero-code-panel"

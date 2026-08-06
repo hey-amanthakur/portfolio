@@ -3,11 +3,12 @@ import { fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Hero } from '@components/sections/Hero';
 import { siteConfig } from '@/data';
+import { SECTION_LABELS } from '@/constants';
 
 describe('Hero Component', (): void => {
   it('renders the hero section with correct aria-label', (): void => {
     render(<Hero />);
-    expect(screen.getByLabelText('Aman Thakur — Full-Stack Engineer')).toBeInTheDocument();
+    expect(screen.getByLabelText(SECTION_LABELS.hero)).toBeInTheDocument();
   });
 
   it('renders the availability pill and whoami command', (): void => {

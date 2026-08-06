@@ -8,6 +8,14 @@ import { SectionShell } from '@components/ui/SectionShell';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS } from '@/constants';
+import type { ServiceId } from '@/constants';
+
+const serviceEmoji: Readonly<Record<ServiceId, string>> = {
+  [SERVICE_IDS.fullstack]: '💻',
+  [SERVICE_IDS.aiConsulting]: '🧠',
+  [SERVICE_IDS.contentCreation]: '📸',
+};
 
 function buildWhatsAppMessage(projectType = '', details = ''): string {
   const service = services.find((s) => s.id === projectType);
@@ -32,8 +40,8 @@ export const Contact: FC = () => {
   return (
     <SectionShell
       ref={ref}
-      id="contact"
-      aria-label="Contact Aman Thakur via WhatsApp"
+      id={SECTION_IDS.contact}
+      aria-label={SECTION_LABELS.contact}
       tone="surface"
       border="top"
     >
@@ -117,7 +125,7 @@ export const Contact: FC = () => {
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-grow">
                             <div className="flex items-center gap-2">
-                              <span className="text-lg">{service.id === 'fullstack' ? '💻' : service.id === 'ai-consulting' ? '🧠' : '📸'}</span>
+                              <span className="text-lg">{serviceEmoji[service.id]}</span>
                               <p className="font-display font-bold text-sm text-ink">
                                 {service.title}
                               </p>

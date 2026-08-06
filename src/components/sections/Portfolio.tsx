@@ -12,18 +12,19 @@ import { RepoCard } from '@components/ui/RepoCard';
 import { ProjectCard } from '@components/ui/ProjectCard';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { GitHubIcon } from '@components/icons';
+import { ALL_FILTER, SECTION_IDS, SECTION_LABELS } from '@/constants';
 
-type FilterTag = 'All' | IProjectCategory;
+type FilterTag = typeof ALL_FILTER | IProjectCategory;
 
 export const Portfolio: FC = () => {
-  const [activeFilter, setActiveFilter] = useState<FilterTag>('All');
+  const [activeFilter, setActiveFilter] = useState<FilterTag>(ALL_FILTER);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.05 });
 
-  const filterCategories: readonly FilterTag[] = ['All', ...projectCategories];
+  const filterCategories: readonly FilterTag[] = [ALL_FILTER, ...projectCategories];
 
   const filteredProjects = projects.filter((project) => {
-    const matchesFilter = activeFilter === 'All' || project.category === activeFilter;
+    const matchesFilter = activeFilter === ALL_FILTER || project.category === activeFilter;
 
     const matchesSearch =
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -36,8 +37,8 @@ export const Portfolio: FC = () => {
   return (
     <SectionShell
       ref={ref}
-      id="portfolio"
-      aria-label="Aman Thakur Coding Projects Portfolio"
+      id={SECTION_IDS.portfolio}
+      aria-label={SECTION_LABELS.portfolio}
       tone="surface"
       border="y"
     >

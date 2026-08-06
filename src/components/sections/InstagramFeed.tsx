@@ -8,6 +8,7 @@ import type { IInstagramPost } from '@/types';
 import { InstagramIcon } from '@components/icons';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
+import { SECTION_IDS, SECTION_LABELS } from '@/constants';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
@@ -42,8 +43,8 @@ export const InstagramFeed: FC = () => {
   return (
     <SectionShell
       ref={ref}
-      id="swaad-feed"
-      aria-label="Off-hours side project — food diary on Instagram"
+      id={SECTION_IDS.instagram}
+      aria-label={SECTION_LABELS.instagram}
       tone="canvas"
     >
       <div className="bg-grid-pattern-light dark:bg-grid-pattern-dark absolute inset-0 pointer-events-none" />

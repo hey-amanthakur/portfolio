@@ -1,7 +1,9 @@
+import type { Route, Persona, ServiceId } from '@/constants';
+
 // Navigation
 export interface INavLink {
   readonly label: string;
-  readonly href: string;
+  readonly href: Route;
   readonly isExternal?: boolean;
 }
 
@@ -25,7 +27,7 @@ export interface IProject {
 export type IServiceIcon = 'Terminal' | 'Cpu' | 'ChefHat';
 
 export interface IService {
-  readonly id: string;
+  readonly id: ServiceId;
   readonly title: string;
   readonly description: string;
   readonly icon: IServiceIcon;
@@ -100,7 +102,7 @@ export interface IMilestone {
   readonly year: string;
   readonly title: string;
   readonly description: string;
-  readonly category: 'code' | 'food';
+  readonly category: Persona;
 }
 
 // Component Props patterns

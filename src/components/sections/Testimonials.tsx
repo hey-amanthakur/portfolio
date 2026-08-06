@@ -5,6 +5,7 @@ import { testimonials } from '@/data';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
+import { SECTION_IDS, SECTION_LABELS } from '@/constants';
 
 export const Testimonials: FC = () => {
   const [current, setCurrent] = useState<number>(0);
@@ -47,8 +48,8 @@ export const Testimonials: FC = () => {
 
   return (
     <SectionShell
-      id="testimonials"
-      aria-label="Client Testimonials and Reviews"
+      id={SECTION_IDS.testimonials}
+      aria-label={SECTION_LABELS.testimonials}
       tone="canvas"
       border="y"
     >

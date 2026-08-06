@@ -6,11 +6,13 @@ import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
+import { SECTION_IDS, SECTION_LABELS, PERSONAS } from '@/constants';
+import type { Persona } from '@/constants';
 
-const getIcon = (category: 'code' | 'food', title: string): ReactElement => {
+const getIcon = (category: Persona, title: string): ReactElement => {
   if (title.includes('Winner')) return <Trophy className="w-5 h-5 text-white" />;
   if (title.includes('Star') || title.includes('ML')) return <GraduationCap className="w-5 h-5 text-white" />;
-  if (category === 'food') return <Utensils className="w-5 h-5 text-white" />;
+  if (category === PERSONAS.food) return <Utensils className="w-5 h-5 text-white" />;
   return <Zap className="w-5 h-5 text-white" />;
 };
 
@@ -24,8 +26,8 @@ const cardColors = [
 export const About: FC = () => {
   return (
     <SectionShell
-      id="about"
-      aria-label="Aman Thakur Story Timeline"
+      id={SECTION_IDS.about}
+      aria-label={SECTION_LABELS.about}
       tone="surface"
       border="y"
     >
@@ -75,7 +77,7 @@ export const About: FC = () => {
         {/* Bento Timeline Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {milestones.map((item, index) => {
-            const isCode = item.category === 'code';
+            const isCode = item.category === PERSONAS.code;
             const isWide = index === 0 || index === 3;
 
             return (
@@ -109,7 +111,7 @@ export const About: FC = () => {
                           {item.year}
                         </span>
                         <span className="text-[10px] font-mono text-muted uppercase tracking-widest">
-                          {isCode ? 'code' : 'food'}
+                          {isCode ? PERSONAS.code : PERSONAS.food}
                         </span>
                       </div>
 
