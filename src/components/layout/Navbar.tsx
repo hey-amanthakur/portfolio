@@ -5,6 +5,7 @@ import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
 import { navLinks, siteConfig } from '@/data';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 import { useI18n } from '@/i18n';
+import { LocaleBubble } from '@components/ui/LocaleBubble';
 import { LocaleSwitcher } from '@components/ui/LocaleSwitcher';
 import { ROUTES, THEMES, STORAGE_KEYS } from '@/constants';
 import type { Theme } from '@/constants';
@@ -120,6 +121,9 @@ export const Navbar: FC = () => {
 
         {/* Mobile Buttons */}
         <div className="flex md:hidden items-center gap-4">
+          {/* Mobile Language Bubble */}
+          <LocaleBubble />
+
           {/* Mobile Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -163,11 +167,6 @@ export const Navbar: FC = () => {
                   {t.nav[link.label]}
                 </a>
               ))}
-
-              {/* Mobile Language Switcher */}
-              <div className="pt-4 border-t border-line">
-                <LocaleSwitcher />
-              </div>
             </div>
           </motion.div>
         )}
