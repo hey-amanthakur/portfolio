@@ -6,24 +6,29 @@ export interface INavLink {
 }
 
 // Projects
+export const projectCategories = ['AI', 'Web', 'Data Science', 'Security', 'Game Dev'] as const;
+export type IProjectCategory = (typeof projectCategories)[number];
+
 export interface IProject {
   readonly id: string;
   readonly title: string;
   readonly description: string;
   readonly tags: readonly string[];
   readonly imageUrl: string;
+  readonly category: IProjectCategory;
   readonly liveUrl?: string;
   readonly repoUrl?: string;
   readonly featured: boolean;
-  readonly type: 'code' | 'food';
 }
 
 // Services
+export type IServiceIcon = 'Terminal' | 'Cpu' | 'ChefHat';
+
 export interface IService {
   readonly id: string;
   readonly title: string;
   readonly description: string;
-  readonly icon: string;
+  readonly icon: IServiceIcon;
   readonly tagline: string;
 }
 
@@ -88,6 +93,14 @@ export interface IOpenSourceContribution {
   readonly url: string;
   readonly language: string;
   readonly prCount: number;
+}
+
+// Milestone
+export interface IMilestone {
+  readonly year: string;
+  readonly title: string;
+  readonly description: string;
+  readonly category: 'code' | 'food';
 }
 
 // Component Props patterns

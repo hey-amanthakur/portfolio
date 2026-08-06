@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Services } from '@components/sections/Services';
-import { services } from '@/data/content';
+import { services } from '@/data';
 
 describe('Services Component', (): void => {
   it('renders the section with correct aria-label', (): void => {

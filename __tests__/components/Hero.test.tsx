@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Hero } from '@components/sections/Hero';
-import { siteConfig } from '@/data/content';
+import { siteConfig } from '@/data';
 
 describe('Hero Component', (): void => {
   it('renders the hero section with correct aria-label', (): void => {

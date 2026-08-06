@@ -24,10 +24,11 @@ describe('Portfolio Component', (): void => {
     render(<Portfolio />);
     expect(screen.getByPlaceholderText(/Search projects, tech stacks/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'All' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'React' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Java' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Spring Boot' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'AI' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Web' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Data Science' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Security' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Game Dev' })).toBeInTheDocument();
   });
 
   it('renders featured projects', (): void => {

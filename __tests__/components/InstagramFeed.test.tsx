@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { InstagramFeed } from '@components/sections/InstagramFeed';
-import { siteConfig } from '@/data/content';
+import { siteConfig } from '@/data';
 
 describe('InstagramFeed Component', (): void => {
   it('renders the section with correct aria-label', (): void => {
