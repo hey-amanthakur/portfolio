@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
 import { instagramPosts, siteConfig } from '@/data';
-import scrapedPosts from '@/scraped/instagram-posts.json';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import type { IInstagramPost } from '@/types';
 import { InstagramIcon } from '@components/icons';
@@ -12,10 +12,21 @@ import { SECTION_IDS, SECTION_LABELS } from '@/constants';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
-const hasScrapedData = Array.isArray(scrapedPosts) && scrapedPosts.length > 0;
-const displayPosts: readonly IInstagramPost[] = hasScrapedData
-  ? scrapedPosts
-  : instagramPosts;
+const SCRAPED_POSTS_URL = '/scraped/instagram-posts.json';
+
+const isInstagramPostArray = (value: unknown): value is readonly IInstagramPost[] =>
+  Array.isArray(value) &&
+  value.every(
+    (post): boolean =>
+      typeof post === 'object' &&
+      post !== null &&
+      'id' in post &&
+      'imageUrl' in post &&
+      'caption' in post &&
+      'likes' in post &&
+      'comments' in post &&
+      'postUrl' in post
+  );
 
 const LOCAL_FALLBACKS = [
   '/assets/instagram/insta-1.jpg',
@@ -31,6 +42,24 @@ const resolveImage = (raw: string, index: number): string => {
 
 export const InstagramFeed: FC = () => {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const [displayPosts, setDisplayPosts] = useState<readonly IInstagramPost[]>(instagramPosts);
+
+  useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+    void fetch(SCRAPED_POSTS_URL, { signal: controller.signal })
+      .then((res): Promise<unknown> => (res.ok ? res.json() : Promise.resolve(null)))
+      .then((data): void => {
+        if (active && isInstagramPostArray(data) && data.length > 0) {
+          setDisplayPosts(data);
+        }
+      })
+      .catch((): void => { /* keep tracked fallback posts */ });
+    return (): void => {
+      active = false;
+      controller.abort();
+    };
+  }, []);
 
   return (
     <SectionShell

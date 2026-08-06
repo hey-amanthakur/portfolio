@@ -10,7 +10,7 @@
  *
  * Shortcodes are in the SHORTCODES array below — update when you post new content.
  *
- * Output:  src/scraped/instagram-posts.json
+ * Output:  public/scraped/instagram-posts.json
  * Fallback: if nothing is scraped and no prior output exists,
  *           instagram-posts.fallback.json is copied in instead.
  */
@@ -30,9 +30,10 @@ puppeteer.use(StealthPlugin());
 
 // ── Config ──────────────────────────────────────────────────────
 const INSTA_HANDLE = 'yeh.safar.swaad.ka';
-const OUTPUT_DIR = join(__dirname, '..', 'src', 'scraped');
-const OUTPUT_FILE = join(OUTPUT_DIR, 'instagram-posts.json');
-const FALLBACK_FILE = join(OUTPUT_DIR, 'instagram-posts.fallback.json');
+const SCRAPED_DIR = join(__dirname, '..', 'src', 'scraped');
+const PUBLIC_SCRAPED_DIR = join(__dirname, '..', 'public', 'scraped');
+const OUTPUT_FILE = join(PUBLIC_SCRAPED_DIR, 'instagram-posts.json');
+const FALLBACK_FILE = join(SCRAPED_DIR, 'instagram-posts.fallback.json');
 const IMAGES_DIR = join(__dirname, '..', 'public', 'instagram');
 const DEFAULT_LIMIT = 8;
 
@@ -189,6 +190,18 @@ async function scrapePost(browser: Browser, shortcode: string): Promise<InstaPos
   }
 }
 
+/** Copy the tracked fallback posts into place when no scrape output exists */
+function ensureOutputExists() {
+  if (existsSync(OUTPUT_FILE)) return;
+  if (!existsSync(FALLBACK_FILE)) {
+    log('No existing data found — nothing to fall back to.');
+    return;
+  }
+  mkdirSync(PUBLIC_SCRAPED_DIR, { recursive: true });
+  copyFileSync(FALLBACK_FILE, OUTPUT_FILE);
+  log(`✔ copied static fallback to ${OUTPUT_FILE}`);
+}
+
 // ── Main ────────────────────────────────────────────────────────
 async function main() {
   log(`Launching browser to scrape ${Math.min(SHORTCODES.length, LIMIT)} posts from @${INSTA_HANDLE}…`);
@@ -221,22 +234,16 @@ async function main() {
     }
 
     if (results.length > 0) {
-      mkdirSync(OUTPUT_DIR, { recursive: true });
+      mkdirSync(PUBLIC_SCRAPED_DIR, { recursive: true });
       writeFileSync(OUTPUT_FILE, JSON.stringify(results, null, 2), 'utf-8');
       log(`SUCCESS: saved ${results.length} posts to ${OUTPUT_FILE}`);
     } else {
       log('⚠ No posts scraped. Keeping existing data.');
-      if (!existsSync(OUTPUT_FILE)) {
-        if (existsSync(FALLBACK_FILE)) {
-          copyFileSync(FALLBACK_FILE, OUTPUT_FILE);
-          log(`✔ copied static fallback to ${OUTPUT_FILE}`);
-        } else {
-          log('No existing data found — nothing to fall back to.');
-        }
-      }
+      ensureOutputExists();
     }
   } catch (err) {
     log(`❌ Fatal: ${err instanceof Error ? err.message : String(err)}`);
+    ensureOutputExists();
   } finally {
     await browser.close();
   }

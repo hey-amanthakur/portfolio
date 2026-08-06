@@ -38,6 +38,13 @@ class MockIntersectionObserver implements IntersectionObserver {
 
 (globalThis as Record<string, unknown>).IntersectionObserver = MockIntersectionObserver;
 
+// Fetch mock — InstagramFeed fetches scraped posts at runtime. Default to
+// rejecting so tests exercise the tracked fallback data instead of the network.
+vi.stubGlobal(
+  'fetch',
+  vi.fn((): Promise<never> => Promise.reject(new Error('network disabled in tests')))
+);
+
 // Motion props to strip from mocked components
 const MOTION_PROPS = [
   'initial', 'animate', 'exit', 'transition', 'variants',
