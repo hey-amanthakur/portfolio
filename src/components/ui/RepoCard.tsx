@@ -40,7 +40,6 @@ export const RepoCard: FC<IRepoCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.3, delay: index * 0.08 }}
-      whileHover={{ y: -4, scale: 1.02 }}
       className={`group block p-5 rounded-2xl border-2 bg-canvas transition-all duration-300 ${
         isOss
           ? 'border-dashed border-primary-400/40 dark:border-primary-400/30 hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-400/5 hover:shadow-xl hover:shadow-primary-400/10'

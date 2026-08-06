@@ -21,7 +21,7 @@ const seededRandom = (seed: number): number => {
 };
 
 export const ParticleField: FC<IParticleFieldProps> = ({
-  count = 30,
+  count = 15,
   className = '',
 }) => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;

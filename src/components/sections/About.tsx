@@ -95,7 +95,6 @@ export const About: FC = () => {
                 className={isWide ? 'md:col-span-2' : ''}
               >
                 <motion.div
-                  whileHover={{ y: -4, scale: 1.01 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   className="relative group p-6 sm:p-8 rounded-2xl border-2 border-line bg-canvas hover:border-ink dark:hover:border-ink transition-all duration-300 overflow-hidden h-full"
                 >

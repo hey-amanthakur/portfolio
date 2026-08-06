@@ -168,11 +168,10 @@ export const Portfolio: FC = () => {
         </SectionReveal>
 
         {/* Projects Cards Layout */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
-                layout
                 key={project.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : {}}
@@ -184,7 +183,7 @@ export const Portfolio: FC = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         {/* Empty Search Fallback */}
         {filteredProjects.length === 0 && (

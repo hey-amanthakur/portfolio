@@ -135,7 +135,6 @@ export const Contact: FC = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={isVisible ? { opacity: 1, x: 0 } : {}}
                         transition={{ delay: 0.6 + index * 0.15 }}
-                        whileHover={{ x: -4 }}
                         className="group block bg-white dark:bg-[#202C33] rounded-xl rounded-tl-none px-4 py-3 max-w-[90%] shadow-sm hover:shadow-lg transition-all duration-200"
                       >
                         <div className="flex items-start justify-between gap-2">

@@ -1,5 +1,4 @@
 import type { FC, ComponentType, SVGProps } from 'react';
-import { motion } from 'framer-motion';
 import { Terminal, Cpu, ChefHat, ArrowRight } from 'lucide-react';
 import { services } from '@/data';
 import type { IServiceIcon } from '@/types';
@@ -72,43 +71,38 @@ export const Services: FC = () => {
 
             return (
               <SectionReveal key={item.id} delay={index * 0.15} className="h-full flex">
-                <SpotlightCard
-                  className="w-full h-full"
-                  spotlightColor={isChefSpecial ? 'rgba(255, 107, 53, 0.15)' : 'rgba(46, 196, 182, 0.1)'}
+              <SpotlightCard
+                className="w-full h-full"
+                spotlightColor={isChefSpecial ? 'rgba(255, 107, 53, 0.15)' : 'rgba(46, 196, 182, 0.1)'}
+              >
+                <div
+                  className={`relative p-8 flex flex-col items-start justify-between w-full h-full rounded-xl-playful border-2 ${
+                    isChefSpecial
+                      ? 'border-primary-400 dark:border-primary-400 bg-surface'
+                      : 'border-line bg-surface'
+                  } transition-colors duration-300 overflow-hidden`}
                 >
-                  <motion.div
-                    whileHover={{ y: -6 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className={`relative p-8 flex flex-col items-start justify-between w-full h-full rounded-xl-playful border-2 ${
-                      isChefSpecial
-                        ? 'border-primary-400 dark:border-primary-400 bg-surface'
-                        : 'border-line bg-surface'
-                    } transition-colors duration-300 overflow-hidden`}
-                  >
                     {/* Background gradient accent */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${accentGradients[item.id]} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
 
                     {/* Chef Special Tag */}
                     {isChefSpecial && (
-                      <motion.span
-                        initial={{ rotate: -3 }}
-                        animate={{ rotate: -3 }}
+                      <span
                         className="absolute top-4 right-4 bg-primary-400 text-white px-3 py-1 rounded-full border-2 border-white/20 font-mono font-bold text-[10px] uppercase shadow-lg shadow-primary-400/30 z-10"
                       >
                         {t.services.mostBooked}
-                      </motion.span>
+                      </span>
                     )}
 
                     <div className="w-full text-left relative z-10">
                       {/* Course Category Icon */}
-                      <motion.div
-                        whileHover={{ rotate: 12, scale: 1.1 }}
+                      <div
                         className={`w-14 h-14 rounded-2xl border-2 border-ink flex items-center justify-center shadow-lg mb-6 ${
                           isChefSpecial ? 'bg-primary-400 shadow-primary-400/30' : 'bg-secondary-400 shadow-secondary-400/30'
                         }`}
                       >
                         <IconComponent className="w-7 h-7 text-white" />
-                      </motion.div>
+                      </div>
 
                       <h3 className="font-display font-black text-2xl text-ink tracking-tight leading-tight">
                         {localize(override?.title, item.title)}
@@ -145,7 +139,7 @@ export const Services: FC = () => {
                       </MagneticButton>
                     </div>
 
-                  </motion.div>
+                  </div>
                 </SpotlightCard>
               </SectionReveal>
             );

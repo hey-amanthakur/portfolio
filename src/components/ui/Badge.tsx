@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { motion } from 'framer-motion';
 
 interface IBadgeProps {
   readonly children: string;
@@ -22,12 +21,12 @@ export const Badge: FC<IBadgeProps> = ({
   } as const;
 
   return (
-    <motion.span
-      whileHover={{ scale: 1.05, rotate: -1 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 10 }}
+    <span
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
     >
       {children}
-    </motion.span>
+    </span>
   );
 };
+
+export default Badge;

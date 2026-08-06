@@ -71,9 +71,9 @@ export const Hero: FC = () => {
             <AnimatePresence mode="wait">
               <motion.span
                 key={mode}
-                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.35 }}
                 className="text-3xl sm:text-5xl lg:text-6xl font-black text-gradient-secondary inline-block"
               >
@@ -265,9 +265,9 @@ export const Hero: FC = () => {
               <motion.div
                 key="code-panel"
                 data-testid="hero-code-panel"
-                initial={{ opacity: 0, scale: 0.85, rotate: -3, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.85, rotate: 3, filter: 'blur(10px)' }}
+                initial={{ opacity: 0, scale: 0.85, rotate: -3 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.85, rotate: 3 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 className="w-full max-w-md rounded-2xl border-2 border-ink/20 dark:border-line bg-[#16161E] text-gray-200 shadow-2xl shadow-primary-400/10 font-mono text-[13px] relative overflow-hidden"
               >
@@ -306,9 +306,9 @@ export const Hero: FC = () => {
               <motion.div
                 key="food-panel"
                 data-testid="hero-food-panel"
-                initial={{ opacity: 0, scale: 0.85, rotate: 3, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, scale: 1, rotate: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.85, rotate: -3, filter: 'blur(10px)' }}
+                initial={{ opacity: 0, scale: 0.85, rotate: 3 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.85, rotate: -3 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                 className="w-full max-w-sm rounded-2xl-playful border-4 border-ink bg-white p-5 shadow-2xl shadow-secondary-400/20 text-ink relative overflow-hidden"
               >

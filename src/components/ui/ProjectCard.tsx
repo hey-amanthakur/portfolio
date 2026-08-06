@@ -21,8 +21,6 @@ export const ProjectCard: FC<IProjectCardProps> = ({ project }) => {
   return (
     <SpotlightCard className="w-full h-full" spotlightColor="rgba(255, 107, 53, 0.12)">
       <motion.div
-        whileHover={{ y: -4 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         className={`flex flex-col w-full h-full text-left rounded-xl-playful border-2 ${
           project.featured
             ? 'border-primary-400/50 dark:border-primary-400/50'
