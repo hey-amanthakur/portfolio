@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { Button } from '@components/ui/Button';
 import { Badge } from '@components/ui/Badge';
 import { Card } from '@components/ui/Card';
@@ -42,7 +42,7 @@ const secondaryScale = [
   { name: '900', className: 'bg-secondary-900' },
 ] as const;
 
-const Panel: FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+const Panel: FC<{ title: string; children: ReactNode }> = ({ title, children }) => (
   <section className="border-2 border-line rounded-2xl-playful bg-canvas p-6 mb-8">
     <h2 className="font-display font-black text-xl text-ink mb-5">{title}</h2>
     {children}

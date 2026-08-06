@@ -38,9 +38,9 @@ describe('Services Component', (): void => {
     expect(screen.getByText('Storytelling')).toBeInTheDocument();
   });
 
-  it('displays start project buttons for each service', (): void => {
+  it('displays start project links for each service', (): void => {
     render(<Services />);
-    const buttons = screen.getAllByRole('button', { name: /Start a project/ });
+    const buttons = screen.getAllByRole('link', { name: /Start a project/ });
     expect(buttons).toHaveLength(services.length);
   });
 

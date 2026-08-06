@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, ChefHat, ArrowRight, Code2, MapPin, Sparkles } from 'lucide-react';
 import { siteConfig } from '@/data';
 import { GitHubIcon, InstagramIcon, LinkedInIcon } from '@components/icons';
-import { Button } from '@components/ui/Button';
 import { ParticleField } from '@components/ui/ParticleField';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 import { AnimatedCounter } from '@components/ui/AnimatedCounter';
@@ -98,14 +97,13 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.55 }}
-            role="tablist"
             aria-label="Toggle persona"
             data-testid="hero-mode-switch"
             className="inline-flex items-center gap-1 mt-8 p-1.5 rounded-full border border-line bg-surface/60 dark:bg-surface/60 backdrop-blur-sm"
           >
             <button
-              role="tab"
-              aria-selected={mode === PERSONAS.code}
+              type="button"
+              aria-pressed={mode === PERSONAS.code}
               data-testid="hero-mode-code"
               onClick={(): void => { setMode(PERSONAS.code); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
@@ -119,8 +117,8 @@ export const Hero: FC = () => {
             </button>
 
             <button
-              role="tab"
-              aria-selected={mode === PERSONAS.food}
+              type="button"
+              aria-pressed={mode === PERSONAS.food}
               data-testid="hero-mode-food"
               onClick={(): void => { setMode(PERSONAS.food); }}
               className={`flex items-center gap-2 px-5 py-2.5 font-display font-bold text-sm rounded-full transition-all duration-300 ${
@@ -144,17 +142,13 @@ export const Hero: FC = () => {
             {mode === PERSONAS.code ? (
               <>
                 <MagneticButton strength={0.2}>
-                  <Button
+                  <a
                     data-testid="hero-cta-hire"
-                    onClick={(): void => {
-                      const el = document.getElementById(SECTION_IDS.contact);
-                      if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    variant="primary"
-                    size="lg"
+                    href={ROUTES.contact}
+                    className="inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-ink px-8 py-3.5 text-lg bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150"
                   >
                     Hire Me <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                  </a>
                 </MagneticButton>
                 <MagneticButton strength={0.2}>
                   <a
@@ -207,17 +201,13 @@ export const Hero: FC = () => {
                   </a>
                 </MagneticButton>
                 <MagneticButton strength={0.2}>
-                  <Button
+                  <a
                     data-testid="hero-cta-feed"
-                    onClick={(): void => {
-                      const el = document.getElementById(SECTION_IDS.instagram);
-                      if (el !== null) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    variant="primary"
-                    size="lg"
+                    href={ROUTES.instagram}
+                    className="inline-flex items-center justify-center font-display font-semibold rounded-xl-playful border-2 border-ink px-8 py-3.5 text-lg bg-primary-400 text-white hover:bg-primary-300 dark:hover:bg-primary-500 shadow-flat-light dark:shadow-flat-dark active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150"
                   >
                     View food diary <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                  </a>
                 </MagneticButton>
               </>
             )}

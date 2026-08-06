@@ -8,7 +8,7 @@ import { SpotlightCard } from '@components/ui/SpotlightCard';
 import { MagneticButton } from '@components/ui/MagneticButton';
 import { SectionReveal } from '@components/ui/SectionReveal';
 import { SectionShell } from '@components/ui/SectionShell';
-import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS } from '@/constants';
+import { SECTION_IDS, SECTION_LABELS, SERVICE_IDS, ROUTES } from '@/constants';
 import type { ServiceId } from '@/constants';
 import { GlowingEffect } from '@components/ui/GlowingEffect';
 
@@ -131,18 +131,13 @@ export const Services: FC = () => {
                       </div>
 
                       <MagneticButton strength={0.15} className="mt-6 w-full">
-                        <button
-                          onClick={(): void => {
-                            const el = document.getElementById(SECTION_IDS.contact);
-                            if (el !== null) {
-                              el.scrollIntoView({ behavior: 'smooth' });
-                            }
-                          }}
+                        <a
+                          href={ROUTES.contact}
                           className="w-full py-2.5 flex items-center justify-center gap-2 border-2 border-ink font-display font-black text-xs rounded-xl bg-surface hover:bg-primary-50 dark:hover:bg-canvas text-ink transition-colors group/btn"
                         >
                           Start a project
                           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </button>
+                        </a>
                       </MagneticButton>
                     </div>
 
